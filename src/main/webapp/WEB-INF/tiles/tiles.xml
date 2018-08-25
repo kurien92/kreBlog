@@ -5,16 +5,19 @@
 
 <tiles-definitions>
 	<definition name="*" template="/WEB-INF/views/template/template.jsp">
+		<put-attribute name="css" value="/css/module/{1}.css" />
 	    <put-attribute name="header" value="/WEB-INF/views/template/header.jsp" />
 	    <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
 	    <put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp" />
 	</definition>
 	
 	<definition name="*/*" extends="*">
+		<put-attribute name="css" value="/css/module/{1}.css" />
 	    <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
 	
 	<definition name="*/*/*" extends="*">
+		<put-attribute name="css" value="/css/module/{1}.css" />
 	    <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
 	</definition>
 </tiles-definitions>

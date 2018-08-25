@@ -1,4 +1,4 @@
-package net.kurien.blog;
+package net.kurien.blog.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -11,12 +11,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import net.kurien.blog.common.template.TemplateConfig;
+import net.kurien.blog.common.template.metadata.TemplateCss;
+import net.kurien.blog.common.template.metadata.TemplateJs;
+import net.kurien.blog.common.template.metadata.TemplateMeta;
+
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
@@ -33,7 +37,24 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
+
+		TemplateMeta tMeta = new TemplateMeta();
+		TemplateCss tCss = new TemplateCss();
+		tCss.add("<link rel=\"stylesheet\" href=\"/css/home.css\">");
+		TemplateJs tHJs = new TemplateJs();
+		TemplateJs tFJs = new TemplateJs();
+		
+		TemplateConfig templateConfig = new TemplateConfig();
+		templateConfig.setLang("ko");
+		templateConfig.setCharset("utf-8");
+		templateConfig.setTitle("Kurien's Blog");
+		templateConfig.setMeta(tMeta);
+		templateConfig.setCss(tCss);
+		templateConfig.setHeadJs(tHJs);
+		templateConfig.setFootJs(tFJs);
+		
+		model.addAttribute("templateConfig", templateConfig);
+		
 		return "home";
 	}
-	
 }

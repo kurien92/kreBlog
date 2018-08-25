@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+@import url('font.css');
+
+body {
+}
+
+a {
+	text-decoration: none;
+}
+
+.hidden {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+	overflow: hidden;
+	width: 1px;
+	height: 1px;
+	text-indent: -9999px;
+}

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.kurien.blog.module.post.mapper">
+	<resultMap id="resultMap" type="net.kurien.blog.module.post.vo.Post">
+		<id property="postNo" column="post_no" />
+		<result property="postAuthor" column="post_author"/>
+		<result property="postPassword" column="post_password"/>
+		<result property="postTitle" column="post_title"/>
+		<result property="postContent" column="post_content"/>
+		<result property="postView" column="post_view" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="postPublish" column="post_publish" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="postWriteTime" column="post_write_time"/>
+		<result property="postReservationTime" column="post_reservation_time"/>
+		<result property="postWriteIp" column="post_write_ip"/>
+	</resultMap>
+	
+	<sql id="table">
+		kre_post
+	</sql>
+	
+	<sql id="param">
+		<if test="postNo != null">
+			AND post_no = #{postNo}
+		</if>
+	</sql>
+    
+    <select id="selectList" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	<include refid="param" />
+        </where>
+    </select>
+    
+    <select id="selectCount" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+        	<include refid="param" />
+        </where>
+    </select>
+    
+    <select id="selectOne" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	post_no = #{postNo}
+        </where>
+    </select>
+		
+    <insert id="insert" useGeneratedKeys="true" keyProperty="postNo">
+        INSERT INTO <include refid="table" />
+        VALUES (#{postNo}, #{postAuthor}, #{postPassword}, #{postTitle}, #{postContent}, #{postView.value}, #{postPublish.value}, #{postWriteTime}, #{postReservationTime}, #{postWriteIp})
+    </insert>
+    
+    <update id="update">
+        UPDATE <include refid="table" />
+        <set>
+        	<if test="postPassword != null">
+        		<choose>
+        			<when test="postPassword eq ''">
+        				post_password = null,
+        			</when>
+        			<otherwise>
+        				post_password = #{postPassword},
+        			</otherwise>
+        		</choose>
+        	</if>
+        	<if test="postTitle != null">
+	        	post_title = #{postTitle},
+        	</if>
+        	<if test="postContent != null">
+	        	post_content = #{postContent},
+        	</if>
+        	<if test="postView != null">
+	        	post_view = #{postView.value},
+        	</if>
+        	<if test="postPublish != null">
+	        	post_publish = #{postPublish.value}
+        	</if>
+        	<if test="postReservationTime != null">
+	       		<choose>
+	       			<when test="postReservationTime.time == 0">
+	       				post_reservation_time = null,
+	       			</when>
+	       			<otherwise>
+	       				post_reservation_time = #{postReservationTime},
+	       			</otherwise>
+	       		</choose>
+        	</if>
+        	<if test="postWriteIp != null">
+	        	post_write_ip = #{postWriteIp},
+        	</if>
+       	</set>
+       	
+       	<where>
+       		post_no = #{postNo}
+       	</where>
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM <include refid="table" />
+        <where>
+        	post_no = #{postNo}
+        </where>
+    </delete>
+    
+    <delete id="deleteList" parameterType="list">
+        DELETE FROM <include refid="table" />
+        <where>
+        	post_no IN
+        	<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        		#{item.value}
+        	</foreach>
+        </where>
+    </delete>
+    
+    <delete id="deleteAll">
+        TRUNCATE <include refid="table" />
+    </delete>
+</mapper>

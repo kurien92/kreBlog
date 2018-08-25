@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+html, body, #kre_wrap {
+	overflow: hidden;
+	height: 100%;
+}
+
+#kre_aside {
+	position: absolute;
+	width: 396px;
+	height: 100%;
+	padding: 30px;
+	box-sizing: border-box;
+	background-color: #033e6a;
+	color: #fff;
+}
+
+#kre_aside .aside_item {
+	margin-top: 20px;
+}
+
+#kre_aside .aside_item:first-child {
+	margin-top: 0;
+}
+
+
+#kre_aside a {
+	color: #fff;
+}
+
+#kre_header {
+}
+
+#logo {
+	padding: 30px 0;
+	margin: 0;
+	text-align: center;
+}
+
+#kre_category {
+}
+
+#ad1 {
+	width: 336px;
+	height: 280px;
+	margin: 0 auto;
+}
+
+.categoryAdsense {
+	width: 336px;
+	height: 280px;
+}
+
+#kre_category_list {
+	padding-left: 20px;
+}
+
+#kre_category_list ul {
+	padding-left: 20px;
+}
+
+#kre_footer {
+	padding: 30px;
+}
+
+#kre_main {
+	float: right;
+	width: 80%;
+	height: 100%;
+}
+
+#kre_content {
+	position: relative;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 30px;
+}
+
+.adsense {
+	background-color: #999!important;
+}
