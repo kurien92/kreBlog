@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,8 @@ import net.kurien.blog.common.template.TemplateConfig;
 import net.kurien.blog.common.template.metadata.TemplateCss;
 import net.kurien.blog.common.template.metadata.TemplateJs;
 import net.kurien.blog.common.template.metadata.TemplateMeta;
+import net.kurien.blog.domain.PageMaker;
+import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
 
@@ -35,13 +38,10 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model) {
-		List<Post> posts = postService.getList();
-		model.addAttribute("posts", posts);
-		
+	public String list(SearchCriteria criteria, Model model) {
 		TemplateMeta tMeta = new TemplateMeta();
 		TemplateCss tCss = new TemplateCss();
-		tCss.add("<link rel=\"stylesheet\" href=\"/kreBlog/css/module/post.css\">");
+		tCss.add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 		TemplateJs tHJs = new TemplateJs();
 		TemplateJs tFJs = new TemplateJs();
 		
@@ -55,6 +55,16 @@ public class PostController {
 		templateConfig.setFootJs(tFJs);
 		
 		model.addAttribute("templateConfig", templateConfig);
+		
+//		여기까지는 Interceptor로 이동 
+		
+		int totalRowCount = postService.getCount(criteria);
+		PageMaker pageMaker = new PageMaker(criteria, totalRowCount);
+		
+		List<Post> posts = postService.getList(criteria);
+		
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("posts", posts);
 		
 		return "post/list";
 	}

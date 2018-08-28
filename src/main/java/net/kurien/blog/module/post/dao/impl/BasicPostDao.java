@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.module.post.dao.PostDao;
 import net.kurien.blog.module.post.vo.Post;
 
@@ -25,9 +26,9 @@ public class BasicPostDao implements PostDao {
 	}
 
 	@Override
-	public List<Post> selectList(Map<String, Object> param) {
+	public List<Post> selectList(Criteria criteria) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(mapper + ".selectList", param);
+		return sqlSession.selectList(mapper + ".selectList", criteria);
 	}
 
 	@Override
@@ -37,9 +38,9 @@ public class BasicPostDao implements PostDao {
 	}
 
 	@Override
-	public int selectCount(Map<String, Object> param) {
+	public int selectCount(Criteria criteria) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne(mapper + ".selectCount", param);
+		return sqlSession.selectOne(mapper + ".selectCount", criteria);
 	}
 
 	@Override
@@ -76,5 +77,11 @@ public class BasicPostDao implements PostDao {
 	public void deleteAll() {
 		// TODO Auto-generated method stub
 		sqlSession.delete(mapper + ".deleteAll");
+	}
+
+	@Override
+	public int isExist(int postNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(mapper + ".isExist", postNo);
 	}
 }

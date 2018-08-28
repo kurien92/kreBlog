@@ -18,9 +18,19 @@
 		kre_post
 	</sql>
 	
-	<sql id="param">
-		<if test="postNo != null">
-			AND post_no = #{postNo}
+	<sql id="criteria">
+		<if test="offset != null and rowCount != null">
+			LIMIT #{offset}, #{rowCount};
+		</if>
+	</sql>
+	
+	<sql id="search">
+		<if test="searchType != null and keyword != null">
+			<choose>
+				<when test="searchType eq 'title'">
+					post_title like CONCAT('%', #{keyword}, '%') 
+				</when>
+			</choose>
 		</if>
 	</sql>
     
@@ -28,15 +38,18 @@
         SELECT *
         FROM <include refid="table" />
         <where>
-        	<include refid="param" />
+        	<include refid="search" />
         </where>
+       	<include refid="criteria" />
+       	ORDER BY
+       		post_no DESC
     </select>
     
     <select id="selectCount" resultType="Integer">
         SELECT count(*)
         FROM <include refid="table" />
         <where>
-        	<include refid="param" />
+        	<include refid="search" />
         </where>
     </select>
     
@@ -118,4 +131,12 @@
     <delete id="deleteAll">
         TRUNCATE <include refid="table" />
     </delete>
+    
+    <select id="isExist" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+        	post_no = #{postNo}
+        </where>
+    </select>
 </mapper>

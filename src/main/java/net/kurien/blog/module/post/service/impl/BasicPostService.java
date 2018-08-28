@@ -1,13 +1,12 @@
 package net.kurien.blog.module.post.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.exception.DuplicatedKeyException;
 import net.kurien.blog.exception.EmptyParameterException;
 import net.kurien.blog.exception.NotFoundDataException;
@@ -26,11 +25,23 @@ public class BasicPostService implements PostService {
 		// TODO Auto-generated method stub
 		return postDao.selectList();
 	}
+	
+	@Override
+	public List<Post> getList(Criteria criteria) {
+		// TODO Auto-generated method stub
+		return postDao.selectList(criteria);
+	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return postDao.selectCount();
+	}
+
+	@Override
+	public int getCount(Criteria criteria) {
+		// TODO Auto-generated method stub
+		return postDao.selectCount(criteria);
 	}
 
 	@Override
@@ -94,10 +105,7 @@ public class BasicPostService implements PostService {
 	@Override
 	public boolean isExist(int postNo) throws Exception {
 		// TODO Auto-generated method stub
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("postNo", postNo);
-		
-		int count = postDao.selectCount(param);
+		int count = postDao.isExist(postNo);
 		
 		if(count < 1) {
 			return false;

@@ -9,43 +9,14 @@
 		<c:forEach var="post" items="${posts}">
 		<div class="kre_grid_item" tabindex="0">
 			<ul>
-				<c:if test="${post.cateNo}">
-				<li class="cate_no">${post.cateNo}</li>
-				</c:if>
 				<li class="post_title">
 					<a href="${contextPath}/post/view/${post.postNo}" class="postViewLink">${post.postTitle}</a>
 				</li>
 				<li class="post_write_time"><fmt:formatDate value="${post.postWriteTime}" pattern="yy/MM/dd HH:mm" /></li>
 			</ul>
 		</div>
-		<div class="kre_grid_item" tabindex="0">
-			<ul>
-				<c:if test="${post.cateNo}">
-				<li class="cate_no">${post.cateNo}</li>
-				</c:if>
-				<li class="post_title">${post.postTitle}</li>
-				<li class="post_write_time"><fmt:formatDate value="${post.postWriteTime}" pattern="yyyy.MM.dd HH:mm" /></li>
-			</ul>
-		</div>
-		<div class="kre_grid_item" tabindex="0">
-			<ul>
-				<c:if test="${post.cateNo}">
-				<li class="cate_no">${post.cateNo}</li>
-				</c:if>
-				<li class="post_title">${post.postTitle}</li>
-				<li class="post_write_time"><fmt:formatDate value="${post.postWriteTime}" pattern="yyyy.MM.dd" /></li>
-			</ul>
-		</div>
-		<div class="kre_grid_item" tabindex="0">
-			<ul>
-				<c:if test="${post.cateNo}">
-				<li class="cate_no">${post.cateNo}</li>
-				</c:if>
-				<li class="post_title">${post.postTitle}</li>
-				<li class="post_write_time"><fmt:formatDate value="${post.postWriteTime}" pattern="yyyy/MM/dd" /></li>
-			</ul>
-		</div>
 		</c:forEach>
+		
 		<div id="ad2" class="adsense kre_grid_item" tabindex="0">
 			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 			<!-- kurien.net postlist1 -->
@@ -102,6 +73,15 @@
 			var halfPadding = (itemHeight - itemListHeight) / 2; 
 			
 			$(this).css({paddingTop: halfPadding, paddingBottom: halfPadding});
+		});
+	});
+	</script>
+	
+	<script>
+	$(document).ready(function() {
+		$(".kre_grid_item").not(".adsense").on("click", function(event) {
+			event.preventDefault();
+			location.href = $(this).find(".postViewLink").attr("href");
 		});
 	});
 	</script>
