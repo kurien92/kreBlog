@@ -76,10 +76,29 @@ public class PostController {
 	 * @param postNo
 	 * @param model
 	 * @return
+	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/{postNo}", method = RequestMethod.GET)
-	public String view(@PathVariable int postNo, Model model) {
+	@RequestMapping(value = "/view/{postNo}", method = RequestMethod.GET)
+	public String view(@PathVariable int postNo, Model model) throws Exception {
+		TemplateMeta tMeta = new TemplateMeta();
+		TemplateCss tCss = new TemplateCss();
+		tCss.add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
+		TemplateJs tHJs = new TemplateJs();
+		TemplateJs tFJs = new TemplateJs();
+		
+		TemplateConfig templateConfig = new TemplateConfig();
+		templateConfig.setLang("ko");
+		templateConfig.setCharset("utf-8");
+		templateConfig.setTitle("Post View &dash; Kurien's Blog");
+		templateConfig.setMeta(tMeta);
+		templateConfig.setCss(tCss);
+		templateConfig.setHeadJs(tHJs);
+		templateConfig.setFootJs(tFJs);
+		
+		model.addAttribute("templateConfig", templateConfig);
+		
 		Post post = postService.get(postNo);
+		
 		model.addAttribute("post", post);
 		
 		return "post/view";

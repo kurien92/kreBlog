@@ -14,33 +14,19 @@
 	<link rel="stylesheet" href="${contextPath}/css/layout.css">
 	<link rel="stylesheet" href="${contextPath}/css/plugin/jquery.mCustomScrollbar.min.css" />
 	${templateConfig.css}
+	
+	<!--[if lt IE 9]>
+	<script src="${contextPath}/js/plugin/html5shiv.min.js"></script>
+	<![endif]-->
 	<script src="${contextPath}/js/library/jquery.min.js"></script>
 	<script src="${contextPath}/js/plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script>
-		$(document).ready(function () {
-			var windowWidth = $(window).width();
-			var kreAside = $("#kre_aside");
-			var kreMain = $("#kre_main");
-			
-			function layoutSizing() {
-				windowWidth = $(window).width();
-				kreMain.outerWidth(windowWidth - kreAside.outerWidth(true));
-			}
-
-			layoutSizing();
-			
-			$(window).on("resize orientationchange", function() {
-				layoutSizing();
-				
-			});
-		})
-	</script>
 	${templateConfig.headJs}
 </head>
 <body>
 	<tiles:insertAttribute name="header" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />
+	
 	<script>
 	    (function($){
 	        $(window).on("load",function(){

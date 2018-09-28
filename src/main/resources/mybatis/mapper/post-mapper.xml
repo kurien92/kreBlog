@@ -20,7 +20,7 @@
 	
 	<sql id="criteria">
 		<if test="offset != null and rowCount != null">
-			LIMIT #{offset}, #{rowCount};
+			LIMIT #{offset}, #{rowCount}
 		</if>
 	</sql>
 	
@@ -40,9 +40,9 @@
         <where>
         	<include refid="search" />
         </where>
-       	<include refid="criteria" />
        	ORDER BY
        		post_no DESC
+       	<include refid="criteria" />
     </select>
     
     <select id="selectCount" resultType="Integer">

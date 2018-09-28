@@ -68,9 +68,10 @@ public class PostAdminController {
 	 * @param postNo
 	 * @param model
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public String modify(@RequestParam("no") int postNo, Model model) {
+	public String modify(@RequestParam("no") int postNo, Model model) throws Exception {
 		Post post = postService.get(postNo);
 		model.addAttribute("post", post);
 		

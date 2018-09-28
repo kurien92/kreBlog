@@ -4,8 +4,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import net.kurien.blog.controller.PostController;
 import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.exception.DuplicatedKeyException;
 import net.kurien.blog.exception.EmptyParameterException;
@@ -45,8 +48,12 @@ public class BasicPostService implements PostService {
 	}
 
 	@Override
-	public Post get(int postNo) {
+	public Post get(int postNo) throws Exception {
 		// TODO Auto-generated method stub
+		if(!isExist(postNo)) {
+			throw new NotFoundDataException(postNo + "번 포스트를 찾을 수 없습니다.");
+		}
+
 		return postDao.selectOne(postNo);
 	}
 

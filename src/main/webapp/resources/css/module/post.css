@@ -78,3 +78,42 @@
 	width: 300px;
 	height: 250px;
 }
+
+
+#post_view .kre_article .kre_article_title {
+    margin: 0;
+    padding: 0 8px 10px 8px;
+    border-bottom: 2px solid #033e6a;
+	color: #033e6a;
+	font-size: 28px;
+}
+
+
+#post_view .kre_article .kre_article_info {
+	padding: 20px 10px;
+}
+
+#post_view .kre_article .kre_article_info > ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#post_view .kre_article .kre_article_info > ul > li {
+	margin-top: 6px;
+}
+
+#post_view .kre_article .kre_article_info > ul > li:first-child {
+	margin-top: 0;
+}
+
+#post_view .kre_article .kre_article_body {
+	min-height: 200px;
+    padding: 20px 10px;
+	border-top: 2px dotted #033e6a;
+	border-bottom: 2px dotted #033e6a;
+}
+
+#post_view .kre_article .kre_article_footer {
+	padding: 20px 0;
+}
