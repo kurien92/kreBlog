@@ -2,33 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.kurien.blog.module.post.mapper">
 	<resultMap id="resultMap" type="net.kurien.blog.module.post.vo.Post">
-		<id property="postNo" column="post_no" />
-		<result property="postAuthor" column="post_author"/>
-		<result property="postPassword" column="post_password"/>
-		<result property="postTitle" column="post_title"/>
-		<result property="postContent" column="post_content"/>
-		<result property="postView" column="post_view" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
-		<result property="postPublish" column="post_publish" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
-		<result property="postWriteTime" column="post_write_time"/>
-		<result property="postReservationTime" column="post_reservation_time"/>
-		<result property="postWriteIp" column="post_write_ip"/>
+		<id property="postNo" column="postNo" />
+		<result property="postAuthor" column="postAuthor"/>
+		<result property="postPassword" column="postPassword"/>
+		<result property="postSubject" column="postSubject"/>
+		<result property="postContent" column="postContent"/>
+		<result property="postView" column="postView" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="postPublish" column="postPublish" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="postWriteTime" column="postWriteTime"/>
+		<result property="postReservationTime" column="postReservationTime"/>
+		<result property="postWriteIp" column="postWriteIp"/>
 	</resultMap>
 	
 	<sql id="table">
-		kre_post
+		krePost
 	</sql>
 	
 	<sql id="criteria">
 		<if test="offset != null and rowCount != null">
-			LIMIT #{offset}, #{rowCount};
+			LIMIT #{offset}, #{rowCount}
 		</if>
 	</sql>
 	
 	<sql id="search">
 		<if test="searchType != null and keyword != null">
 			<choose>
-				<when test="searchType eq 'title'">
-					post_title like CONCAT('%', #{keyword}, '%') 
+				<when test="searchType eq 'subject'">
+					postSubject like CONCAT('%', #{keyword}, '%') 
+				</when>
+				<when test="searchType eq 'author'">
+					postAuthor like CONCAT('%', #{keyword}, '%') 
 				</when>
 			</choose>
 		</if>
@@ -40,9 +43,9 @@
         <where>
         	<include refid="search" />
         </where>
-       	<include refid="criteria" />
        	ORDER BY
-       		post_no DESC
+       		postNo DESC
+       	<include refid="criteria" />
     </select>
     
     <select id="selectCount" resultType="Integer">
@@ -57,13 +60,36 @@
         SELECT *
         FROM <include refid="table" />
         <where>
-        	post_no = #{postNo}
+        	postNo = #{postNo}
         </where>
     </select>
 		
     <insert id="insert" useGeneratedKeys="true" keyProperty="postNo">
-        INSERT INTO <include refid="table" />
-        VALUES (#{postNo}, #{postAuthor}, #{postPassword}, #{postTitle}, #{postContent}, #{postView.value}, #{postPublish.value}, #{postWriteTime}, #{postReservationTime}, #{postWriteIp})
+        INSERT INTO
+        <include refid="table" /> (
+        	postNo,
+        	postAuthor,
+        	postPassword,
+        	postSubject,
+        	postContent,
+        	<if test="postView != null">postView,</if>
+        	<if test="postPublish != null">postPublish,</if>
+        	postWriteTime,
+        	postReservationTime,
+        	postWriteIp
+        )
+        VALUES (
+        	#{postNo},
+        	#{postAuthor},
+			#{postPassword},
+			#{postSubject},
+			#{postContent},
+        	<if test="postView != null">#{postView.value},</if>
+        	<if test="postPublish != null">#{postPublish.value},</if>
+			#{postWriteTime},
+			#{postReservationTime},
+			#{postWriteIp}
+		)
     </insert>
     
     <update id="update">
@@ -72,56 +98,56 @@
         	<if test="postPassword != null">
         		<choose>
         			<when test="postPassword eq ''">
-        				post_password = null,
+        				postPassword = null,
         			</when>
         			<otherwise>
-        				post_password = #{postPassword},
+        				postPassword = #{postPassword},
         			</otherwise>
         		</choose>
         	</if>
-        	<if test="postTitle != null">
-	        	post_title = #{postTitle},
+        	<if test="postSubject != null">
+	        	postSubject = #{postSubject},
         	</if>
         	<if test="postContent != null">
-	        	post_content = #{postContent},
+	        	postContent = #{postContent},
         	</if>
         	<if test="postView != null">
-	        	post_view = #{postView.value},
+	        	postView = #{postView.value},
         	</if>
         	<if test="postPublish != null">
-	        	post_publish = #{postPublish.value}
+	        	postPublish = #{postPublish.value},
         	</if>
         	<if test="postReservationTime != null">
 	       		<choose>
 	       			<when test="postReservationTime.time == 0">
-	       				post_reservation_time = null,
+	       				postReservationTime = null,
 	       			</when>
 	       			<otherwise>
-	       				post_reservation_time = #{postReservationTime},
+	       				postReservationTime = #{postReservationTime},
 	       			</otherwise>
 	       		</choose>
         	</if>
         	<if test="postWriteIp != null">
-	        	post_write_ip = #{postWriteIp},
+	        	postWriteIp = #{postWriteIp},
         	</if>
        	</set>
        	
        	<where>
-       		post_no = #{postNo}
+       		postNo = #{postNo}
        	</where>
     </update>
     
     <delete id="delete">
         DELETE FROM <include refid="table" />
         <where>
-        	post_no = #{postNo}
+        	postNo = #{postNo}
         </where>
     </delete>
     
     <delete id="deleteList" parameterType="list">
         DELETE FROM <include refid="table" />
         <where>
-        	post_no IN
+        	postNo IN
         	<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
         		#{item.value}
         	</foreach>
@@ -136,7 +162,7 @@
         SELECT count(*)
         FROM <include refid="table" />
         <where>
-        	post_no = #{postNo}
+        	postNo = #{postNo}
         </where>
     </select>
 </mapper>

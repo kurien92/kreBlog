@@ -1,6 +1,6 @@
 package net.kurien.blog.database;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,7 @@ import net.kurien.blog.database.dao.MybatisTestDao;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/*-context.xml", "file:src/main/webapp/WEB-INF/spring/appServlet/*-context.xml"})
 @WebAppConfiguration
 public class MybatisTest {
-	@Resource
+	@Inject
     private MybatisTestDao mybatisTestDao;
 
     @Test

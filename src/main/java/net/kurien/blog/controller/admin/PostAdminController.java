@@ -1,28 +1,36 @@
 package net.kurien.blog.controller.admin;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import net.kurien.blog.controller.PostController;
+import net.kurien.blog.common.template.Template;
 import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
+import net.kurien.blog.module.post.vo.PostPublishStatus;
+import net.kurien.blog.module.post.vo.PostViewStatus;
 
 @Controller
 @RequestMapping("/admin/post")
 public class PostAdminController {
-	private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+	private static final Logger logger = LoggerFactory.getLogger(PostAdminController.class);
 
 	@Inject
 	private PostService postService;
+	
+	@Inject
+	private Template template;
 	
 	/**
 	 * 관리자가 목록 화면에 접속한다.
@@ -36,6 +44,9 @@ public class PostAdminController {
 		List<Post> posts = postService.getList();
 		model.addAttribute("posts", posts);
 		
+		template.setTitle("Post List &dash; Kurien's Blog");
+		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
+		
 		return "post/admin/list";
 	}
 	
@@ -43,9 +54,13 @@ public class PostAdminController {
 	 * 관리자가 포스트를 쓰는 화면을 출력한다.
 	 * 
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write() {
+	public String write(Model model) throws Exception {
+		model.addAttribute("formAction", "writeUpdate");
+		model.addAttribute("formSubmit", "작성");
+		
 		return "post/admin/write";
 	}
 	
@@ -54,12 +69,17 @@ public class PostAdminController {
 	 * 
 	 * @param post
 	 * @return
+	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String writeUpdate(Post post) {
-//		postService.write(post);
+	@RequestMapping(value = "/writeUpdate", method = RequestMethod.POST)
+	public String writeUpdate(HttpServletRequest request, Post post) throws Exception {
+		post.setPostAuthor("Kurien");
+		post.setPostWriteTime(Calendar.getInstance().getTime());
+		post.setPostWriteIp(request.getRemoteAddr());
 
-		return "redirect:/admin/post/modify";
+		postService.write(post);
+
+		return "redirect:/admin/post/list";
 	}
 	
 	/**
@@ -70,10 +90,13 @@ public class PostAdminController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public String modify(@RequestParam("no") int postNo, Model model) throws Exception {
+	@RequestMapping(value = "/modify/{postNo}", method = RequestMethod.GET)
+	public String modify(@PathVariable int postNo, Model model) throws Exception {
 		Post post = postService.get(postNo);
+		
 		model.addAttribute("post", post);
+		model.addAttribute("formAction", "modifyUpdate");
+		model.addAttribute("formSubmit", "수정");
 		
 		return "post/admin/write";
 	}
@@ -83,12 +106,21 @@ public class PostAdminController {
 	 * 
 	 * @param post
 	 * @return
+	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(Post post) {
-//		postService.modify(post);
+	@RequestMapping(value = "/modifyUpdate", method = RequestMethod.POST)
+	public String modify(Post post) throws Exception {
+		if(post.getPostView() == null) {
+			post.setPostView(PostViewStatus.FALSE);
+		}
 		
-		return "redirect:/admin/post/modify";
+		if(post.getPostPublish() == null) {
+			post.setPostPublish(PostPublishStatus.FALSE);
+		}
+		
+		postService.modify(post);
+		
+		return "redirect:/admin/post/list";
 	}
 	
 	/**
@@ -97,10 +129,22 @@ public class PostAdminController {
 	 * @param postNo
 	 * @return
 	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String delete(@RequestParam("no") int postNo) {
+	@RequestMapping(value = "/delete/{postNo}", method = RequestMethod.GET)
+	public String delete(@PathVariable int postNo) {
 		postService.delete(postNo);
 		
 		return "redirect:/admin/post/list";
+	}
+	
+	@RequestMapping(value = "/preview/{postNo}", method = RequestMethod.GET)
+	public String preview(@PathVariable int postNo, Model model) throws Exception {
+		Post post = postService.get(postNo);
+		
+		model.addAttribute("post", post);
+		
+		template.setTitle(post.getPostSubject() + " : Post Preview &dash; Kurien's Blog");
+		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
+		
+		return "post/view";
 	}
 }

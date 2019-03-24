@@ -1,17 +1,21 @@
 package net.kurien.blog.module.post.vo;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class Post {
 	private Integer postNo;
 	private String postAuthor;
 	private String postPassword;
-	private String postTitle;
+	private String postSubject;
 	private String postContent;
 	private PostViewStatus postView;
 	private PostPublishStatus postPublish;
-	private Timestamp postWriteTime;
-	private Timestamp postReservationTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date postWriteTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date postReservationTime;
 	private String postWriteIp;
 	
 	public Integer getPostNo() {
@@ -32,11 +36,11 @@ public class Post {
 	public void setPostPassword(String postPassword) {
 		this.postPassword = postPassword;
 	}
-	public String getPostTitle() {
-		return postTitle;
+	public String getPostSubject() {
+		return postSubject;
 	}
-	public void setPostTitle(String postTitle) {
-		this.postTitle = postTitle;
+	public void setPostSubject(String postSubject) {
+		this.postSubject = postSubject;
 	}
 	public String getPostContent() {
 		return postContent;
@@ -56,16 +60,16 @@ public class Post {
 	public void setPostPublish(PostPublishStatus postPublish) {
 		this.postPublish = postPublish;
 	}
-	public Timestamp getPostWriteTime() {
+	public Date getPostWriteTime() {
 		return postWriteTime;
 	}
-	public void setPostWriteTime(Timestamp postWriteTime) {
+	public void setPostWriteTime(Date postWriteTime) {
 		this.postWriteTime = postWriteTime;
 	}
-	public Timestamp getPostReservationTime() {
+	public Date getPostReservationTime() {
 		return postReservationTime;
 	}
-	public void setPostReservationTime(Timestamp postReservationTime) {
+	public void setPostReservationTime(Date postReservationTime) {
 		this.postReservationTime = postReservationTime;
 	}
 	public String getPostWriteIp() {
@@ -78,7 +82,7 @@ public class Post {
 	@Override
 	public String toString() {
 		return "Post [postNo=" + postNo + ", postAuthor=" + postAuthor + ", postPassword=" + postPassword
-				+ ", postTitle=" + postTitle + ", postContent=" + postContent + ", postView=" + postView
+				+ ", postSubject=" + postSubject + ", postContent=" + postContent + ", postView=" + postView
 				+ ", postPublish=" + postPublish + ", postWriteTime=" + postWriteTime + ", postReservationTime="
 				+ postReservationTime + ", postWriteIp=" + postWriteIp + "]";
 	}

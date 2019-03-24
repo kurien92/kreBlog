@@ -15,9 +15,12 @@ public enum PostViewStatus {
 	
 	public static PostViewStatus valueOf(int value) {
 		switch(value) {
-			case 0: return PostViewStatus.FALSE;
-			case 1: return PostViewStatus.TRUE;
-			default: throw new AssertionError("Unknown gender: " + value);
+			case 0:
+				return PostViewStatus.FALSE;
+			case 1:
+				return PostViewStatus.TRUE;
+			default:
+				throw new AssertionError("Unknown status: " + value);
 		}
 	}
 }

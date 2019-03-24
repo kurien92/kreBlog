@@ -6,7 +6,7 @@
 	
 	<article class="kre_article">
 		<header class="kre_article_header">
-			<h4 class="kre_article_title">${post.postTitle}</h4>
+			<h4 class="kre_article_subject">${post.postSubject}</h4>
 			<div class="kre_article_info">
 				<ul>
 					<li><strong>Author</strong> ${post.postAuthor}</li>

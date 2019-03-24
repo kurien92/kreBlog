@@ -2,14 +2,14 @@ package net.kurien.blog.database.dao;
 
 import java.util.List;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class MybatisTestDao {
-	@Resource
+	@Inject
 	private SqlSession sqlSession;
 	
 	public String selectOne(String name) {

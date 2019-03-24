@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.kurien.blog.module.category.mapper">
+	<resultMap id="resultMap" type="net.kurien.blog.module.category.vo.Category">
+		<id property="categoryNo" column="categoryNo" />
+		<result property="categoryParentNo" column="categoryParentNo"/>
+		<result property="categoryDepth" column="categoryDepth"/>
+		<result property="categoryOrder" column="categoryOrder"/>
+		<result property="categoryId" column="categoryId"/>
+		<result property="categoryName" column="categoryName"/>
+	</resultMap>
+	
+	<sql id="table">
+		kreCategory
+	</sql>
+	
+<!-- 	<sql id="criteria"> -->
+<!-- 		<if test="offset != null and rowCount != null"> -->
+<!-- 			LIMIT #{offset}, #{rowCount} -->
+<!-- 		</if> -->
+<!-- 	</sql> -->
+	
+	<sql id="search">
+		<if test="searchType != null and keyword != null">
+			<choose>
+				<when test="searchType eq 'subject'">
+					postSubject like CONCAT('%', #{keyword}, '%') 
+				</when>
+				<when test="searchType eq 'author'">
+					postAuthor like CONCAT('%', #{keyword}, '%') 
+				</when>
+			</choose>
+		</if>
+	</sql>
+    
+    <select id="selectList" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	<include refid="search" />
+        </where>
+       	ORDER BY
+       		postNo DESC
+       	<include refid="criteria" />
+    </select>
+    
+    <select id="selectCount" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+        	<include refid="search" />
+        </where>
+    </select>
+    
+    <select id="selectOne" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+			<choose>
+				<when test="categoryNo != null">
+        			AND categoryNo = #{categoryNo}
+				</when>
+				<when test="categoryId != null">
+        			AND categoryId = #{categoryId} 
+				</when>
+			</choose>
+        </where>
+    </select>
+		
+    <insert id="insert" useGeneratedKeys="true" keyProperty="categoryNo">
+        INSERT INTO
+        <include refid="table" /> (
+        	categoryNo,
+        	categoryParentNo,
+        	categoryDepth,
+        	categoryOrder,
+        	categoryId,
+        	categoryName
+        )
+        VALUES (
+        	#{categoryNo},
+        	#{categoryParentNo},
+        	#{categoryDepth},
+        	#{categoryOrder},
+        	#{categoryId},
+        	#{categoryName}
+		)
+    </insert>
+    
+    <update id="update">
+        UPDATE <include refid="table" />
+        <set>
+        	<if test="postPassword != null">
+        		<choose>
+        			<when test="postPassword eq ''">
+        				postPassword = null,
+        			</when>
+        			<otherwise>
+        				postPassword = #{postPassword},
+        			</otherwise>
+        		</choose>
+        	</if>
+        	<if test="postSubject != null">
+	        	postSubject = #{postSubject},
+        	</if>
+        	<if test="postContent != null">
+	        	postContent = #{postContent},
+        	</if>
+        	<if test="postView != null">
+	        	postView = #{postView.value},
+        	</if>
+        	<if test="postPublish != null">
+	        	postPublish = #{postPublish.value},
+        	</if>
+        	<if test="postReservationTime != null">
+	       		<choose>
+	       			<when test="postReservationTime.time == 0">
+	       				postReservationTime = null,
+	       			</when>
+	       			<otherwise>
+	       				postReservationTime = #{postReservationTime},
+	       			</otherwise>
+	       		</choose>
+        	</if>
+        	<if test="postWriteIp != null">
+	        	postWriteIp = #{postWriteIp},
+        	</if>
+       	</set>
+       	
+       	<where>
+       		postNo = #{postNo}
+       	</where>
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM <include refid="table" />
+        <where>
+        	postNo = #{postNo}
+        </where>
+    </delete>
+    
+    <delete id="deleteList" parameterType="list">
+        DELETE FROM <include refid="table" />
+        <where>
+        	postNo IN
+        	<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        		#{item.value}
+        	</foreach>
+        </where>
+    </delete>
+    
+    <delete id="deleteAll">
+        TRUNCATE <include refid="table" />
+    </delete>
+    
+    <select id="isExist" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+        	postNo = #{postNo}
+        </where>
+    </select>
+</mapper>

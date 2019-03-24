@@ -9,10 +9,14 @@ html, body, #kre_wrap {
 	position: absolute;
 	width: 396px;
 	height: 100%;
-	padding: 30px;
 	box-sizing: border-box;
 	background-color: #033e6a;
 	color: #fff;
+	z-index: 9000;
+}
+
+#kre_aside .mCSB_container {
+	padding: 30px;
 }
 
 #kre_aside .aside_item {
@@ -38,6 +42,7 @@ html, body, #kre_wrap {
 }
 
 #kre_category {
+	padding: 10px 30px;
 }
 
 #ad1 {
@@ -60,7 +65,7 @@ html, body, #kre_wrap {
 }
 
 #kre_footer {
-	padding: 30px;
+	padding: 10px;
 }
 
 #kre_main {
@@ -75,6 +80,7 @@ html, body, #kre_wrap {
 #kre_content {
 	position: relative;
 	height: 100%;
+/* 	max-width: 1000px; */
 	box-sizing: border-box;
 	padding: 30px;
 }

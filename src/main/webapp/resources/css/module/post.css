@@ -20,7 +20,7 @@
 	color: #fff;
 }
 
-#post_list .kre_grid_item:hover .post_title a {
+#post_list .kre_grid_item:hover .post_subject a {
 	color: #fff;
 }
 
@@ -44,12 +44,12 @@
 	margin-top: 0;
 }
 
-#post_list .post_title {
+#post_list .post_subject {
 	font-size: 24px;
 	font-weight: bold;
 }
 
-#post_list .post_title a {
+#post_list .post_subject a {
 	transition: color 1s;
 	color: #333;
 }
@@ -80,7 +80,7 @@
 }
 
 
-#post_view .kre_article .kre_article_title {
+#post_view .kre_article .kre_article_subject {
     margin: 0;
     padding: 0 8px 10px 8px;
     border-bottom: 2px solid #033e6a;

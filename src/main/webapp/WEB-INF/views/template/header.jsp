@@ -19,8 +19,8 @@
 			</script>
 		</div>
 		
-		<div class="aside_item">
-			<h2 id="kre_category">Category</h2>
+		<div id="kre_category" class="aside_item">
+			<h2 id="kre_category_header">Category</h2>
 			
 			<ul id="kre_category_list" class="category_depth_1">
 				<li><a href="${contextPath}/category/web">Web</a>

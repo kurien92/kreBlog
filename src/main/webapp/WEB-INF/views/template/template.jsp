@@ -4,38 +4,35 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="request"/>
 <!DOCTYPE html>
-<html lang="${templateConfig.lang}">
+<html lang="${template.lang}">
 <head>
-	<meta charset="${templateConfig.charset}">
-	${templateConfig.meta}
+	<meta charset="${template.charset}">
+	${template.meta}
 	<title>${template.title}</title>
 	<link rel="stylesheet" href="${contextPath}/css/normalize.css">
 	<link rel="stylesheet" href="${contextPath}/css/base.css">
 	<link rel="stylesheet" href="${contextPath}/css/layout.css">
 	<link rel="stylesheet" href="${contextPath}/css/plugin/jquery.mCustomScrollbar.min.css" />
-	${templateConfig.css}
+	${template.css}
 	
 	<!--[if lt IE 9]>
 	<script src="${contextPath}/js/plugin/html5shiv.min.js"></script>
 	<![endif]-->
 	<script src="${contextPath}/js/library/jquery.min.js"></script>
 	<script src="${contextPath}/js/plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-	${templateConfig.headJs}
+	${template.headJs}
 </head>
 <body>
 	<tiles:insertAttribute name="header" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />
-	
 	<script>
-	    (function($){
-	        $(window).on("load",function(){
-	            $(".scrollbar").mCustomScrollbar({
-	            	scrollInertia: 300
-	            });
+		$(window).on("load", function() {
+	        $(".scrollbar").mCustomScrollbar({
+	        	scrollInertia: 300
 	        });
-	    })(jQuery);
+		});
 	</script>
-	${templateConfig.footJs}
+	${template.footJs}
 </body>
 </html>

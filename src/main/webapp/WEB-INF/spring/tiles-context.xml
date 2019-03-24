@@ -6,6 +6,7 @@
 	    <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
 	    <property name="order" value="1"/>
 	</bean>
+
 	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 	    <property name="definitions">
 	        <list>

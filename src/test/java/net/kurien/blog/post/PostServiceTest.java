@@ -72,7 +72,7 @@ public class PostServiceTest {
 		post5 = new Post();
 		post5.setPostNo(post2.getPostNo());
 		post5.setPostAuthor("kurien5555");
-		post5.setPostTitle("수정!수정!!!");
+		post5.setPostSubject("수정!수정!!!");
 		post5.setPostReservationTime(new Timestamp(0));
 		post5.setPostWriteTime(new Timestamp(0));
 		post5.setPostContent("수정!!!!");
@@ -85,15 +85,15 @@ public class PostServiceTest {
 		
 		
 //		post2.setPostAuthor("kurien5555"); author은 수정 불가능
-		post2.setPostTitle("수정!수정!!!");
+		post2.setPostSubject("수정!수정!!!");
 //		post2.setPostReservationTime(new Timestamp(0)); 예약시간은 0 eq null임. 
 		post2.setPostReservationTime(null);
 //		post2.setPostWriteTime(new Timestamp(0)); write time은 수정 불가능
 		post2.setPostContent("수정!!!!");
 		
-		posts2.add(post1);
-		posts2.add(post2);
 		posts2.add(post3);
+		posts2.add(post2);
+		posts2.add(post1);
 		
 		assertThat(posts.toString(), is(posts2.toString()));
 		
@@ -115,7 +115,7 @@ public class PostServiceTest {
 	public void modifyNotUsePrimaryKeyExceptionTest() throws Exception {
 		Post post4 = new Post();
 		post4.setPostAuthor("kurien4444444444");
-		post4.setPostTitle("수정!수정!");
+		post4.setPostSubject("수정!수정!");
 		post4.setPostReservationTime(new Timestamp(0));
 		post4.setPostWriteTime(new Timestamp(0));
 		post4.setPostContent("수정!");
@@ -131,7 +131,7 @@ public class PostServiceTest {
 		Post post5 = new Post();
 		post5.setPostNo(500);
 		post5.setPostAuthor("kurien4444444444");
-		post5.setPostTitle("수정!수정!");
+		post5.setPostSubject("수정!수정!");
 		post5.setPostReservationTime(new Timestamp(0));
 		post5.setPostWriteTime(new Timestamp(0));
 		post5.setPostContent("수정!");
@@ -165,7 +165,7 @@ public class PostServiceTest {
 		post1.setPostNo(null);
 		post1.setPostAuthor("kurien1");
 		post1.setPostPassword("test1");
-		post1.setPostTitle("블로그 제목111입니다.");
+		post1.setPostSubject("블로그 제목111입니다.");
 		post1.setPostContent("블로그 글입111니다.");
 		post1.setPostReservationTime(null);
 		post1.setPostView(PostViewStatus.TRUE);
@@ -178,7 +178,7 @@ public class PostServiceTest {
 		post2.setPostNo(null);
 		post2.setPostAuthor("kurien2");
 		post2.setPostPassword("tes22t");
-		post2.setPostTitle("블로그 제22목2입니다.");
+		post2.setPostSubject("블로그 제22목2입니다.");
 		post2.setPostContent("블2로그 글2입니다.");
 		post2.setPostReservationTime(null);
 		post2.setPostView(PostViewStatus.TRUE);
@@ -191,7 +191,7 @@ public class PostServiceTest {
 		post3.setPostNo(null);
 		post3.setPostAuthor("kurien3");
 		post3.setPostPassword("te33t");
-		post3.setPostTitle("블로그3 제목입3니다.");
+		post3.setPostSubject("블로그3 제목입3니다.");
 		post3.setPostContent("블로그 333글입니다.");
 		post3.setPostReservationTime(null);
 		post3.setPostView(PostViewStatus.TRUE);

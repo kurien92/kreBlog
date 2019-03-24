@@ -9,8 +9,8 @@
 		<c:forEach var="post" items="${posts}">
 		<div class="kre_grid_item" tabindex="0">
 			<ul>
-				<li class="post_title">
-					<a href="${contextPath}/post/view/${post.postNo}" class="postViewLink">${post.postTitle}</a>
+				<li class="post_subject">
+					<a href="${contextPath}/post/view/${post.postNo}" class="postViewLink">${post.postSubject}</a>
 				</li>
 				<li class="post_write_time"><fmt:formatDate value="${post.postWriteTime}" pattern="yy/MM/dd HH:mm" /></li>
 			</ul>

@@ -1,7 +1,6 @@
 package net.kurien.blog.module.post.dao.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -13,7 +12,7 @@ import net.kurien.blog.module.post.dao.PostDao;
 import net.kurien.blog.module.post.vo.Post;
 
 @Repository
-public class BasicPostDao implements PostDao {
+public class PostDaoBasic implements PostDao {
 	@Inject
 	private SqlSession sqlSession;
 	

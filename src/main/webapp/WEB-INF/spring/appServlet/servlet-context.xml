@@ -26,6 +26,19 @@
 	
 	<context:component-scan base-package="net.kurien.blog" />
 	
+    <!-- 인터셉터 객체 생성 -->
+	<beans:bean id="TemplateInterceptor" class="net.kurien.blog.interceptor.TemplateInterceptor" />
 	
-	
+	<!-- Interceptor 설정 -->
+	<interceptors>
+	    <interceptor>
+	        <mapping path="/**"/>
+	        
+	        <exclude-mapping path="/css/**"/>
+	        <exclude-mapping path="/js/**"/>
+	        <exclude-mapping path="img"/>
+	        <exclude-mapping path="/font/**"/>
+	        <beans:ref bean="TemplateInterceptor"/>
+	    </interceptor>
+	</interceptors>
 </beans:beans>

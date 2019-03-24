@@ -20,6 +20,7 @@ public class TemplateMetadata {
 	
 	public String toString() {
 		String str = "";
+		
 		for(String metadataTag : metadataTags) {
 			str += metadataTag + "\n"; 
 		}
