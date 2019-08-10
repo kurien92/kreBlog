@@ -13,6 +13,16 @@
 		
 		<div class="kre_writing">
 			<div>
+				<select name="categoryId">
+					<option value="">Uncategorized</option>
+					
+					<c:forEach var="category" items="${categories}">
+						<option value="${category.categoryId}">${category.categoryName}</option>v
+					</c:forEach>
+				</select>
+			</div>
+			
+			<div>
 				<input type="text" name="postSubject" value="${post.postSubject}" placeholder="제목">
 			</div>
 			

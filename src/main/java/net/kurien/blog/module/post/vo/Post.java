@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class Post {
 	private Integer postNo;
+	private String categoryId;
 	private String postAuthor;
 	private String postPassword;
 	private String postSubject;
@@ -23,6 +24,12 @@ public class Post {
 	}
 	public void setPostNo(Integer postNo) {
 		this.postNo = postNo;
+	}
+	public String getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 	public String getPostAuthor() {
 		return postAuthor;
@@ -81,9 +88,9 @@ public class Post {
 	
 	@Override
 	public String toString() {
-		return "Post [postNo=" + postNo + ", postAuthor=" + postAuthor + ", postPassword=" + postPassword
-				+ ", postSubject=" + postSubject + ", postContent=" + postContent + ", postView=" + postView
-				+ ", postPublish=" + postPublish + ", postWriteTime=" + postWriteTime + ", postReservationTime="
-				+ postReservationTime + ", postWriteIp=" + postWriteIp + "]";
+		return "Post [postNo=" + postNo + ", categoryId=" + categoryId + ", postAuthor=" + postAuthor
+				+ ", postPassword=" + postPassword + ", postSubject=" + postSubject + ", postContent=" + postContent
+				+ ", postView=" + postView + ", postPublish=" + postPublish + ", postWriteTime=" + postWriteTime
+				+ ", postReservationTime=" + postReservationTime + ", postWriteIp=" + postWriteIp + "]";
 	}
 }

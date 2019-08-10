@@ -1,5 +1,6 @@
 CREATE TABLE `krePost` (
   `postNo` int unsigned NOT NULL AUTO_INCREMENT,
+  `categoryId` varchar(30) DEFAULT NULL,
   `postAuthor` varchar(30) NOT NULL,
   `postPassword` varchar(100) DEFAULT NULL,
   `postSubject` varchar(100) NOT NULL,

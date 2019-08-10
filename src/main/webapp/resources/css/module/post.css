@@ -15,6 +15,14 @@
 	cursor: pointer;
 }
 
+
+#post_list .kre_grid_item.kre_grid_item_empty {
+	background-color: rgba(51, 51, 51, 0.8);
+	color: #fff;
+	cursor: not-allowed;
+}
+
+
 #post_list .kre_grid_item:hover {
 	background-color: rgba(51, 51, 51, 0.8);
 	color: #fff;

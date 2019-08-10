@@ -13,9 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import net.kurien.blog.common.template.Template;
+import net.kurien.blog.module.category.service.CategoryService;
+import net.kurien.blog.module.category.vo.Category;
 import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
 import net.kurien.blog.module.post.vo.PostPublishStatus;
@@ -28,6 +29,9 @@ public class PostAdminController {
 
 	@Inject
 	private PostService postService;
+	
+	@Inject
+	private CategoryService categoryService;
 	
 	@Inject
 	private Template template;
@@ -58,6 +62,9 @@ public class PostAdminController {
 	 */
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String write(Model model) throws Exception {
+		List<Category> categories = categoryService.getList();
+		
+		model.addAttribute("categories", categories);
 		model.addAttribute("formAction", "writeUpdate");
 		model.addAttribute("formSubmit", "작성");
 		
@@ -93,8 +100,10 @@ public class PostAdminController {
 	@RequestMapping(value = "/modify/{postNo}", method = RequestMethod.GET)
 	public String modify(@PathVariable int postNo, Model model) throws Exception {
 		Post post = postService.get(postNo);
+		List<Category> categories = categoryService.getList();
 		
 		model.addAttribute("post", post);
+		model.addAttribute("categories", categories);
 		model.addAttribute("formAction", "modifyUpdate");
 		model.addAttribute("formSubmit", "수정");
 		
