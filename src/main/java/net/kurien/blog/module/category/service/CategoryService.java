@@ -20,4 +20,6 @@ public interface CategoryService {
 	void remove(int categoryNo);
 	
 	void remove(String categoryId);
+
+	List<Category> getCategoryAndChilds(String categoryId);
 }

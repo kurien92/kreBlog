@@ -22,6 +22,12 @@ public class CategoryDaoBasic implements CategoryDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(mapper + ".selectList");
 	}
+
+	@Override
+	public List<Category> selectListByParentNo(Integer categoryNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(mapper + ".selectListByParentNo", categoryNo);
+	}
 	
 	@Override
 	public Category select(int categoryNo) {
@@ -58,5 +64,4 @@ public class CategoryDaoBasic implements CategoryDao {
 		// TODO Auto-generated method stub
 		sqlSession.delete(mapper + ".delete", categoryId);
 	}
-
 }

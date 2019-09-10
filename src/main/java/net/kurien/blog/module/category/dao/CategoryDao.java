@@ -18,4 +18,6 @@ public interface CategoryDao {
 	void delete(int categoryNo);
 
 	void delete(String categoryId);
+
+	List<Category> selectListByParentNo(Integer categoryNo);
 }

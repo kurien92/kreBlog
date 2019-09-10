@@ -52,11 +52,35 @@
        	<include refid="criteria" />
     </select>
     
+    <select id="selectListByCategoryIds" parameterType="list" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	categoryId IN
+        	<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        		#{item}
+        	</foreach>
+        </where>
+       	ORDER BY
+       		postNo DESC
+    </select>
+    
     <select id="selectCount" resultType="Integer">
         SELECT count(*)
         FROM <include refid="table" />
         <where>
         	<include refid="search" />
+        </where>
+    </select>
+    
+    <select id="selectCountByCategoryIds" parameterType="list" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+        	categoryId IN
+        	<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        		#{item}
+        	</foreach>
         </where>
     </select>
     

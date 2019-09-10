@@ -17,4 +17,8 @@ public interface PostDao {
 	public void deleteList(List<Integer> postNos);
 	public void deleteAll();
 	public int isExist(int postNo);
+	public int removeCategoryId(String categoryId);
+	
+	public int selectCountByCategoryIds(List<String> categoryIds);
+	public List<Post> selectListByCategoryIds(List<String> categoryIds);
 }

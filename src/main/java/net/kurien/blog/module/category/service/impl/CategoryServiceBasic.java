@@ -1,5 +1,6 @@
 package net.kurien.blog.module.category.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,13 +27,29 @@ public class CategoryServiceBasic implements CategoryService {
 	}
 	
 	public Category get(int categoryNo) {
-
 		return categoryDaoBasic.select(categoryNo);
 	}
 	
 	public Category get(String categoryId) {
-
 		return categoryDaoBasic.select(categoryId);
+	}
+	
+	public List<Category> getCategoryAndChilds(String categoryId) {
+		List<Category> categories = new ArrayList<Category>();
+		
+		Category parentCategory = categoryDaoBasic.select(categoryId);
+		
+		if(parentCategory == null) {
+			return null;
+		}
+		
+		categories.add(parentCategory);
+		
+		List<Category> childCategories = categoryDaoBasic.selectListByParentNo(parentCategory.getCategoryNo());
+		
+		categories.addAll(childCategories);
+		
+		return categories;
 	}
 	
 	public void set(Category category) {

@@ -18,6 +18,20 @@
         SELECT *
         FROM <include refid="table" />
        	ORDER BY
+       		categoryDepth ASC,
+       		categoryOrder ASC,
+       		categoryNo DESC
+    </select>
+
+    <select id="selectListByParentNo" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	categoryParentNo = #{categoryNo}
+        </where>
+       	ORDER BY
+       		categoryDepth ASC,
+       		categoryOrder ASC,
        		categoryNo DESC
     </select>
     

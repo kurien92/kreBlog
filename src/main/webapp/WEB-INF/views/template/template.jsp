@@ -27,11 +27,9 @@
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />
 	<script>
-		$(window).on("load", function() {
-	        $(".scrollbar").mCustomScrollbar({
-	        	scrollInertia: 300
-	        });
-		});
+        $(".scrollbar").mCustomScrollbar({
+        	scrollInertia: 300
+        });
 	</script>
 	${template.footJs}
 </body>

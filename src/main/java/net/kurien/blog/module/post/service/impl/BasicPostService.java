@@ -4,11 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import net.kurien.blog.controller.PostController;
 import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.exception.DuplicatedKeyException;
 import net.kurien.blog.exception.EmptyParameterException;
@@ -36,6 +33,12 @@ public class BasicPostService implements PostService {
 	}
 
 	@Override
+	public List<Post> getListByCategoryIds(List<String> categoryIds) {
+		// TODO Auto-generated method stub
+		return postDao.selectListByCategoryIds(categoryIds);
+	}
+	
+	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return postDao.selectCount();
@@ -47,6 +50,12 @@ public class BasicPostService implements PostService {
 		return postDao.selectCount(criteria);
 	}
 
+	@Override
+	public int getCountByCategoryIds(List<String> categoryIds) {
+		// TODO Auto-generated method stub
+		return postDao.selectCountByCategoryIds(categoryIds);
+	}
+	
 	@Override
 	public Post get(int postNo) throws Exception {
 		// TODO Auto-generated method stub
@@ -123,5 +132,13 @@ public class BasicPostService implements PostService {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public int removeCategoryId(String categoryId) throws Exception {
+		// TODO Auto-generated method stub
+		int removedCount = postDao.removeCategoryId(categoryId);
+		
+		return removedCount;
 	}
 }

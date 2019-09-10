@@ -3,7 +3,6 @@ package net.kurien.blog.module.post.service;
 import java.util.List;
 
 import net.kurien.blog.domain.Criteria;
-import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.module.post.vo.Post;
 
 public interface PostService {
@@ -19,4 +18,8 @@ public interface PostService {
 	public void deleteAll();
 	
 	public boolean isExist(int postNo) throws Exception;
+	public int removeCategoryId(String categoryId) throws Exception;
+	
+	public int getCountByCategoryIds(List<String> categoryIds);
+	public List<Post> getListByCategoryIds(List<String> categoryIds);
 }

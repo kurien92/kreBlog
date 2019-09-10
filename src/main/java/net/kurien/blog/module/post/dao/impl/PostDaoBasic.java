@@ -31,6 +31,12 @@ public class PostDaoBasic implements PostDao {
 	}
 
 	@Override
+	public List<Post> selectListByCategoryIds(List<String> categoryIds) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(mapper + ".selectListByCategoryIds", categoryIds);
+	}
+	
+	@Override
 	public int selectCount() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(mapper + ".selectCount");
@@ -42,6 +48,12 @@ public class PostDaoBasic implements PostDao {
 		return sqlSession.selectOne(mapper + ".selectCount", criteria);
 	}
 
+	@Override
+	public int selectCountByCategoryIds(List<String> categoryIds) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(mapper + ".selectCountByCategoryIds", categoryIds);
+	}
+	
 	@Override
 	public Post selectOne(int postNo) {
 		// TODO Auto-generated method stub
@@ -82,5 +94,13 @@ public class PostDaoBasic implements PostDao {
 	public int isExist(int postNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(mapper + ".isExist", postNo);
+	}
+
+	@Override
+	public int removeCategoryId(String categoryId) {
+		// TODO Auto-generated method stub
+		int updatedCount = sqlSession.update(mapper + ".removeCategoryId", categoryId);
+		
+		return updatedCount;
 	}
 }

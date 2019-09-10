@@ -6,4 +6,4 @@ CREATE TABLE `kreCategory` (
   `categoryId` varchar(30) NOT NULL UNIQUE,
   `categoryName` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`categoryNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

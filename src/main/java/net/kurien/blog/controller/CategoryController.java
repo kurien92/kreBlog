@@ -1,5 +1,6 @@
 package net.kurien.blog.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,24 +38,27 @@ public class CategoryController {
 	public String list(@PathVariable String categoryId, SearchCriteria criteria, Model model) throws Exception {
 		logger.info(categoryId + " : 메서드 시작");
 		
-		Category category = categoryService.get(categoryId);
+		List<Category> categories = categoryService.getCategoryAndChilds(categoryId);
 		
-		if(category == null) {
+		if(categories == null) {
 			throw new Exception("존재하지 않는 카테고리입니다.");
 		}
 		
-		criteria.setSearchType("category");
-		criteria.setKeyword(categoryId);
+		List<String> categoryIds = new ArrayList<String>();
 		
-		int totalRowCount = postService.getCount(criteria);
+		for(int i = 0; i < categories.size(); i++) {
+			categoryIds.add(categories.get(i).getCategoryId());
+		}
+		
+		int totalRowCount = postService.getCountByCategoryIds(categoryIds);
 		PageMaker pageMaker = new PageMaker(criteria, totalRowCount);
 		
-		List<Post> posts = postService.getList(criteria);
+		List<Post> posts = postService.getListByCategoryIds(categoryIds);
 		
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("posts", posts);
 		
-		template.setTitle("Category " + category.getCategoryName() + " &dash; Kurien's Blog");
+		template.setTitle("Category " + categories.get(0).getCategoryName() + " &dash; Kurien's Blog");
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 
 		return "post/list";
