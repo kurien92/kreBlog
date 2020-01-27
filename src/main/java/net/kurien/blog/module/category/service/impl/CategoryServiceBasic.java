@@ -6,22 +6,21 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.kurien.blog.module.category.dao.CategoryDao;
 import net.kurien.blog.module.category.service.CategoryService;
 import net.kurien.blog.module.category.vo.Category;
+import net.kurien.blog.module.post.service.PostService;
 
 @Service
 public class CategoryServiceBasic implements CategoryService {
 	@Inject
 	private CategoryDao categoryDaoBasic;
 
-	@Override
-	public String createCategory() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	@Inject
+	private PostService postService;
+
 	public List<Category> getList() {
 		return categoryDaoBasic.selectList();
 	}
@@ -52,11 +51,17 @@ public class CategoryServiceBasic implements CategoryService {
 		return categories;
 	}
 	
-	public void set(Category category) {
+	public void create(Category category) {
+		int categoryDepth = createCategoryDepth(category.getCategoryParentNo());
+		category.setCategoryDepth(categoryDepth);
+		
 		categoryDaoBasic.insert(category);
 	}
 	
 	public void modify(Category category) {
+		int categoryDepth = createCategoryDepth(category.getCategoryParentNo());
+		category.setCategoryDepth(categoryDepth);
+		
 		categoryDaoBasic.update(category);
 	}
 
@@ -66,9 +71,28 @@ public class CategoryServiceBasic implements CategoryService {
 		categoryDaoBasic.delete(categoryNo);
 	}
 
+//	@Transactional 추후에 적용
 	@Override
 	public void remove(String categoryId) {
 		// TODO Auto-generated method stub
+		try {
+			int removedCount = postService.removeCategoryId(categoryId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		categoryDaoBasic.delete(categoryId);
+	}
+	
+	private int createCategoryDepth(Integer parentCategryNo) {
+		Integer categoryDepth = 0;
+		
+		if(parentCategryNo != null) {
+			Category parentCategory = categoryDaoBasic.select(parentCategryNo);
+			categoryDepth = parentCategory.getCategoryDepth() + 1;
+		}
+		
+		return categoryDepth;
 	}
 }

@@ -198,4 +198,14 @@
         	postNo = #{postNo}
         </where>
     </select>
+    
+    <update id="removeCategoryId">
+        UPDATE <include refid="table" />
+        <set>
+        	categoryId = null
+        </set>
+        <where>
+        	categoryId = #{categoryId}
+        </where>
+    </update>
 </mapper>

@@ -79,9 +79,8 @@
     <update id="update">
         UPDATE <include refid="table" />
         <set>
-        	<if test="categoryParentNo != null">
-				categoryParentNo = #{categoryParentNo},
-        	</if>
+			categoryParentNo = #{categoryParentNo},
+			
         	<if test="categoryDepth != null">
 	        	categoryDepth = #{categoryDepth},
         	</if>
@@ -100,14 +99,7 @@
     <delete id="delete">
         DELETE FROM <include refid="table" />
         <where>
-			<choose>
-				<when test="categoryNo != null">
-        			AND categoryNo = #{categoryNo}
-				</when>
-				<when test="categoryId != null">
-        			AND categoryId = #{categoryId} 
-				</when>
-			</choose>
+        	categoryId = #{categoryId} 
         </where>
     </delete>
     

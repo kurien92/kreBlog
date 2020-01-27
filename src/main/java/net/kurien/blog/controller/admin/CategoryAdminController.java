@@ -22,9 +22,6 @@ import net.kurien.blog.module.post.service.PostService;
 @RequestMapping("/admin/category")
 public class CategoryAdminController {
 	private static final Logger logger = LoggerFactory.getLogger(CategoryAdminController.class);
-
-	@Inject
-	private PostService postService;
 	
 	@Inject
 	private CategoryService categoryService;
@@ -58,9 +55,9 @@ public class CategoryAdminController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String write(Model model) throws Exception {
-//		List<Category> categories = categoryService.getList();
+		List<Category> categories = categoryService.getList();
 		
-//		model.addAttribute("categories", categories);
+		model.addAttribute("parentCategories", categories);
 		model.addAttribute("formAction", "addUpdate");
 		model.addAttribute("formSubmit", "추가");
 		
@@ -76,7 +73,7 @@ public class CategoryAdminController {
 	 */
 	@RequestMapping(value = "/addUpdate", method = RequestMethod.POST)
 	public String writeUpdate(HttpServletRequest request, Category category) throws Exception {
-		categoryService.set(category);
+		categoryService.create(category);
 
 		return "redirect:/admin/category/list";
 	}
@@ -92,8 +89,10 @@ public class CategoryAdminController {
 	@RequestMapping(value = "/modify/{categoryId}", method = RequestMethod.GET)
 	public String modify(@PathVariable String categoryId, Model model) throws Exception {
 		Category category = categoryService.get(categoryId);
-		
+		List<Category> categories = categoryService.getList();
+
 		model.addAttribute("category", category);
+		model.addAttribute("parentCategories", categories);
 		model.addAttribute("formAction", "modifyUpdate");
 		model.addAttribute("formSubmit", "수정");
 		
@@ -121,12 +120,8 @@ public class CategoryAdminController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/remove/{cateogryId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/remove/{categoryId}", method = RequestMethod.GET)
 	public String delete(@PathVariable String categoryId) throws Exception {
-		int removedCount = postService.removeCategoryId(categoryId);
-		
-		logger.info(categoryId + " 카테고리 ID를 가진 포스트의 수 : " + removedCount + "개");
-		
 		categoryService.remove(categoryId);
 		
 		return "redirect:/admin/category/list";
