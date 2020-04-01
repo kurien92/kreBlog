@@ -11,7 +11,7 @@
 		회원!
 	</sec:authorize>
 	<sec:authorize access="isAuthenticated()">
-		<form action="${contextPath}/auth/logout" method="post">
+		<form action="${contextPath}/auth/signout" method="post">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 			
 			<button type="submit">로그아웃</button> 
@@ -19,7 +19,7 @@
 	</sec:authorize>
 	
 	<sec:authorize access="isAnonymous()">
-		<a href="${contextPath}/auth/login">로그인</a>
+		<a href="${contextPath}/auth/signin">로그인</a>
 	</sec:authorize>
 </h1>
 <br>

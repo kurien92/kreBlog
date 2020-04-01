@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,13 +29,16 @@ import net.kurien.blog.common.template.metadata.TemplateMeta;
 public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	@Inject
-	private ReloadableFilterInvocationSecurityMetadataSource reloadableFilterInvocationSecurityMetadataSource;
+//	@Inject
+//	private ReloadableFilterInvocationSecurityMetadataSource reloadableFilterInvocationSecurityMetadataSource;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 * @throws Exception 
 	 */
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) throws Exception {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -62,7 +67,9 @@ public class HomeController {
 		
 		model.addAttribute("templateConfig", templateConfig);
 		
-		reloadableFilterInvocationSecurityMetadataSource.reload();
+		model.addAttribute("bcrypt", passwordEncoder.encode("password"));
+		
+//		reloadableFilterInvocationSecurityMetadataSource.reload();
 		
 		return "home";
 	}
