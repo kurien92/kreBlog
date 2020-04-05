@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div id="kre_wrap">
 	<aside id="kre_aside" class="scrollbar" data-mcs-theme="minimal-dark">
 		<header id="kre_header" class="aside_item">
@@ -17,6 +18,32 @@
 			<script>
 			(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
+		</div>
+		
+		<div class="aside_item">
+			<h2 id="kre_menu" class="kre_hidden">Buttons</h2>
+			
+			<ul>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<li><a href="${contextPath}/admin">Admin</a></li>
+				</sec:authorize>
+	
+				<sec:authorize access="isAnonymous()">
+					<li><a href="${contextPath}/account/signup">Sign up</a></li>
+					<li><a href="${contextPath}/auth/signin">Sign in</a></li>
+				</sec:authorize>
+				
+				<sec:authorize access="isAuthenticated()">
+					<li><a href="${contextPath}/account/profile">Edit profile</a></li>
+					<li>
+						<form action="${contextPath}/auth/signout" method="post">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+							
+							<button type="submit" class="kre_btn link_btn" id="menu_signout">Sign out</button>
+						</form>
+					</li>
+				</sec:authorize>
+			</ul>
 		</div>
 		
 		<div id="kre_category" class="aside_item">
@@ -36,7 +63,7 @@
 		</div>
 		
 		<footer id="kre_footer" class="aside_item">
-			Copyright&copy; 2018 Kurien All rights reserved.
+			Copyright&copy; 2020 Kurien All rights reserved.
 		</footer>
 	</aside>
 	

@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+
+#auth_signin #auth_signin_form {
+	width: 320px;
+	padding: 40px;
+	border: 1px solid #033e6a;
+}
+
+#auth_signin #auth_signin_form:after {
+	content: " ";
+	display: block;
+	clear: both;
+}
+
+#auth_signin .row_column {
+	display: inline-block;
+	width: 40px;
+}
+
+#auth_signin .signin_btn {
+    width: 109px;
+    height: 66px;
+}

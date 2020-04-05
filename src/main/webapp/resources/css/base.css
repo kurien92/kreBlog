@@ -59,11 +59,53 @@ ul.kre_btn_list_right > li:first-child {
     background-color: #fff;
     color: #033e6a;
 	transition: background-color .3s, color .3s;
+	cursor: pointer;
 }
 
 .kre_btn:active,
 .kre_btn:focus,
-.kre_btn:hover {
+.kre_btn:hover,
+.kre_btn.reverse_btn {
     background-color: #033e6a;
     color: #fff;
+}
+
+.kre_btn.reverse_btn:active,
+.kre_btn.reverse_btn:focus,
+.kre_btn.reverse_btn:hover {
+    background-color: #fff;
+    color: #033e6a;
+}
+
+.kre_btn.link_btn {
+	display: inline;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+	color: #033e6a;
+}
+
+.kre_inp {
+	width: 160px;
+	height: 30px;
+	padding: 6px;
+	border: 1px solid #033e6a;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+
+.kre_row {
+	margin-top: 6px;
+}
+
+.kre_row:first-child {
+	margin-top: 0;
+}
+
+.kre_box_left {
+	float: left;
+}
+
+.kre_box_right {
+	float: right;
 }

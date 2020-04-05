@@ -41,6 +41,10 @@ html, body, #kre_wrap {
 	text-align: center;
 }
 
+#menu_signout {
+	color: #fff;
+}
+
 #kre_category {
 	padding: 10px 30px;
 }

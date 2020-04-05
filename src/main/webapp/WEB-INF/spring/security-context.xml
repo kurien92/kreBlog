@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+		
+	<http pattern="/css/**" security="none" />
+	<http pattern="/js/**" security="none" />
+	<http pattern="/img/**" security="none" />
+	<http pattern="/font/**" security="none" />
+	<http pattern="/favicon.ico" security="none" />
+
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/favicon.ico" access="permitAll" />
+		
+		<intercept-url pattern="/auth/signin" access="permitAll" />
+		<intercept-url pattern="/" access="permitAll" />
+		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/**" access="hasAnyRole('USER, ADMIN')" />
+		
+		<form-login 
+			username-parameter="acntId"
+			password-parameter="acntPassword"
+			login-page="/auth/signin"
+			login-processing-url="/auth/signinCheck"
+			default-target-url="/"
+			authentication-failure-url="/auth/signin?fail=true" />
+<!-- 			authentication-success-handler-ref="customAuthenticationSuccessHandler" -->
+<!-- 			authentication-failure-handler-ref="customAuthenticationFailureHandler" -->
+
+		<anonymous granted-authority="ROLE_ANONYMOUS" />
+		
+        <logout
+			logout-url="/auth/signout"
+        	logout-success-url="/"
+			delete-cookies="JSESSIONID"
+			invalidate-session="true"
+		/>
+		
+<!-- 		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" /> -->
+
+		<access-denied-handler error-page="/error/accessError"/>
+	</http>
+
+
+	<authentication-manager>
+		<authentication-provider>
+<!-- 			<user-service> -->
+<!-- 				<user name="user" password="{noop}password" authorities="ROLE_USER" /> -->
+<!-- 				<user name="admin" password="{noop}password" authorities="ROLE_ADMIN" /> -->
+<!-- 			</user-service> -->
+
+	        <jdbc-user-service 
+		        data-source-ref="dataSource" 
+		        role-prefix="ROLE_" 
+		        users-by-username-query="select username, password, enabled from users where username = ?"
+	        	authorities-by-username-query="select username, authority from authorities where username = ?" 
+	        	group-authorities-by-username-query="select g.id, g.group_name, ga.authority from groups g, group_members gm, group_authorities ga where gm.username = ? and g.id = ga.group_id and g.id = gm.group_id" 
+	        />
+        	<password-encoder ref="passwordEncoder" />
+		</authentication-provider>
+	</authentication-manager>
+	
+	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<beans:constructor-arg value="12" />
+	</beans:bean>
+</beans:beans>

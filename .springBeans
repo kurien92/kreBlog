@@ -12,6 +12,7 @@
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/mybatis-context.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/tiles-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/root-context.xml</config>
 	</autoconfigs>
 	<configSets>
