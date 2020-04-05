@@ -63,7 +63,7 @@
 		</div>
 		
 		<footer id="kre_footer" class="aside_item">
-			Copyright&copy; 2018 Kurien All rights reserved.
+			Copyright&copy; 2020 Kurien All rights reserved.
 		</footer>
 	</aside>
 	

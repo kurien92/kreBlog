@@ -14,7 +14,16 @@
 	<link rel="stylesheet" href="${contextPath}/css/layout.css">
 	<link rel="stylesheet" href="${contextPath}/css/plugin/jquery.mCustomScrollbar.min.css" />
 	${templateConfig.css}
+		
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-E48BJNKSFS"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
 	
+	  gtag('config', 'G-E48BJNKSFS');
+	</script>
 	<!--[if lt IE 9]>
 	<script src="${contextPath}/js/plugin/html5shiv.min.js"></script>
 	<![endif]-->

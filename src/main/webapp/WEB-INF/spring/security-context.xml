@@ -11,8 +11,11 @@
 	<http pattern="/js/**" security="none" />
 	<http pattern="/img/**" security="none" />
 	<http pattern="/font/**" security="none" />
+	<http pattern="/favicon.ico" security="none" />
 
 	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/favicon.ico" access="permitAll" />
+		
 		<intercept-url pattern="/auth/signin" access="permitAll" />
 		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
@@ -38,8 +41,8 @@
 		/>
 		
 <!-- 		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" /> -->
-		
-<!-- 		<access-denied-handler error-page="/error/access_denied"/> -->
+
+		<access-denied-handler error-page="/error/accessError"/>
 	</http>
 
 
