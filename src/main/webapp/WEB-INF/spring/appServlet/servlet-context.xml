@@ -17,7 +17,8 @@
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/img/**" location="/resources/img/" />
 	<resources mapping="/font/**" location="/resources/font/" />
-
+	<resources mapping="/.well-known/**" location="/resources/checkFiles/" />
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -36,8 +37,10 @@
 	        
 	        <exclude-mapping path="/css/**"/>
 	        <exclude-mapping path="/js/**"/>
-	        <exclude-mapping path="img"/>
+	        <exclude-mapping path="/img/**"/>
 	        <exclude-mapping path="/font/**"/>
+	        <exclude-mapping path="/.well-known/**"/>
+	        
 	        <beans:ref bean="TemplateInterceptor"/>
 	    </interceptor>
 	</interceptors>

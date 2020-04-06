@@ -11,15 +11,11 @@
 	<http pattern="/js/**" security="none" />
 	<http pattern="/img/**" security="none" />
 	<http pattern="/font/**" security="none" />
-	<http pattern="/favicon.ico" security="none" />
+	<http pattern="/.well-known/**" security="none" />
 
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/favicon.ico" access="permitAll" />
-		
-		<intercept-url pattern="/auth/signin" access="permitAll" />
-		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
-		<intercept-url pattern="/**" access="hasAnyRole('USER, ADMIN')" />
+		<intercept-url pattern="/**" access="permitAll" />
 		
 		<form-login 
 			username-parameter="acntId"
