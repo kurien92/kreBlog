@@ -10,6 +10,25 @@ public class SearchCriteria extends Criteria {
 	private String searchType;
 	private String keyword;
 	
+	public SearchCriteria() {
+		super();
+	}
+	
+	public SearchCriteria(int page) {
+		super(page);
+	}
+	
+	public SearchCriteria(int page, int rowCount) {
+		super(page, rowCount);
+	}
+	
+	public SearchCriteria(int page, int rowCount, String searchType, String keyword) {
+		super(page, rowCount);
+		setSearchType(searchType);
+		setKeyword(keyword);
+	}
+	
+	
 	public String getSearchType() {
 		return searchType;
 	}

@@ -32,9 +32,12 @@
 	${template.headJs}
 </head>
 <body>
-	<tiles:insertAttribute name="header" />
-	<tiles:insertAttribute name="body" />
-	<tiles:insertAttribute name="footer" />
+	<div id="kre_wrap">
+		<tiles:insertAttribute name="header" />
+		<tiles:insertAttribute name="body" />
+		<tiles:insertAttribute name="footer" />
+	</div>
+	
 	<script>
         $(".scrollbar").mCustomScrollbar({
         	scrollInertia: 300
