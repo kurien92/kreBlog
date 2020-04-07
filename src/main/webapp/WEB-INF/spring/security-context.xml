@@ -14,7 +14,9 @@
 	<http pattern="/.well-known/**" security="none" />
 
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+		<csrf disabled="true" />
+		
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/**" access="permitAll" />
 		
 		<form-login 

@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="${contextPath}/css/layout.css">
 	<link rel="stylesheet" href="${contextPath}/css/plugin/jquery.mCustomScrollbar.min.css" />
 	${template.css}
-		
+
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-E48BJNKSFS"></script>
 	<script>
@@ -24,6 +24,8 @@
 	
 	  gtag('config', 'G-E48BJNKSFS');
 	</script>
+	<script data-ad-client="ca-pub-4805042826277102" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	
 	<!--[if lt IE 9]>
 	<script src="${contextPath}/js/plugin/html5shiv.min.js"></script>
 	<![endif]-->

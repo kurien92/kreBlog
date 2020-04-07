@@ -8,14 +8,16 @@
 	</header>
 	
 	<div id="ad1" class="adsense aside_item">
-		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 		<!-- kurien.net aside -->
-		<ins class="adsbygoogle categoryAdsense"
+		<ins class="adsbygoogle"
 		     style="display:block"
 		     data-ad-client="ca-pub-4805042826277102"
-		     data-ad-slot="7162985985"></ins>
+		     data-ad-slot="7162985985"
+		     data-ad-format="auto"
+		     data-full-width-responsive="true"></ins>
 		<script>
-		(adsbygoogle = window.adsbygoogle || []).push({});
+		     (adsbygoogle = window.adsbygoogle || []).push({});
 		</script>
 	</div>
 	
