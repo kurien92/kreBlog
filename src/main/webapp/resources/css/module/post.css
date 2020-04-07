@@ -1,18 +1,20 @@
 @charset "UTF-8";
 
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query since this is the default in Bootstrap */
+
 #post_list .kre_grid_item {
-	position: absolute;
-	top: -9999px;
-	left: -9999px;
-	width: 300px;
 	min-height: 200px;
-	padding: 20px;
+	padding: 10px;
 	border: 1px solid #333;
 	box-sizing: border-box;
 	background-color: #fff;
-	margin-bottom: 20px;
+	margin-top: 15px;
 	transition: background-color 1s, color 1s;
-	cursor: pointer;
+}
+
+#post_list .kre_grid_item:first-child {
+	margin-top: 0;
 }
 
 
@@ -124,4 +126,34 @@
 
 #post_view .kre_article .kre_article_footer {
 	padding: 20px 0;
+}
+
+
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+	
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	#post_list .kre_grid_item {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+		width: 300px;
+		min-height: 200px;
+		margin-top: 0;
+		margin-bottom: 20px;
+		padding: 20px;
+		cursor: pointer;
+	}	
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
 }

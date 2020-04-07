@@ -1,22 +1,22 @@
 @charset "UTF-8";
 
-html, body, #kre_wrap {
-	overflow: hidden;
-	height: 100%;
-}
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query since this is the default in Bootstrap */
 
 #kre_aside {
 	position: absolute;
-	width: 396px;
-	height: 100%;
+	width:100%;
+	height: 50px;
+	padding: 10px;
 	box-sizing: border-box;
 	background-color: #033e6a;
 	color: #fff;
 	z-index: 9000;
 }
 
-#kre_aside .mCSB_container {
-	padding: 30px;
+#kre_aside h2 {
+	margin: 10px 0;
+	font-size: 18px;
 }
 
 #kre_aside .aside_item {
@@ -26,37 +26,60 @@ html, body, #kre_wrap {
 #kre_aside .aside_item:first-child {
 	margin-top: 0;
 }
-
-
+	
 #kre_aside a {
 	color: #fff;
 }
 
-#kre_header {
+#logo {
+	float: left;
+	margin: 0;
+	padding: 4px 0;
+	font-size: 20px;
 }
 
-#logo {
-	padding: 30px 0;
-	margin: 0;
-	text-align: center;
+#menu_icon {
+	float: right;
+}
+
+#mobile_menu_btn {
+	background-color: transparent;
+	border: none;
+    color: #fff;
+}
+
+#mobile_menu_btn > .material-icons {
+	vertical-align: middle;
+	font-size: 28px;
 }
 
 #menu_signout {
 	color: #fff;
 }
 
-#kre_category {
-}
-
 #ad1 {
-	width: 336px;
-	height: 280px;
-	margin: 0 auto;
+	display: none;
 }
 
 .categoryAdsense {
 	width: 336px;
 	height: 280px;
+}
+
+#kre_mobile_menu {
+	display: none;
+    background-color: #033e6a;
+	position: absolute;
+    left: 0px;
+    top: 50px;
+	width: 100%;
+    border-top: 1px solid #fff;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+#kre_category {
+	
 }
 
 #kre_category_list {
@@ -67,27 +90,120 @@ html, body, #kre_wrap {
 	padding-left: 20px;
 }
 
+#kre_menu {
+}
+
 #kre_footer {
-	padding: 10px;
+	display: none;
 }
 
 #kre_main {
-	float: left;
-	width: 100%;
-	height: 100%;
-	padding-left: 396px;
-    box-sizing: border-box;
-    
+	box-sizing: border-box;
+	padding-top: 50px;
 }
 
 #kre_content {
-	position: relative;
-	height: 100%;
-/* 	max-width: 1000px; */
 	box-sizing: border-box;
-	padding: 30px;
+	padding: 10px;
+}
+
+.section_subject {
+	margin: 10px 0;
 }
 
 .adsense {
 	background-color: #999!important;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+	
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	html, body, #kre_wrap {
+		overflow: hidden;
+		height: 100%;
+	}
+
+	#kre_aside {
+		width: 396px;
+		height: 100%;
+		padding: 0;
+	}
+
+	#kre_aside .mCSB_container {
+		padding: 30px;
+	}
+
+	#kre_aside h2 {
+		margin: 20px 0;
+		font-size: 1.5em;
+	}
+
+	#logo {
+		float: none;
+		padding: 30px 0;
+		text-align: center;
+	}
+
+	#menu_icon {
+		display: none;
+	}
+
+	#ad1 {
+		display: block;
+		width: 336px;
+		height: 280px;
+		margin: 0 auto;
+	}
+	
+	#kre_mobile_menu {
+		display: block;
+		position: static;
+		left: auto;
+		top: auto;
+		border-top: none;
+		padding: 0;
+	}
+
+	#kre_category {
+	}
+	
+	#kre_menu {
+	}
+
+	#kre_main {
+		float: left;
+		width: 100%;
+		height: 100%;
+		padding-top: 0;
+		padding-left: 396px;
+		box-sizing: border-box;
+	}
+	
+	#kre_content {
+		position: relative;
+		height: 100%;
+		box-sizing: border-box;
+		padding: 30px;
+	}
+
+	.section_subject {
+		margin: 20px 0;
+	}
+
+	#kre_footer {
+		display: none;
+		padding: 10px;
+	}
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
 }

@@ -45,7 +45,7 @@ public class HomeController {
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/home.css\">");
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 
-		return "home";
+		return "post/list";
 	}
 
 	@RequestMapping(value="/auth/signin", method={RequestMethod.GET, RequestMethod.POST})

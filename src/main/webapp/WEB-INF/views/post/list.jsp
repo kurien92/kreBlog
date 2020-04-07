@@ -32,32 +32,34 @@
 		</c:choose>
 		
 		<div id="ad2" class="adsense kre_grid_item" tabindex="0">
-			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-			<!-- kurien.net postlist1 -->
-			<ins class="adsbygoogle postListAdsense"
-			     style="display:block"
+			<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- kurien.net post1 -->
+			<ins class="adsbygoogle"
+			     style="display:inline-block;width:300px;height:200px"
 			     data-ad-client="ca-pub-4805042826277102"
-			     data-ad-slot="2041671186"></ins>
+			     data-ad-slot="7767796617"></ins>
 			<script>
-			(adsbygoogle = window.adsbygoogle || []).push({});
+			     (adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
 		</div>
 		
 		<div id="ad3" class="adsense kre_grid_item" tabindex="0">
-			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-			<!-- kurien.net postList2 -->
-			<ins class="adsbygoogle postListAdsense"
-			     style="display:block"
+			<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- kurien.net post2 -->
+			<ins class="adsbygoogle"
+			     style="display:inline-block;width:300px;height:200px"
 			     data-ad-client="ca-pub-4805042826277102"
-			     data-ad-slot="6640241805"></ins>
+			     data-ad-slot="8549275682"></ins>
 			<script>
-			(adsbygoogle = window.adsbygoogle || []).push({});
+			     (adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
 		</div>
 	</div>
 	
 	<script src="${contextPath}/js/plugin/masonry.pkgd.min.js"></script>
 	<script>
+	var kreGrid = $('.kre_grid');
+	
 	$(document).ready(function() {
 		var kreGridItemLength = $(".kre_grid_item").length;
 		var randomizeNumber = Math.floor(Math.random() * kreGridItemLength);
@@ -67,14 +69,34 @@
 		randomizeNumber = Math.floor(Math.random() * kreGridItemLength)+1;
 	
 		$(".kre_grid_item").eq(randomizeNumber).after($("#ad3"));
-				
-		var kreGrid = $('.kre_grid');
-		
-		kreGrid.masonry({
-		  itemSelector: '.kre_grid_item',
-		  columnWidth: 300,
-		  gutter: 20
-		});
+
+		if(isDesktopDevices()) {
+			kreGrid.masonry({
+				itemSelector: '.kre_grid_item',
+				columnWidth: 300,
+				gutter: 20
+			});
+		}
+	});
+	
+	$(window).on("resize orientationchange", function() {
+		if(isDesktopDevices()) {
+			if(typeof kreGrid.data('masonry') !== "undefined") {
+				return;
+			}
+			
+			kreGrid.masonry({
+				itemSelector: '.kre_grid_item',
+				columnWidth: 300,
+				gutter: 20
+			});
+		} else {
+			if(typeof kreGrid.data('masonry') === "undefined") {
+				return;
+			}
+			
+			kreGrid.masonry('destroy');
+		}
 	});
 	</script>
 	
