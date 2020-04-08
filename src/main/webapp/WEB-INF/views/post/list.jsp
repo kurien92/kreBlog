@@ -35,11 +35,11 @@
 			<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 			<!-- kurien.net post1 -->
 			<ins class="adsbygoogle"
-			     style="display:inline-block;width:300px;height:200px"
-			     data-ad-client="ca-pub-4805042826277102"
-			     data-ad-slot="7767796617"></ins>
+				style="display:inline-block;width:300px;height:200px"
+				data-ad-client="ca-pub-4805042826277102"
+				data-ad-slot="7767796617"></ins>
 			<script>
-			     (adsbygoogle = window.adsbygoogle || []).push({});
+				(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
 		</div>
 		
@@ -47,11 +47,11 @@
 			<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 			<!-- kurien.net post2 -->
 			<ins class="adsbygoogle"
-			     style="display:inline-block;width:300px;height:200px"
-			     data-ad-client="ca-pub-4805042826277102"
-			     data-ad-slot="8549275682"></ins>
+				style="display:inline-block;width:300px;height:200px"
+				data-ad-client="ca-pub-4805042826277102"
+				data-ad-slot="8549275682"></ins>
 			<script>
-			     (adsbygoogle = window.adsbygoogle || []).push({});
+				(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
 		</div>
 	</div>

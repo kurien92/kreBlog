@@ -62,19 +62,9 @@ ul.kre_btn_list_right > li:first-child {
 	cursor: pointer;
 }
 
-.kre_btn:active,
-.kre_btn:focus,
-.kre_btn:hover,
 .kre_btn.reverse_btn {
     background-color: #033e6a;
     color: #fff;
-}
-
-.kre_btn.reverse_btn:active,
-.kre_btn.reverse_btn:focus,
-.kre_btn.reverse_btn:hover {
-    background-color: #fff;
-    color: #033e6a;
 }
 
 .kre_btn.link_btn {
@@ -109,3 +99,36 @@ ul.kre_btn_list_right > li:first-child {
 .kre_box_right {
 	float: right;
 }
+
+
+
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	.kre_btn:active,
+	.kre_btn:focus,
+	.kre_btn:hover {
+		background-color: #033e6a;
+		color: #fff;
+	}
+
+	.kre_btn.reverse_btn:active,
+	.kre_btn.reverse_btn:focus,
+	.kre_btn.reverse_btn:hover {
+		background-color: #fff;
+		color: #033e6a;
+	}
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}
+	

@@ -6,6 +6,17 @@
 <!DOCTYPE html>
 <html lang="${template.lang}">
 <head>
+	<link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="/img/favicon/site.webmanifest">
+	<link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="/img/favicon/favicon.ico">
+	<meta name="apple-mobile-web-app-title" content="Kurien's Blog">
+	<meta name="application-name" content="Kurien's Blog">
+	<meta name="msapplication-TileColor" content="#2b5797">
+	<meta name="msapplication-config" content="/img/favicon/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
 	<meta charset="${template.charset}">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -112,17 +123,22 @@
 	</div>
 	
 	<script>
-    	$(window).on("load resize orientationchange", function() {
-    		//반응형에 따른 스크롤바 적용
-    		if(isDesktopDevices()) {
-    			$(".scrollbar").mCustomScrollbar({
-    		    	scrollInertia: 300
-    		    });
-    		} else {
-    	        $(".scrollbar").mCustomScrollbar("destroy");
-    		}
+   		//반응형에 따른 스크롤바 적용
+		function responsiveScrollbar() {
+			if(isDesktopDevices()) {
+				$(".scrollbar").mCustomScrollbar({
+			    	scrollInertia: 300
+			    });
+			} else {
+		        $(".scrollbar").mCustomScrollbar("destroy");
+			}
+		}
+		
+		responsiveScrollbar();
+		
+    	$(window).on("resize orientationchange", function() {
+    		responsiveScrollbar();
     		
-
 			if($("#mobile_menu_btn").hasClass("active") === false) {
 	    		if(isDesktopDevices()) {
     				$("#kre_mobile_menu").show(0);
