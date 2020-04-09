@@ -19,5 +19,5 @@ public interface CategoryDao {
 
 	void delete(String categoryId);
 
-	List<Category> selectListByParentNo(Integer categoryNo);
+	List<Category> selectListByParentNo(Integer categoryParentNo);
 }

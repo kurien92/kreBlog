@@ -27,7 +27,14 @@
         SELECT *
         FROM <include refid="table" />
         <where>
-        	categoryParentNo = #{categoryNo}
+			<choose>
+				<when test="categoryParentNo != null">
+	        		categoryParentNo = #{categoryParentNo}
+				</when>
+				<otherwise>
+					categoryParentNo is null
+				</otherwise>
+			</choose>
         </where>
        	ORDER BY
        		categoryDepth ASC,

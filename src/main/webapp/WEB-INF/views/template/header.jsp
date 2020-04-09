@@ -29,17 +29,9 @@
 		<div id="kre_category" class="aside_item">
 			<h2 id="kre_category_header">Category</h2>
 			
-			<ul id="kre_category_list" class="category_depth_1">
-				<li><a href="${contextPath}/category/web">Web</a>
-					<ul class="category_depth_2">
-						<li><a href="${contextPath}/category/php">PHP</a></li>
-						<li><a href="${contextPath}/category/jsp">JSP</a></li>
-						<li><a href="${contextPath}/category/html">HTML</a></li>
-						<li><a href="${contextPath}/category/css">CSS</a></li>
-						<li><a href="${contextPath}/category/javascript">JavaScript</a></li>
-					</ul>
-				</li>
-			</ul>
+			<div id="kre_category_list">
+				${template.categoryHTML}
+			</div>
 		</div>
 		
 		<div id="kre_menu" class="aside_item">

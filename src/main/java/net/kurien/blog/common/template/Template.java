@@ -15,6 +15,7 @@ public class Template {
 	private TemplateCss css;
 	private TemplateJs headJs;
 	private TemplateJs footJs;
+	private String categoryHTML;
 	
 	public String getLang() {
 		return lang;
@@ -72,9 +73,17 @@ public class Template {
 		this.footJs = footJs;
 	}
 
+	public String getCategoryHTML() {
+		return categoryHTML;
+	}
+
+	public void setCategoryHTML(String categoryHTML) {
+		this.categoryHTML = categoryHTML;
+	}
+
 	@Override
 	public String toString() {
-		return "TemplateConfig [lang=" + lang + ", charset=" + charset + ", meta=" + meta + ", title=" + title
-				+ ", css=" + css + ", headJs=" + headJs + ", footJs=" + footJs + "]";
+		return "Template [lang=" + lang + ", charset=" + charset + ", meta=" + meta + ", title=" + title + ", css="
+				+ css + ", headJs=" + headJs + ", footJs=" + footJs + ", categoryHTML=" + categoryHTML + "]";
 	}
 }

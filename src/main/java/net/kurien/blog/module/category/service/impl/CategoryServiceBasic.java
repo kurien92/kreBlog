@@ -16,27 +16,27 @@ import net.kurien.blog.module.post.service.PostService;
 @Service
 public class CategoryServiceBasic implements CategoryService {
 	@Inject
-	private CategoryDao categoryDaoBasic;
+	private CategoryDao categoryDao;
 
 	@Inject
 	private PostService postService;
 
 	public List<Category> getList() {
-		return categoryDaoBasic.selectList();
+		return categoryDao.selectList();
 	}
 	
 	public Category get(int categoryNo) {
-		return categoryDaoBasic.select(categoryNo);
+		return categoryDao.select(categoryNo);
 	}
 	
 	public Category get(String categoryId) {
-		return categoryDaoBasic.select(categoryId);
+		return categoryDao.select(categoryId);
 	}
 	
 	public List<Category> getCategoryAndChilds(String categoryId) {
 		List<Category> categories = new ArrayList<Category>();
 		
-		Category parentCategory = categoryDaoBasic.select(categoryId);
+		Category parentCategory = categoryDao.select(categoryId);
 		
 		if(parentCategory == null) {
 			return null;
@@ -44,7 +44,7 @@ public class CategoryServiceBasic implements CategoryService {
 		
 		categories.add(parentCategory);
 		
-		List<Category> childCategories = categoryDaoBasic.selectListByParentNo(parentCategory.getCategoryNo());
+		List<Category> childCategories = categoryDao.selectListByParentNo(parentCategory.getCategoryNo());
 		
 		categories.addAll(childCategories);
 		
@@ -55,20 +55,20 @@ public class CategoryServiceBasic implements CategoryService {
 		int categoryDepth = createCategoryDepth(category.getCategoryParentNo());
 		category.setCategoryDepth(categoryDepth);
 		
-		categoryDaoBasic.insert(category);
+		categoryDao.insert(category);
 	}
 	
 	public void modify(Category category) {
 		int categoryDepth = createCategoryDepth(category.getCategoryParentNo());
 		category.setCategoryDepth(categoryDepth);
 		
-		categoryDaoBasic.update(category);
+		categoryDao.update(category);
 	}
 
 	@Override
 	public void remove(int categoryNo) {
 		// TODO Auto-generated method stub{
-		categoryDaoBasic.delete(categoryNo);
+		categoryDao.delete(categoryNo);
 	}
 
 //	@Transactional 추후에 적용
@@ -82,14 +82,49 @@ public class CategoryServiceBasic implements CategoryService {
 			e.printStackTrace();
 		}
 		
-		categoryDaoBasic.delete(categoryId);
+		categoryDao.delete(categoryId);
+	}
+
+	/**
+	 * 카테고리 Depth만큼의 HTML을 만든다.
+	 */
+	public String getCategoryHTML(String contextPath) {
+		String html = createCategoryHTML(null, contextPath, 1);
+		
+		return html;
+	}
+	
+	private String createCategoryHTML(List<Category> categoryList, String contextPath, int depth) {
+		String html = "";
+		
+		if(depth == 1) {
+			categoryList = categoryDao.selectListByParentNo(null);
+		}
+		
+		html += "<ul class=\"category_list category_depth_" + depth++ + "\">";
+		
+		for(Category category : categoryList) {
+			html += "<li>";
+			html += "<a href=\"" + contextPath + "/category/" + category.getCategoryId() + "\"><span class=\"material-icons\">\r\n" + 
+					"arrow_right\r\n" + 
+					"</span>" + category.getCategoryName() + "</a>";
+			
+			List<Category> childCategoryList = categoryDao.selectListByParentNo(category.getCategoryNo());
+			html += this.createCategoryHTML(childCategoryList, contextPath, depth);
+			
+			html += "</li>";
+		}
+		
+		html += "</ul>";
+		
+		return html;
 	}
 	
 	private int createCategoryDepth(Integer parentCategryNo) {
 		Integer categoryDepth = 0;
 		
 		if(parentCategryNo != null) {
-			Category parentCategory = categoryDaoBasic.select(parentCategryNo);
+			Category parentCategory = categoryDao.select(parentCategryNo);
 			categoryDepth = parentCategory.getCategoryDepth() + 1;
 		}
 		

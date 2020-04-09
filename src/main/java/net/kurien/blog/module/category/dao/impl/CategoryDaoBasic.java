@@ -1,6 +1,8 @@
 package net.kurien.blog.module.category.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -24,9 +26,14 @@ public class CategoryDaoBasic implements CategoryDao {
 	}
 
 	@Override
-	public List<Category> selectListByParentNo(Integer categoryNo) {
+	public List<Category> selectListByParentNo(Integer categoryParentNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(mapper + ".selectListByParentNo", categoryNo);
+		// Integer를 파라미터로 사용하는 경우에는 Mapper에서 변수명을 value로 사용해야한다.
+		// value로 사용하는 경우 가독성이 떨어질 것으로 생각되어 Map에 추가하여 파라미터 이름을 지정.
+		Map<String, Object> param = new HashMap<>();
+		param.put("categoryParentNo", categoryParentNo);
+		
+		return sqlSession.selectList(mapper + ".selectListByParentNo", param);
 	}
 	
 	@Override
