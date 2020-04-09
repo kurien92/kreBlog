@@ -26,20 +26,6 @@
 	cursor: not-allowed;
 }
 
-
-#post_list .kre_grid_item:hover {
-	background-color: rgba(51, 51, 51, 0.8);
-	color: #fff;
-}
-
-#post_list .kre_grid_item:hover .post_subject a {
-	color: #fff;
-}
-
-#post_list .kre_grid_item:hover .post_write_time {
-	color: #fff;
-}
-
 #post_list .kre_grid_item > ul {
 	overflow: hidden;
 	list-style: none;
@@ -160,6 +146,19 @@
 	#post_list .kre_grid_item {
 		float: left;
 		margin: 0;
+	}
+
+	#post_list .kre_grid_item:hover {
+		background-color: rgba(51, 51, 51, 0.8);
+		color: #fff;
+	}
+	
+	#post_list .kre_grid_item:hover .post_subject a {
+		color: #fff;
+	}
+	
+	#post_list .kre_grid_item:hover .post_write_time {
+		color: #fff;
 	}
 
 	#post_list .kre_grid_item:nth-child(2n) {

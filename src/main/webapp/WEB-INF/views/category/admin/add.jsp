@@ -33,7 +33,7 @@
 			
 			
 			<div>
-				<input type="text" name="categoryOrder" placeholder="제목" value="${category.categoryOrder}">
+				<input type="text" name="categoryOrder" placeholder="순서" value="${category.categoryOrder}">
 			</div>
 		</div>
             

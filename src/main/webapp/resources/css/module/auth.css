@@ -21,6 +21,7 @@
 	display: inline-block;
 	width: 100%;
 	margin-top: 6px;
+	font-weight: bold;
 }
 
 #auth_signin .kre_row:first-child .row_column:first-child {
@@ -39,16 +40,20 @@
 }
 
 #auth_btn {
+	font-weight: bold;
+}
+
+#auth_btn ul {
 	width: 100%;
 	margin-top: 20px;
 }
 
-#auth_btn > li {
+#auth_btn li {
 	float: none;
 	margin: 10px 0 0 0;
 }
 
-#auth_btn > li:first-child {
+#auth_btn li:first-child {
 	margin-top: 0;
 }
 
@@ -80,33 +85,47 @@
 		margin-top: 0;
 	}
 
+	#auth_signin .kre_row:after {
+		content: " ";
+		display: block;
+		clear: both;
+	}
+
 	#auth_signin .row_column {
+		float: left;
 		width: 40px;
 		margin-top: 0;
+		padding: 6px 0;
+		vertical-align: middle;
 	}
 
 	#auth_signin .kre_inp {
+		float: right;
 		width: 160px;
 		margin-top: 0;
 	}
 
 	#auth_signin .signin_btn {
-		width: 109px;
+		width: 110px;
 		height: 66px;
 		margin-top: 0;
 	}
 
 	#auth_btn {
+		font-weight: normal;
+	}
+
+	#auth_btn ul {
 		width: auto;
 		margin-top: 10px;
 	}
 
-	#auth_btn > li {
+	#auth_btn li {
 		float: left;
 		margin: 0 0 0 8px;
 	}
 
-	#auth_btn > li:first-child {
+	#auth_btn li:first-child {
 		margin-left: 0;
 	}
 

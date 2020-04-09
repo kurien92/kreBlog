@@ -13,11 +13,11 @@
 			<div id="auth_signin_form">
 				<div class="kre_box_left">
 					<div class="kre_row">
-						<strong class="row_column">ID</strong><input type="text" id="acntId" name="acntId" class="kre_inp" placeholder="Enter a ID" value="${acntId}">
+						<label for="acntId" class="row_column">ID</label><input type="text" id="acntId" name="acntId" class="kre_inp" placeholder="Enter a ID" value="${acntId}">
 					</div>
 					
 					<div class="kre_row">
-						<strong class="row_column">PW</strong><input type="password" id="acntPassword" name="acntPassword" class="kre_inp" placeholder="Enter a password" value="">
+						<label for="acntPassword" class="row_column">PW</label><input type="password" id="acntPassword" name="acntPassword" class="kre_inp" placeholder="Enter a password" value="">
 					</div>
 				</div>
 				
@@ -31,9 +31,11 @@
 		
 		${securityexceptionmsg}
 		
-		<ul id="auth_btn" class="kre_btn_list_left">
-			<li><a href="${contextPath}/account/signup" class="kre_btn">Sign up</a></li>
-			<li><a href="${contextPath}/account/find" class="kre_btn">Find my account</a></li>
-		</ul>
+		<div id="auth_btn" class="kre_btn_list">
+			<ul class="kre_btn_list_left">
+				<li><a href="${contextPath}/account/signup" class="kre_btn">Sign up</a></li>
+				<li><a href="${contextPath}/account/find" class="kre_btn">Find my account</a></li>
+			</ul>
+		</div>
 	</div>
 </section>

@@ -2,11 +2,18 @@
 
 @import url('font.css');
 
-body {
-}
-
 a {
 	text-decoration: none;
+}
+
+/* IOS에서는 기본 스타일이 지정되어 레이아웃이 틀어지므로 초기화 해야한다. */
+input, textarea, button {
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+}
+
+select {
+	-webkit-border-radius: 0;
 }
 
 .hidden {
@@ -81,6 +88,7 @@ ul.kre_btn_list_right > li:first-child {
 	padding: 6px;
 	border: 1px solid #033e6a;
 	box-sizing: border-box;
+	vertical-align: middle;
 	font-size: 14px;
 }
 
