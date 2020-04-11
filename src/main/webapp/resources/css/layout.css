@@ -63,10 +63,6 @@
 	font-size: 28px;
 }
 
-#menu_signout {
-	color: #033e6a;
-}
-
 #ad1 {
 	display: none;
 }
@@ -88,7 +84,8 @@
 	box-sizing: border-box;
 }
 
-#kre_mobile_menu a {
+#kre_mobile_menu a,
+#kre_mobile_menu button {
 	color: #033e6a;
 	font-weight: bold;
 }
@@ -122,6 +119,16 @@
 
 #kre_category_list .category_depth_4 > li > a {
 	padding-left: 80px;
+}
+
+#kre_menu > ul a,
+#kre_menu > ul button {
+	margin-top: 10px;
+}
+
+#kre_menu > ul > li:first-child a,
+#kre_menu > ul > li:first-child button {
+	margin-top: 0;
 }
 
 #kre_footer {
@@ -204,7 +211,8 @@
 		border: none;
 	}
 
-	#kre_mobile_menu a {
+	#kre_mobile_menu a,
+	#kre_mobile_menu button {
 		color: #fff;
 		font-weight: normal;
 	}
