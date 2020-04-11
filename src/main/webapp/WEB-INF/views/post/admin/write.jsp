@@ -13,7 +13,7 @@
 		
 		<div class="kre_writing">
 			<div>
-				<select name="categoryId">
+				<select class="kre_inp" name="categoryId">
 					<option value="">Uncategorized</option>
 					
 					<c:forEach var="category" items="${categories}">
@@ -23,11 +23,19 @@
 			</div>
 			
 			<div>
-				<input type="text" name="postSubject" value="${post.postSubject}" placeholder="제목">
+				<input type="text" id="postSubject" class="kre_inp" name="postSubject" value="${post.postSubject}" placeholder="제목">
 			</div>
 			
 			<div>
 				<textarea name="postContent" id="postContent" placeholder="내용" rows="10" cols="80">${post.postContent}</textarea>
+				<script>
+					// $(window).on("load", function() {
+						CKEDITOR.config.contentsCss = "${contextPath}/css/plugin/ckeditor.css";
+						CKEDITOR.config.height = '600px';
+
+						CKEDITOR.replace("postContent");
+					// });
+				</script>
 			</div>
 			
 			<div>
@@ -51,9 +59,3 @@
 		</div>
 	</form>
 </section>
-
-<script>
-	$(window).on("load", function() {
-		CKEDITOR.replace("postContent");
-	});
-</script>
