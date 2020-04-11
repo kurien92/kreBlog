@@ -16,6 +16,11 @@ select {
 	-webkit-border-radius: 0;
 }
 
+/* checkbox는 appearance가 none인 경우 체크박스가 사라진다. */
+input[type="checkbox"] {
+	-webkit-appearance: checkbox;
+}
+
 .hidden {
 	position: absolute;
 	top: -9999px;
@@ -107,9 +112,6 @@ ul.kre_btn_list_right > li:first-child {
 .kre_box_right {
 	float: right;
 }
-
-
-
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {

@@ -38,10 +38,10 @@ public class PostController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(SearchCriteria criteria, Model model) {
-		int totalRowCount = postService.getCount(criteria);
+		int totalRowCount = postService.getCount("N", criteria);
 		PageMaker pageMaker = new PageMaker(criteria, totalRowCount);
 		
-		List<Post> posts = postService.getList(criteria);
+		List<Post> posts = postService.getList("N", criteria);
 		
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("posts", posts);
@@ -63,7 +63,7 @@ public class PostController {
 	 */
 	@RequestMapping(value = "/view/{postNo}", method = RequestMethod.GET)
 	public String view(@PathVariable int postNo, Model model) throws Exception {
-		Post post = postService.get(postNo);
+		Post post = postService.get(postNo, "N");
 		
 		model.addAttribute("post", post);
 		

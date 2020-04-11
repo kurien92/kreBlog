@@ -34,10 +34,10 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Locale locale, Model model) {
 		Criteria criteria = new SearchCriteria(1, 10);
-		int totalRowCount = postService.getCount(criteria);
+		int totalRowCount = postService.getCount("N", criteria);
 		PageMaker pageMaker = new PageMaker(criteria, totalRowCount);
 		
-		List<Post> posts = postService.getList(criteria);
+		List<Post> posts = postService.getList("N", criteria);
 		
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("posts", posts);

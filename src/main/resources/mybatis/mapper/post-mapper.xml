@@ -10,13 +10,34 @@
 		<result property="postContent" column="postContent"/>
 		<result property="postView" column="postView" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
 		<result property="postPublish" column="postPublish" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
-		<result property="postWriteTime" column="postWriteTime"/>
-		<result property="postReservationTime" column="postReservationTime"/>
+		<!-- Timestamp로 DB에 추가하는 경우 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")을 사용한다면 입출력 시 date format이 달라서 검증이 어려워진다. -->
+		<!-- 해당 문제는 typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler"를 설정하여 해결이 가능하다. -->
+		<result property="postWriteTime" column="postWriteTime" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler"/>
+		<result property="postReservationTime" column="postReservationTime" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler"/>
 		<result property="postWriteIp" column="postWriteIp"/>
 	</resultMap>
 	
 	<sql id="table">
 		krePost
+	</sql>
+	
+	<sql id="manageYn">
+		<!-- mybatis에서 if test='manageYn != "Y"' 작성 시 Y를 작은따옴표로 감싸거나 감싸지 않으면 char 형으로 인식하여 숫자로 검사한다.  -->
+		<!-- 반드시 큰따옴표로 감싸야 스트링 검사를 한다. -->
+       	<if test='manageYn != "Y"'>
+       	<!-- 공개된 게시물 중 예약발행이 아니거나, 예약발행이고 예약시간이 지난 글만 출력한다. -->
+       	<![CDATA[
+       		AND postView = 1
+       		
+       		AND (
+       			postPublish = 0
+       			OR (
+       				postPublish = 1
+       				AND postReservationTime <= now()
+       			)
+       		)
+       	]]>
+       	</if>
 	</sql>
 	
 	<sql id="criteria">
@@ -46,6 +67,8 @@
         FROM <include refid="table" />
         <where>
         	<include refid="search" />
+        	
+        	<include refid="manageYn" />
         </where>
        	ORDER BY
        		postNo DESC
@@ -57,9 +80,11 @@
         FROM <include refid="table" />
         <where>
         	categoryId IN
-        	<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        	<foreach collection="categoryIds" item="item" index="index" open="(" close=")" separator=",">
         		#{item}
         	</foreach>
+        	
+        	<include refid="manageYn" />
         </where>
        	ORDER BY
        		postNo DESC
@@ -70,17 +95,20 @@
         FROM <include refid="table" />
         <where>
         	<include refid="search" />
+			<include refid="manageYn" />
         </where>
     </select>
     
-    <select id="selectCountByCategoryIds" parameterType="list" resultType="Integer">
+    <select id="selectCountByCategoryIds" resultType="Integer">
         SELECT count(*)
         FROM <include refid="table" />
         <where>
         	categoryId IN
-        	<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        	<foreach collection="categoryIds" item="item" index="index" open="(" close=")" separator=",">
         		#{item}
         	</foreach>
+        	
+        	<include refid="manageYn" />
         </where>
     </select>
     
@@ -89,6 +117,8 @@
         FROM <include refid="table" />
         <where>
         	postNo = #{postNo}
+        	
+        	<include refid="manageYn" />
         </where>
     </select>
 		
@@ -191,14 +221,6 @@
         TRUNCATE <include refid="table" />
     </delete>
     
-    <select id="isExist" resultType="Integer">
-        SELECT count(*)
-        FROM <include refid="table" />
-        <where>
-        	postNo = #{postNo}
-        </where>
-    </select>
-    
     <update id="removeCategoryId">
         UPDATE <include refid="table" />
         <set>
@@ -208,4 +230,14 @@
         	categoryId = #{categoryId}
         </where>
     </update>
+    
+    <select id="isExist" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+        	postNo = #{postNo}
+        	
+        	<include refid="manageYn" />
+        </where>
+    </select>
 </mapper>

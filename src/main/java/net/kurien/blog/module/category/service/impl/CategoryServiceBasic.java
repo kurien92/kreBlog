@@ -101,6 +101,10 @@ public class CategoryServiceBasic implements CategoryService {
 			categoryList = categoryDao.selectListByParentNo(null);
 		}
 		
+		if(categoryList.size() == 0) {
+			return html;
+		}
+		
 		html += "<ul class=\"category_list category_depth_" + depth++ + "\">";
 		
 		for(Category category : categoryList) {

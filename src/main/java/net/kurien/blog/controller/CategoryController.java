@@ -50,10 +50,10 @@ public class CategoryController {
 			categoryIds.add(categories.get(i).getCategoryId());
 		}
 		
-		int totalRowCount = postService.getCountByCategoryIds(categoryIds);
+		int totalRowCount = postService.getCountByCategoryIds(categoryIds, "N");
 		PageMaker pageMaker = new PageMaker(criteria, totalRowCount);
 		
-		List<Post> posts = postService.getListByCategoryIds(categoryIds);
+		List<Post> posts = postService.getListByCategoryIds(categoryIds, "N");
 		
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("posts", posts);

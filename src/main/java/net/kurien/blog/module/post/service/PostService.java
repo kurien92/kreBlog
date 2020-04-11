@@ -6,20 +6,23 @@ import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.module.post.vo.Post;
 
 public interface PostService {
-	public List<Post> getList();
-	public List<Post> getList(Criteria criteria);
-	public int getCount();
-	public int getCount(Criteria criteria);
-	public Post get(int postNo) throws Exception;
+	public List<Post> getList(String manageYn);
+	public List<Post> getList(String manageYn, Criteria criteria);
+	
+	public Post get(int postNo, String manageYn) throws Exception;
+	
+	public List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn);
+	
+	public int getCount(String manageYn);
+	public int getCount(String manageYn, Criteria criteria);
+	public int getCountByCategoryIds(List<String> categoryIds, String manageYn);
+	
 	public void write(Post post) throws Exception;
 	public void modify(Post post) throws Exception;
 	public void delete(int postNo);
 	public void deleteList(List<Integer> postNos) throws Exception;
 	public void deleteAll();
-	
-	public boolean isExist(int postNo) throws Exception;
 	public int removeCategoryId(String categoryId) throws Exception;
 	
-	public int getCountByCategoryIds(List<String> categoryIds);
-	public List<Post> getListByCategoryIds(List<String> categoryIds);
+	public boolean isExist(int postNo, String manageYn) throws Exception;
 }

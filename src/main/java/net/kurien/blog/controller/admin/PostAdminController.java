@@ -45,9 +45,9 @@ public class PostAdminController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model) {
-		List<Post> posts = postService.getList();
+		List<Post> posts = postService.getList("Y");
 		model.addAttribute("posts", posts);
-		
+
 		template.setTitle("Post List &dash; Kurien's Blog");
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 		
@@ -67,6 +67,9 @@ public class PostAdminController {
 		model.addAttribute("categories", categories);
 		model.addAttribute("formAction", "writeUpdate");
 		model.addAttribute("formSubmit", "작성");
+		
+		template.setTitle("Post Write &dash; Kurien's Blog");
+		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 		
 		return "post/admin/write";
 	}
@@ -99,13 +102,16 @@ public class PostAdminController {
 	 */
 	@RequestMapping(value = "/modify/{postNo}", method = RequestMethod.GET)
 	public String modify(@PathVariable int postNo, Model model) throws Exception {
-		Post post = postService.get(postNo);
+		Post post = postService.get(postNo, "Y");
 		List<Category> categories = categoryService.getList();
 		
 		model.addAttribute("post", post);
 		model.addAttribute("categories", categories);
 		model.addAttribute("formAction", "modifyUpdate");
 		model.addAttribute("formSubmit", "수정");
+		
+		template.setTitle(post.getPostSubject() + " : Post Modify &dash; Kurien's Blog");
+		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 		
 		return "post/admin/write";
 	}
@@ -147,7 +153,8 @@ public class PostAdminController {
 	
 	@RequestMapping(value = "/preview/{postNo}", method = RequestMethod.GET)
 	public String preview(@PathVariable int postNo, Model model) throws Exception {
-		Post post = postService.get(postNo);
+		
+		Post post = postService.get(postNo, "Y");
 		
 		model.addAttribute("post", post);
 		

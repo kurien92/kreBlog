@@ -10,6 +10,7 @@ import static org.junit.Assert.assertThat;
 
 import javax.inject.Inject;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,33 +42,37 @@ public class PostServiceTest {
 	
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
-	
+
 	
 	@Before
 	public void setup() throws Exception {
 		postService.deleteAll();
 		
-		assertThat(postService.getCount(), is(0));
+		assertThat(postService.getCount("N"), is(0));
 		
 		writePost();
 		postService.write(post1);
 		postService.write(post2);
 		postService.write(post3);
 	}
+	
+	@After
+	public void deleteAll() throws Exception {
+		postService.deleteAll();
+	}
    
 	@Test
 	public void testPostService() throws Exception {
 
-		assertThat(postService.getCount(), is(3));
+		assertThat(postService.getCount("N"), is(3));
 		
-		Post post4 = postService.get(post1.getPostNo());
-		Post post5 = postService.get(post2.getPostNo());
-		Post post6 = postService.get(post3.getPostNo());
+		Post post4 = postService.get(post1.getPostNo(), "N");
+		Post post5 = postService.get(post2.getPostNo(), "N");
+		Post post6 = postService.get(post3.getPostNo(), "N");
 		
 		assertThat(post1.toString(), is(post4.toString()));
 		assertThat(post2.toString(), is(post5.toString()));
 		assertThat(post3.toString(), is(post6.toString()));
-
 		
 		post5 = new Post();
 		post5.setPostNo(post2.getPostNo());
@@ -78,8 +83,11 @@ public class PostServiceTest {
 		post5.setPostContent("수정!!!!");
 
 		postService.modify(post5);
+
+		System.out.println(post2);
+		System.out.println(post5);
 		
-		List<Post> posts = postService.getList();
+		List<Post> posts = postService.getList("N");
 		
 		List<Post> posts2 = new ArrayList<Post>();
 		
@@ -97,7 +105,7 @@ public class PostServiceTest {
 		
 		assertThat(posts.toString(), is(posts2.toString()));
 		
-		assertThat(postService.getCount(), is(3));
+		assertThat(postService.getCount("N"), is(3));
 		
 		List<Integer> postNos = new ArrayList<Integer>();
 		
@@ -106,22 +114,22 @@ public class PostServiceTest {
 		
 		postService.deleteList(postNos);
 		
-		assertThat(postService.getCount(), is(1));
+		assertThat(postService.getCount("N"), is(1));
 
-		assertThat(postService.get(post1.getPostNo()).toString(), is(post1.toString()));
+		assertThat(postService.get(post1.getPostNo(), "N").toString(), is(post1.toString()));
 	}
 	
 	@Test
 	public void modifyNotUsePrimaryKeyExceptionTest() throws Exception {
+		exception.expect(NotUsePrimaryKeyException.class);
+		exception.expectMessage("수정될 포스트의 번호가 입력되지 않았습니다.");
+		
 		Post post4 = new Post();
 		post4.setPostAuthor("kurien4444444444");
 		post4.setPostSubject("수정!수정!");
 		post4.setPostReservationTime(new Timestamp(0));
 		post4.setPostWriteTime(new Timestamp(0));
 		post4.setPostContent("수정!");
-
-		exception.expect(NotUsePrimaryKeyException.class);
-		exception.expectMessage("수정될 포스트의 번호가 입력되지 않았습니다.");
 		
 		postService.modify(post4);
 	}
@@ -169,7 +177,7 @@ public class PostServiceTest {
 		post1.setPostContent("블로그 글입111니다.");
 		post1.setPostReservationTime(null);
 		post1.setPostView(PostViewStatus.TRUE);
-		post1.setPostPublish(PostPublishStatus.TRUE);
+		post1.setPostPublish(PostPublishStatus.FALSE);
 		post1.setPostWriteIp("106.249.238.106");
 		post1.setPostWriteTime(today);
 		
@@ -182,7 +190,7 @@ public class PostServiceTest {
 		post2.setPostContent("블2로그 글2입니다.");
 		post2.setPostReservationTime(null);
 		post2.setPostView(PostViewStatus.TRUE);
-		post2.setPostPublish(PostPublishStatus.TRUE);
+		post2.setPostPublish(PostPublishStatus.FALSE);
 		post2.setPostWriteIp("106.249.238.106");
 		post2.setPostWriteTime(today);
 		
@@ -195,7 +203,7 @@ public class PostServiceTest {
 		post3.setPostContent("블로그 333글입니다.");
 		post3.setPostReservationTime(null);
 		post3.setPostView(PostViewStatus.TRUE);
-		post3.setPostPublish(PostPublishStatus.TRUE);
+		post3.setPostPublish(PostPublishStatus.FALSE);
 		post3.setPostWriteIp("106.249.238.106");
 		post3.setPostWriteTime(today);
 	}

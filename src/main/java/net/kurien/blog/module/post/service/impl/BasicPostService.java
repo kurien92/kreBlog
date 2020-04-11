@@ -21,49 +21,49 @@ public class BasicPostService implements PostService {
 	private PostDao postDao;
 	
 	@Override
-	public List<Post> getList() {
+	public List<Post> getList(String manageYn) {
 		// TODO Auto-generated method stub
-		return postDao.selectList();
+		return postDao.selectList(manageYn);
 	}
 	
 	@Override
-	public List<Post> getList(Criteria criteria) {
+	public List<Post> getList(String manageYn, Criteria criteria) {
 		// TODO Auto-generated method stub
-		return postDao.selectList(criteria);
+		return postDao.selectList(manageYn, criteria);
 	}
 
 	@Override
-	public List<Post> getListByCategoryIds(List<String> categoryIds) {
+	public List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn) {
 		// TODO Auto-generated method stub
-		return postDao.selectListByCategoryIds(categoryIds);
+		return postDao.selectListByCategoryIds(categoryIds, manageYn);
 	}
 	
 	@Override
-	public int getCount() {
+	public int getCount(String manageYn) {
 		// TODO Auto-generated method stub
-		return postDao.selectCount();
+		return postDao.selectCount(manageYn);
 	}
 
 	@Override
-	public int getCount(Criteria criteria) {
+	public int getCount(String manageYn, Criteria criteria) {
 		// TODO Auto-generated method stub
-		return postDao.selectCount(criteria);
+		return postDao.selectCount(manageYn, criteria);
 	}
 
 	@Override
-	public int getCountByCategoryIds(List<String> categoryIds) {
+	public int getCountByCategoryIds(List<String> categoryIds, String manageYn) {
 		// TODO Auto-generated method stub
-		return postDao.selectCountByCategoryIds(categoryIds);
+		return postDao.selectCountByCategoryIds(categoryIds, manageYn);
 	}
 	
 	@Override
-	public Post get(int postNo) throws Exception {
+	public Post get(int postNo, String manageYn) throws Exception {
 		// TODO Auto-generated method stub
-		if(!isExist(postNo)) {
+		if(!isExist(postNo, manageYn)) {
 			throw new NotFoundDataException(postNo + "번 포스트를 찾을 수 없습니다.");
 		}
 
-		return postDao.selectOne(postNo);
+		return postDao.selectOne(postNo, manageYn);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class BasicPostService implements PostService {
 				throw new NotUsePrimaryKeyException("작성될 포스트의 번호가 잘못 입력되었습니다.");
 			}
 			
-			if(isExist(post.getPostNo())) {
+			if(isExist(post.getPostNo(), "Y")) {
 				throw new DuplicatedKeyException(post.getPostNo() + "번 포스트가 이미 존재합니다.");
 			}
 		}
@@ -89,7 +89,7 @@ public class BasicPostService implements PostService {
 			throw new NotUsePrimaryKeyException("수정될 포스트의 번호가 입력되지 않았습니다.");
 		}
 		
-		if(!isExist(post.getPostNo())) {
+		if(!isExist(post.getPostNo(), "Y")) {
 			throw new NotFoundDataException(post.getPostNo() + "번 포스트를 찾을 수 없습니다.");
 		}
 		
@@ -119,9 +119,9 @@ public class BasicPostService implements PostService {
 	}
 
 	@Override
-	public boolean isExist(int postNo) throws Exception {
+	public boolean isExist(int postNo, String manageYn) throws Exception {
 		// TODO Auto-generated method stub
-		int count = postDao.isExist(postNo);
+		int count = postDao.isExist(postNo, manageYn);
 		
 		if(count < 1) {
 			return false;

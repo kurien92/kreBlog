@@ -1,6 +1,8 @@
 package net.kurien.blog.module.post.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -19,45 +21,61 @@ public class PostDaoBasic implements PostDao {
 	private final static String mapper = "net.kurien.blog.module.post.mapper";
 	
 	@Override
-	public List<Post> selectList() {
+	public List<Post> selectList(String manageYn, Criteria criteria) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(mapper + ".selectList");
+		Map<String, Object> param = new HashMap<>();
+		param.put("manageYn", manageYn);
+		param.put("criteria", criteria);
+		
+		return sqlSession.selectList(mapper + ".selectList", param);
 	}
 
 	@Override
-	public List<Post> selectList(Criteria criteria) {
+	public List<Post> selectListByCategoryIds(List<String> categoryIds, String manageYn) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(mapper + ".selectList", criteria);
+		Map<String, Object> param = new HashMap<>();
+		param.put("categoryIds", categoryIds);
+		param.put("manageYn", manageYn);
+		
+		return sqlSession.selectList(mapper + ".selectListByCategoryIds", param);
 	}
 
 	@Override
-	public List<Post> selectListByCategoryIds(List<String> categoryIds) {
+	public List<Post> selectList(String manageYn) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(mapper + ".selectListByCategoryIds", categoryIds);
+		Map<String, Object> param = new HashMap<>();
+		param.put("manageYn", manageYn);
+		
+		return sqlSession.selectList(mapper + ".selectList", param);
 	}
 	
 	@Override
-	public int selectCount() {
+	public int selectCount(String manageYn) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne(mapper + ".selectCount");
+		Map<String, Object> param = new HashMap<>();
+		param.put("manageYn", manageYn);
+		
+		return sqlSession.selectOne(mapper + ".selectCount", param);		
 	}
 
 	@Override
-	public int selectCount(Criteria criteria) {
+	public int selectCount(String manageYn, Criteria criteria) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne(mapper + ".selectCount", criteria);
-	}
-
-	@Override
-	public int selectCountByCategoryIds(List<String> categoryIds) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne(mapper + ".selectCountByCategoryIds", categoryIds);
+		Map<String, Object> param = new HashMap<>();
+		param.put("manageYn", manageYn);
+		param.put("criteria", criteria);
+		
+		return sqlSession.selectOne(mapper + ".selectCount", param);
 	}
 	
 	@Override
-	public Post selectOne(int postNo) {
+	public Post selectOne(int postNo, String manageYn) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne(mapper + ".selectOne", postNo);
+		Map<String, Object> param = new HashMap<>();
+		param.put("postNo", postNo);
+		param.put("manageYn", manageYn);
+		
+		return sqlSession.selectOne(mapper + ".selectOne", param);
 	}
 
 	@Override
@@ -89,18 +107,32 @@ public class PostDaoBasic implements PostDao {
 		// TODO Auto-generated method stub
 		sqlSession.delete(mapper + ".deleteAll");
 	}
-
-	@Override
-	public int isExist(int postNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne(mapper + ".isExist", postNo);
-	}
-
+	
 	@Override
 	public int removeCategoryId(String categoryId) {
 		// TODO Auto-generated method stub
 		int updatedCount = sqlSession.update(mapper + ".removeCategoryId", categoryId);
 		
 		return updatedCount;
+	}
+
+	@Override
+	public int isExist(int postNo, String manageYn) {
+		// TODO Auto-generated method stub
+		Map<String, Object> param = new HashMap<>();
+		param.put("postNo", postNo);
+		param.put("manageYn", manageYn);
+		
+		return sqlSession.selectOne(mapper + ".isExist", param);
+	}
+
+	@Override
+	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn) {
+		// TODO Auto-generated method stub
+		Map<String, Object> param = new HashMap<>();
+		param.put("categoryIds", categoryIds);
+		param.put("manageYn", manageYn);
+		
+		return sqlSession.selectOne(mapper + ".selectCountByCategoryIds", param);
 	}
 }
