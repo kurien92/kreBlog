@@ -20,6 +20,9 @@
 	<meta charset="${template.charset}">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="google-site-verification" content="ATFeKG_4caG8sXM6_QjLeiJEtC0wEkHeeyB9sX79qlg" />
+	<meta name="naver-site-verification" content="b713eac25ca0c28012695006168a9478c1f554b2" />
+	<link rel="canonical" href="https://www.kurien.net">
 	${template.meta}
 	<title>${template.title}</title>
 	<link rel="stylesheet" href="${contextPath}/css/normalize.css">
@@ -159,7 +162,18 @@
     			}
     		});
     	});
+
+		$(".kre_unimplemented").on("click", function(e) {
+			alert("아직 구현되지 않은 기능입니다.")
+			e.preventDefault();
+		});
 	</script>
 	${template.footJs}
+	<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+	<script type="text/javascript">
+		if(!wcs_add) var wcs_add = {};
+		wcs_add["wa"] = "56a40a9e644d38";
+		wcs_do();
+	</script>
 </body>
 </html>
