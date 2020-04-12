@@ -29,12 +29,11 @@
 			<div>
 				<textarea name="postContent" id="postContent" placeholder="내용" rows="10" cols="80">${post.postContent}</textarea>
 				<script>
-					// $(window).on("load", function() {
-						CKEDITOR.config.contentsCss = "${contextPath}/css/plugin/ckeditor.css";
-						CKEDITOR.config.height = '600px';
-
-						CKEDITOR.replace("postContent");
-					// });
+					CKEDITOR.replace("postContent", {
+						filebrowserUploadUrl: '${contextPath}/admin/file/upload/post',
+						contentsCss: "${contextPath}/css/plugin/ckeditor.css",
+						height: '600px'
+					});
 				</script>
 			</div>
 			

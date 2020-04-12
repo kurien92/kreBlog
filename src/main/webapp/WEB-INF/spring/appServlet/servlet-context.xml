@@ -35,10 +35,12 @@
 	    <interceptor>
 	        <mapping path="/**"/>
 	        
-	        <exclude-mapping path="/css/**"/>
-	        <exclude-mapping path="/js/**"/>
-	        <exclude-mapping path="/img/**"/>
-	        <exclude-mapping path="/font/**"/>
+	        <exclude-mapping path="/css/**" />
+	        <exclude-mapping path="/js/**" />
+	        <exclude-mapping path="/img/**" />
+	        <exclude-mapping path="/font/**" />
+	        <exclude-mapping path="/file/**" />
+	        <exclude-mapping path="/admin/file/**" />
 	        <exclude-mapping path="/.well-known/**"/>
 	        
 	        <beans:ref bean="TemplateInterceptor"/>
