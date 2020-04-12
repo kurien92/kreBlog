@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FileController {
 	@RequestMapping("/viewer/{service}/{fileNo}")
 	public void imageFileView(@PathVariable String service, @PathVariable int fileNo, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-		String uploadPath = request.getServletContext().getRealPath("/files/" + service + "/img");
-
+		String uploadPath = request.getServletContext().getRealPath("/") + "../../files/" + service + "/img";
+		
 		// TODO: DB 연동 후에 변경할 부분
 		String fileName = uploadPath + File.separator + "temp.png";
 		

@@ -73,7 +73,7 @@ public class FileAdminController {
 			
 			String extension = splitExtension[splitExtension.length-1];
 
-			String uploadPath = request.getServletContext().getRealPath("/files/" + service + "/img");
+			String uploadPath = request.getServletContext().getRealPath("/") + "../../files/" + service + "/img";;
 			File uploadFile = new File(uploadPath);
 			
 			if(uploadFile.exists() == false) {
