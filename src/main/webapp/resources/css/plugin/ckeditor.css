@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 body {
   font-family: 'Nanum Gothic', sans-serif;
@@ -18,4 +19,16 @@ p {
 
 img {
 	max-width: 100%;
+}
+
+a {
+	color: #033e6a;
+	font-weight: bold;
+}
+
+a:before {
+    font-family: "Material Icons";
+	content: "\e89e";
+	margin-right: 2px;
+	vertical-align: bottom;
 }

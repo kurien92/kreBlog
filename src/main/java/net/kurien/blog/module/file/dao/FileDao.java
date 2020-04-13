@@ -1,0 +1,15 @@
+package net.kurien.blog.module.file.dao;
+
+import java.util.List;
+
+import net.kurien.blog.module.file.vo.File;
+
+public interface FileDao {
+    public List<File> selectList(List<Integer> fileNos);
+    public File selectOne(int fileNo);
+    public int selectCount(List<Integer> fileNos);
+    public void insert(File file);
+    public void delete(int fileNo);
+    public void deleteList(List<Integer> fileNos);
+    public void deleteAll();
+}

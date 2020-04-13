@@ -11,4 +11,4 @@ CREATE TABLE `krePost` (
   `postReservationTime` datetime DEFAULT NULL,
   `postWriteIp` varchar(15) NOT NULL,
   PRIMARY KEY (`postNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4

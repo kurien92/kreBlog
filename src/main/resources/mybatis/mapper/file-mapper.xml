@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.kurien.blog.module.file.mapper">
+	<resultMap id="resultMap" type="net.kurien.blog.module.file.vo.File">
+		<id property="fileNo" column="fileNo" />
+		<result property="fileType" column="fileType" />
+		<result property="filePath" column="filePath"/>
+		<result property="fileName" column="fileName"/>
+		<result property="fileStoredName" column="fileStoredName"/>
+		<result property="fileExtension" column="fileExtension"/>
+		<result property="fileMime" column="fileMime" />
+		<result property="fileSize" column="fileSize" />
+		<result property="fileUploadIp" column="fileUploadIp" />
+		<result property="fileUploadTime" column="fileUploadTime" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler"/>
+	</resultMap>
+	
+	<sql id="table">
+		kreFile
+	</sql>
+    
+    <select id="selectList" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+			fileNo IN
+        	<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        		#{item.value}
+        	</foreach>
+        </where>
+       	ORDER BY
+       		fileNo ASC
+    </select>
+    
+    <select id="selectOne" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+			fileNo = #{fileNo}
+        </where>
+    </select>
+
+    <select id="selectCount" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+			fileNo = #{fileNo}
+        </where>
+    </select>
+		
+    <insert id="insert" useGeneratedKeys="true" keyProperty="fileNo">
+        INSERT INTO
+        <include refid="table" /> (
+        	fileNo,
+        	fileType,
+        	filePath,
+        	fileName,
+        	fileStoredName,
+        	fileExtension,
+        	fileMime,
+        	fileSize,
+        	fileUploadIp,
+        	fileUploadTime
+        )
+        VALUES (
+        	#{fileNo},
+        	#{fileType},
+        	#{filePath},
+			#{fileName},
+			#{fileStoredName},
+			#{fileExtension},
+        	#{fileMime},
+			#{fileSize},
+			#{fileUploadIp},
+			#{fileUploadTime}
+		)
+    </insert>
+    
+    <delete id="delete">
+        DELETE FROM <include refid="table" />
+        <where>
+        	postNo = #{postNo}
+        </where>
+    </delete>
+    
+    <delete id="deleteList" parameterType="list">
+        DELETE FROM <include refid="table" />
+        <where>
+			fileNo IN
+        	<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        		#{item.value}
+        	</foreach>
+        </where>
+    </delete>
+    
+    <delete id="deleteAll">
+        TRUNCATE <include refid="table" />
+    </delete>
+</mapper>

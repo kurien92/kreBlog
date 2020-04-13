@@ -6,7 +6,7 @@
 <section id="admin_post_write" class="post admin">
 	<h3 class="section_subject">Post Write</h3>
 	
-	<form action="${contextPath}/admin/post/${formAction}" method="post">
+	<form id="admin_post_write_form" action="${contextPath}/admin/post/${formAction}" method="post">
 		<c:if test="${post != null}">
 			<input type="hidden" name="postNo" value="${post.postNo}">
 		</c:if>
@@ -32,7 +32,33 @@
 					CKEDITOR.replace("postContent", {
 						filebrowserUploadUrl: '${contextPath}/admin/file/upload/post',
 						contentsCss: "${contextPath}/css/plugin/ckeditor.css",
-						height: '600px'
+						height: '600px',
+					});
+					
+					CKEDITOR.instances["postContent"].on('fileUploadResponse', function( evt ) {
+						// Prevent the default response handler.
+						evt.stop();
+
+						// Get XHR and response.
+						var data = evt.data,
+							xhr = data.fileLoader.xhr,
+							response = xhr.responseText.split( '|' );
+
+						var responseData = JSON.parse(response[0]);
+
+						if(responseData.uploaded !== 1) {
+							// An error occurred during upload.
+							data.message = response[ 1 ];
+							evt.cancel();
+						} else {
+							data.url = responseData.url;
+
+							$("#admin_post_write_form").prepend($("<input>", {
+								"type": "hidden",
+								"name": "fileNos",
+								"value": responseData.fileNo
+							}));
+						}
 					});
 				</script>
 			</div>
