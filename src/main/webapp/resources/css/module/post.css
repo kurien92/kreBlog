@@ -126,6 +126,18 @@
 	max-width: 100%;
 }
 
+#post_view .kre_article .kre_article_body a {
+	color: #033e6a;
+	font-weight: bold;
+}
+
+#post_view .kre_article .kre_article_body a:before {
+    font-family: "Material Icons";
+	content: "\e89e";
+	margin-right: 2px;
+	vertical-align: bottom;
+}
+
 #post_view .kre_article .kre_article_footer {
 	padding: 20px 0;
 }

@@ -255,7 +255,7 @@
 	}
 
 	#kre_footer {
-		display: none;
+		display: block;
 		padding: 10px;
 	}
 }
