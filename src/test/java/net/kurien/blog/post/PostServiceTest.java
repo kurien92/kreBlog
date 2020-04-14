@@ -24,6 +24,7 @@ import net.kurien.blog.exception.DuplicatedKeyException;
 import net.kurien.blog.exception.EmptyParameterException;
 import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.exception.NotUsePrimaryKeyException;
+import net.kurien.blog.module.file.service.ServiceFileService;
 import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
 import net.kurien.blog.module.post.vo.PostPublishStatus;
@@ -35,6 +36,9 @@ import net.kurien.blog.module.post.vo.PostViewStatus;
 public class PostServiceTest {
 	@Inject
 	private PostService postService;
+	
+	@Inject
+	private ServiceFileService serviceFileService;
 	
 	private Post post1 = null;
 	private Post post2 = null;
@@ -49,11 +53,18 @@ public class PostServiceTest {
 		postService.deleteAll();
 		
 		assertThat(postService.getCount("N"), is(0));
+
+		serviceFileService.removeAll();
+		
+		Integer fileNos[] = new Integer[3];
+		fileNos[0] = 1;
+		fileNos[1] = 2;
+		fileNos[2] = 3;
 		
 		writePost();
-		postService.write(post1);
-		postService.write(post2);
-		postService.write(post3);
+		postService.write(post1, fileNos);
+		postService.write(post2, fileNos);
+		postService.write(post3, fileNos);
 	}
 	
 	@After
@@ -82,7 +93,8 @@ public class PostServiceTest {
 		post5.setPostWriteTime(new Timestamp(0));
 		post5.setPostContent("수정!!!!");
 
-		postService.modify(post5);
+		Integer fileNos[] = null;
+		postService.modify(post5, fileNos);
 
 		System.out.println(post2);
 		System.out.println(post5);
@@ -130,8 +142,8 @@ public class PostServiceTest {
 		post4.setPostReservationTime(new Timestamp(0));
 		post4.setPostWriteTime(new Timestamp(0));
 		post4.setPostContent("수정!");
-		
-		postService.modify(post4);
+
+		postService.modify(post4, null);
 	}
 	
 	@Test
@@ -146,15 +158,16 @@ public class PostServiceTest {
 
 		exception.expect(NotFoundDataException.class);
 		exception.expectMessage("500번 포스트를 찾을 수 없습니다.");
-		
-		postService.modify(post5);
+
+		postService.modify(post5, null);
 	}
 	
 	@Test
 	public void writeDuplicationKeyExceptionTest() throws Exception {
 		exception.expect(DuplicatedKeyException.class);
 		exception.expectMessage("1번 포스트가 이미 존재합니다.");
-		postService.write(post1);
+		
+		postService.write(post1, null);
 	}
 	
 	@Test

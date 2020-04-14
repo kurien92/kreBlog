@@ -1,8 +1,6 @@
 package net.kurien.blog.module.file.service.impl;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -12,7 +10,6 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import freemarker.template.utility.StringUtil;
 import net.kurien.blog.module.file.dao.FileDao;
 import net.kurien.blog.module.file.service.FileService;
 import net.kurien.blog.module.file.vo.File;

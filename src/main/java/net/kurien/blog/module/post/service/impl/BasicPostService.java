@@ -11,6 +11,7 @@ import net.kurien.blog.exception.DuplicatedKeyException;
 import net.kurien.blog.exception.EmptyParameterException;
 import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.exception.NotUsePrimaryKeyException;
+import net.kurien.blog.module.file.service.ServiceFileService;
 import net.kurien.blog.module.post.dao.PostDao;
 import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
@@ -19,6 +20,9 @@ import net.kurien.blog.module.post.vo.Post;
 public class BasicPostService implements PostService {
 	@Inject
 	private PostDao postDao;
+	
+	@Inject
+	private ServiceFileService serviceFileService;
 	
 	@Override
 	public List<Post> getList(String manageYn) {
@@ -67,7 +71,7 @@ public class BasicPostService implements PostService {
 	}
 
 	@Override
-	public void write(Post post) throws Exception {
+	public void write(Post post, Integer[] fileNos) throws Exception {
 		// TODO Auto-generated method stub
 		if(post.getPostNo() != null) {
 			if(post.getPostNo() == 0) {
@@ -80,10 +84,14 @@ public class BasicPostService implements PostService {
 		}
 		
 		postDao.insert(post);
+
+		if(fileNos != null) {
+			serviceFileService.addFiles("post", post.getPostNo(), fileNos, post.getPostWriteIp());
+		}
 	}
 
 	@Override
-	public void modify(Post post) throws Exception {
+	public void modify(Post post, Integer[] fileNos) throws Exception {
 		// TODO Auto-generated method stub
 		if(post.getPostNo() == null || post.getPostNo() == 0) {
 			throw new NotUsePrimaryKeyException("수정될 포스트의 번호가 입력되지 않았습니다.");
@@ -92,8 +100,12 @@ public class BasicPostService implements PostService {
 		if(!isExist(post.getPostNo(), "Y")) {
 			throw new NotFoundDataException(post.getPostNo() + "번 포스트를 찾을 수 없습니다.");
 		}
-		
+
 		postDao.update(post);
+		
+		if(fileNos != null) {
+			serviceFileService.addFiles("post", post.getPostNo(), fileNos, post.getPostWriteIp());
+		}
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,12 +83,12 @@ public class PostAdminController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/writeUpdate", method = RequestMethod.POST)
-	public String writeUpdate(HttpServletRequest request, Post post) throws Exception {
+	public String writeUpdate(HttpServletRequest request, Post post, Integer[] fileNos) throws Exception {
 		post.setPostAuthor("Kurien");
 		post.setPostWriteTime(Calendar.getInstance().getTime());
 		post.setPostWriteIp(request.getRemoteAddr());
 
-		postService.write(post);
+		postService.write(post, fileNos);
 
 		return "redirect:/admin/post/list";
 	}
@@ -124,7 +125,7 @@ public class PostAdminController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/modifyUpdate", method = RequestMethod.POST)
-	public String modify(Post post) throws Exception {
+	public String modify(Post post, Integer[] fileNos, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if(post.getPostView() == null) {
 			post.setPostView(PostViewStatus.FALSE);
 		}
@@ -133,7 +134,11 @@ public class PostAdminController {
 			post.setPostPublish(PostPublishStatus.FALSE);
 		}
 		
-		postService.modify(post);
+		if(post.getPostWriteIp() == null) {
+			post.setPostWriteIp(request.getRemoteAddr());
+		}
+		
+		postService.modify(post, fileNos);
 		
 		return "redirect:/admin/post/list";
 	}
@@ -153,7 +158,6 @@ public class PostAdminController {
 	
 	@RequestMapping(value = "/preview/{postNo}", method = RequestMethod.GET)
 	public String preview(@PathVariable int postNo, Model model) throws Exception {
-		
 		Post post = postService.get(postNo, "Y");
 		
 		model.addAttribute("post", post);

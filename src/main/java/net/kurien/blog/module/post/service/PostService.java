@@ -16,9 +16,9 @@ public interface PostService {
 	public int getCount(String manageYn);
 	public int getCount(String manageYn, Criteria criteria);
 	public int getCountByCategoryIds(List<String> categoryIds, String manageYn);
-	
-	public void write(Post post) throws Exception;
-	public void modify(Post post) throws Exception;
+
+	public void write(Post post, Integer[] fileNos) throws Exception;
+	public void modify(Post post, Integer[] fileNos) throws Exception;
 	public void delete(int postNo);
 	public void deleteList(List<Integer> postNos) throws Exception;
 	public void deleteAll();

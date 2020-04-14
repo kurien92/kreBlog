@@ -20,11 +20,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import net.kurien.blog.exception.DuplicatedKeyException;
-import net.kurien.blog.exception.EmptyParameterException;
 import net.kurien.blog.exception.NotFoundDataException;
-import net.kurien.blog.exception.NotUsePrimaryKeyException;
-import net.kurien.blog.module.category.vo.Category;
+import net.kurien.blog.module.file.service.ServiceFileService;
 import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
 import net.kurien.blog.module.post.vo.PostPublishStatus;
@@ -36,6 +33,9 @@ import net.kurien.blog.module.post.vo.PostViewStatus;
 public class AdminPostServiceTest {
 	@Inject
 	private PostService postService;
+	
+	@Inject
+	private ServiceFileService serviceFileService;
 	
 	private Post hidePost = null;
 	private Post showPost = null;
@@ -140,12 +140,19 @@ public class AdminPostServiceTest {
 		reserveWithoutReserveTimePost.setPostPublish(PostPublishStatus.TRUE);
 		reserveWithoutReserveTimePost.setPostWriteIp("106.249.238.106");
 		reserveWithoutReserveTimePost.setPostWriteTime(today);
+
+		serviceFileService.removeAll();
 		
-		postService.write(hidePost);
-		postService.write(showPost);
-		postService.write(reservePastPost);
-		postService.write(reserveFuturePost);
-		postService.write(reserveWithoutReserveTimePost);
+		Integer fileNos[] = new Integer[3];
+		fileNos[0] = 1;
+		fileNos[1] = 2;
+		fileNos[2] = 3;
+		
+		postService.write(hidePost, fileNos);
+		postService.write(showPost, fileNos);
+		postService.write(reservePastPost, fileNos);
+		postService.write(reserveFuturePost, fileNos);
+		postService.write(reserveWithoutReserveTimePost, fileNos);
 	}
 	
 	@After
