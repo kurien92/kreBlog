@@ -10,7 +10,7 @@
 			<div class="kre_article_info">
 				<ul>
 					<li><strong>Author</strong> ${post.postAuthor}</li>
-					<li><strong>Registration Time</strong> <fmt:formatDate value="${post.postWriteTime}" pattern="yyyy/MM/dd HH:mm:ss" /></li>
+					<li><strong>Registration Time</strong> <fmt:formatDate value="${post.postWriteTime}" pattern="yyyy/MM/dd HH:mm" /></li>
 				</ul>
 			</div>
 		</header>

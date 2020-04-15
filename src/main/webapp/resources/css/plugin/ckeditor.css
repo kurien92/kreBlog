@@ -5,6 +5,7 @@
 
 body {
   font-family: 'Nanum Gothic', sans-serif;
+  line-height: 1.6;
 }
 
 .cke_editable {
@@ -19,6 +20,8 @@ p {
 
 img {
 	max-width: 100%;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
 }
 
 a {

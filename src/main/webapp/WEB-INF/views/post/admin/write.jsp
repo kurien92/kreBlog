@@ -31,10 +31,11 @@
 				<script>
 					CKEDITOR.replace("postContent", {
 						filebrowserUploadUrl: '${contextPath}/admin/file/upload/post',
+						uploadUrl: '${contextPath}/admin/file/upload/post?responseType=json',
 						contentsCss: "${contextPath}/css/plugin/ckeditor.css",
-						height: '600px',
-					});
-					
+						height: '500px',
+					}); 
+
 					CKEDITOR.instances["postContent"].on('fileUploadResponse', function( evt ) {
 						// Prevent the default response handler.
 						evt.stop();

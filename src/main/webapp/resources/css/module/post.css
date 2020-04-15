@@ -124,6 +124,8 @@
 
 #post_view .kre_article .kre_article_body img {
 	max-width: 100%;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
 }
 
 #post_view .kre_article .kre_article_body a {
