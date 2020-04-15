@@ -4,6 +4,24 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
+	<definition name="admin" template="/WEB-INF/views/template/admin/template.jsp">
+	    <put-attribute name="header" value="/WEB-INF/views/template/admin/header.jsp" />
+	    <put-attribute name="body" value="/WEB-INF/views/admin/main.jsp" />
+	    <put-attribute name="footer" value="/WEB-INF/views/template/admin/footer.jsp" />
+	</definition>
+	
+	<definition name="admin/*" extends="admin">
+	    <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+	</definition>
+	
+	<definition name="admin/*/*" extends="admin">
+	    <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="admin/*/*/*" extends="admin">
+	    <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+	</definition>
+	
 	<definition name="*" template="/WEB-INF/views/template/template.jsp">
 	    <put-attribute name="header" value="/WEB-INF/views/template/header.jsp" />
 	    <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />

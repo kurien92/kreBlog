@@ -12,6 +12,7 @@
 	<http pattern="/img/**" security="none" />
 	<http pattern="/font/**" security="none" />
 	<http pattern="/.well-known/**" security="none" />
+	<http pattern="/robots.txt" security="none" />
 
 	<http auto-config="true" use-expressions="true">
 		<csrf disabled="true" />
