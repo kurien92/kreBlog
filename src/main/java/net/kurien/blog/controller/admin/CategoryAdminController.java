@@ -44,7 +44,7 @@ public class CategoryAdminController {
 		template.setTitle("Category List &dash; Kurien's Blog");
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 		
-		return "category/admin/list";
+		return "admin/category/admin/list";
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class CategoryAdminController {
 		model.addAttribute("formAction", "addUpdate");
 		model.addAttribute("formSubmit", "추가");
 		
-		return "category/admin/add";
+		return "admin/category/admin/add";
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class CategoryAdminController {
 		model.addAttribute("formAction", "modifyUpdate");
 		model.addAttribute("formSubmit", "수정");
 		
-		return "category/admin/add";
+		return "admin/category/admin/add";
 	}
 
 	/**

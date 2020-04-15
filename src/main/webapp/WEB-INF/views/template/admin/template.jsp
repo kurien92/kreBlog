@@ -28,8 +28,6 @@
 	<meta property="og:image" content="https://www.kurien.net/img/favicon/android-chrome-384x384.png">
 	<meta property="og:url" content="https://www.kurien.net">
 
-	<meta name="google-site-verification" content="ATFeKG_4caG8sXM6_QjLeiJEtC0wEkHeeyB9sX79qlg" />
-	<meta name="naver-site-verification" content="b713eac25ca0c28012695006168a9478c1f554b2" />
 	${template.meta}
 	<title>${template.title}</title>
 	<link rel="canonical" href="https://www.kurien.net">
@@ -39,18 +37,6 @@
 	<link rel="stylesheet" href="${contextPath}/css/plugin/jquery.mCustomScrollbar.min.css" />
 	${template.css}
 
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-E48BJNKSFS"></script>
-	
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-	
-	  gtag('config', 'G-E48BJNKSFS');
-	</script>
-	<script data-ad-client="ca-pub-4805042826277102" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	
 	<!--[if lt IE 9]>
 	<script src="${contextPath}/js/plugin/html5shiv.min.js"></script>
 	<![endif]-->
@@ -138,7 +124,9 @@
    		//반응형에 따른 스크롤바 적용
 		function setScrollbar() {
 			$(".scrollbar").mCustomScrollbar({
-		    	scrollInertia: 300
+		    	scrollInertia: 300,
+		    	keyboard: false,
+		    	updateOnContentResize: false
 		    });
 		}
 		
@@ -172,11 +160,5 @@
 		});
 	</script>
 	${template.footJs}
-	<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-	<script type="text/javascript">
-		if(!wcs_add) var wcs_add = {};
-		wcs_add["wa"] = "56a40a9e644d38";
-		wcs_do();
-	</script>
 </body>
 </html>
