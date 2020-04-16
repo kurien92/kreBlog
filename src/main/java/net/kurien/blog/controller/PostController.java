@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import net.kurien.blog.common.template.Template;
 import net.kurien.blog.domain.PageMaker;
 import net.kurien.blog.domain.SearchCriteria;
+import net.kurien.blog.module.category.service.CategoryService;
+import net.kurien.blog.module.category.vo.Category;
 import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
 
@@ -25,9 +27,12 @@ public class PostController {
 
 	@Inject
 	private Template template;
-	
+
 	@Inject
 	private PostService postService;
+	
+	@Inject
+	private CategoryService categoryService;
 	
 	/**
 	 * 사용자가 목록 화면에 접속한다.
@@ -64,8 +69,10 @@ public class PostController {
 	@RequestMapping(value = "/view/{postNo}", method = RequestMethod.GET)
 	public String view(@PathVariable int postNo, Model model) throws Exception {
 		Post post = postService.get(postNo, "N");
-		
+		Category category = categoryService.get(post.getCategoryId());
+
 		model.addAttribute("post", post);
+		model.addAttribute("category", category);
 		
 		template.setTitle(post.getPostSubject() + " : Post view &dash; Kurien's Blog");
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");

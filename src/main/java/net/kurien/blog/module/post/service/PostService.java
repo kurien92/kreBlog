@@ -15,6 +15,7 @@ public interface PostService {
 	
 	public int getCount(String manageYn);
 	public int getCount(String manageYn, Criteria criteria);
+	public int getCountByCategoryId(String categoryId, String manageYn);
 	public int getCountByCategoryIds(List<String> categoryIds, String manageYn);
 
 	public void write(Post post, Integer[] fileNos) throws Exception;

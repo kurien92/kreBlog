@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <section id="post_view" class="post">
 	<h3 class="section_subject">Post View</h3>
@@ -10,6 +11,9 @@
 			<div class="kre_article_info">
 				<ul>
 					<li><strong>Author</strong> ${post.postAuthor}</li>
+					<c:if test="${post.categoryId != ''}">
+						<li><strong>Category</strong> <a href="${contextPath}/category/${post.categoryId}">${category.categoryName}</a></li>
+					</c:if>
 					<li><strong>Registration Time</strong> <fmt:formatDate value="${post.postWriteTime}" pattern="yyyy/MM/dd HH:mm" /></li>
 				</ul>
 			</div>

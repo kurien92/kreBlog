@@ -15,7 +15,8 @@ public interface PostDao {
 
 	public int selectCount(String manageYn);
 	public int selectCount(String manageYn, Criteria criteria);
-	
+
+	public int selectCountByCategoryId(String categoryId, String manageYn);
 	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn);
 	
 	public void insert(Post post);

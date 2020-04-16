@@ -74,7 +74,7 @@
        		postNo DESC
        	<include refid="criteria" />
     </select>
-    
+  
     <select id="selectListByCategoryIds" parameterType="list" resultMap="resultMap">
         SELECT *
         FROM <include refid="table" />
@@ -99,18 +99,28 @@
         </where>
     </select>
     
+    <select id="selectCountByCategoryId" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+        	categoryId = #{categoryId}
+        	<include refid="manageYn" />
+        </where>
+    </select>
+    
     <select id="selectCountByCategoryIds" resultType="Integer">
         SELECT count(*)
         FROM <include refid="table" />
         <where>
-        	categoryId IN
-        	<foreach collection="categoryIds" item="item" index="index" open="(" close=")" separator=",">
-        		#{item}
-        	</foreach>
-        	
-        	<include refid="manageYn" />
+            categoryId IN
+            <foreach collection="categoryIds" item="item" index="index" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            
+            <include refid="manageYn" />
         </where>
     </select>
+    
     
     <select id="selectOne" resultMap="resultMap">
         SELECT *

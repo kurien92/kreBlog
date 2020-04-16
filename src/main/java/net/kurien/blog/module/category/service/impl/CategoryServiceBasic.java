@@ -76,7 +76,7 @@ public class CategoryServiceBasic implements CategoryService {
 	public void remove(String categoryId) {
 		// TODO Auto-generated method stub
 		try {
-			int removedCount = postService.removeCategoryId(categoryId);
+			postService.removeCategoryId(categoryId);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -108,10 +108,12 @@ public class CategoryServiceBasic implements CategoryService {
 		html += "<ul class=\"category_list category_depth_" + depth++ + "\">";
 		
 		for(Category category : categoryList) {
+			int postCount = postService.getCountByCategoryId(category.getCategoryId(), "N");
+			
 			html += "<li>";
 			html += "<a href=\"" + contextPath + "/category/" + category.getCategoryId() + "\"><span class=\"material-icons\">\r\n" + 
 					"arrow_right\r\n" + 
-					"</span>" + category.getCategoryName() + "</a>";
+					"</span>" + category.getCategoryName() + " <span class=\"category_post_count\">(" + postCount + ")</span></a>";
 			
 			List<Category> childCategoryList = categoryDao.selectListByParentNo(category.getCategoryNo());
 			html += this.createCategoryHTML(childCategoryList, contextPath, depth);
