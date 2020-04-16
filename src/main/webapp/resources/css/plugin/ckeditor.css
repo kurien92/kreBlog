@@ -35,3 +35,14 @@ a:before {
 	margin-right: 2px;
 	vertical-align: bottom;
 }
+
+code {
+	font-family: 'Nanum Gothic', sans-serif;
+	display: block;
+	padding: 10px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	color: #333;
+	font-size: 14px;
+	line-height: 18px;
+}

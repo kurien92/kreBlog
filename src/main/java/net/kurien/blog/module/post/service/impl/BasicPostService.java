@@ -55,6 +55,12 @@ public class BasicPostService implements PostService {
 	}
 
 	@Override
+	public int getCountByCategoryId(String categoryId, String manageYn) {
+		// TODO Auto-generated method stub
+		return postDao.selectCountByCategoryId(categoryId, manageYn);
+	}
+
+	@Override
 	public int getCountByCategoryIds(List<String> categoryIds, String manageYn) {
 		// TODO Auto-generated method stub
 		return postDao.selectCountByCategoryIds(categoryIds, manageYn);

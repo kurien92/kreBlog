@@ -121,6 +121,10 @@
 	padding-left: 80px;
 }
 
+#kre_category_list .category_post_count {
+	font-size: 16px;
+}
+
 #kre_menu > ul a,
 #kre_menu > ul button {
 	margin-top: 10px;
@@ -175,7 +179,7 @@
 		padding: 0;
 	}
 
-	#kre_aside .mCSB_container {
+	#kre_aside #kre_aside_wrap {
 		padding: 25px;
 	}
 
@@ -266,7 +270,7 @@
 		width: 396px;
 	}
 
-	#kre_aside .mCSB_container {
+	#kre_aside #kre_aside_wrap {
 		padding: 30px;
 	}
 

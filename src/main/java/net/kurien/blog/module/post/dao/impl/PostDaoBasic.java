@@ -127,6 +127,16 @@ public class PostDaoBasic implements PostDao {
 	}
 
 	@Override
+	public int selectCountByCategoryId(String categoryId, String manageYn) {
+		// TODO Auto-generated method stub
+		Map<String, Object> param = new HashMap<>();
+		param.put("categoryId", categoryId);
+		param.put("manageYn", manageYn);
+		
+		return sqlSession.selectOne(mapper + ".selectCountByCategoryId", param);
+	}
+
+	@Override
 	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn) {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<>();

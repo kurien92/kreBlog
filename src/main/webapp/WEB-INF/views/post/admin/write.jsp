@@ -17,7 +17,7 @@
 					<option value="">Uncategorized</option>
 					
 					<c:forEach var="category" items="${categories}">
-						<option value="${category.categoryId}">${category.categoryName}</option>v
+						<option value="${category.categoryId}" ${post.categoryId eq category.categoryId ? "selected" : ""}>${category.categoryName}</option>v
 					</c:forEach>
 				</select>
 			</div>
@@ -29,37 +29,39 @@
 			<div>
 				<textarea name="postContent" id="postContent" placeholder="내용" rows="10" cols="80">${post.postContent}</textarea>
 				<script>
-					CKEDITOR.replace("postContent", {
-						filebrowserUploadUrl: '${contextPath}/admin/file/upload/post',
-						uploadUrl: '${contextPath}/admin/file/upload/post?responseType=json',
-						contentsCss: "${contextPath}/css/plugin/ckeditor.css",
-						height: '500px',
-					}); 
+					$(function() {
+						CKEDITOR.replace("postContent", {
+							filebrowserUploadUrl: '${contextPath}/admin/file/upload/post',
+							uploadUrl: '${contextPath}/admin/file/upload/post?responseType=json',
+							contentsCss: "${contextPath}/css/plugin/ckeditor.css",
+							height: '500px',
+						});
 
-					CKEDITOR.instances["postContent"].on('fileUploadResponse', function( evt ) {
-						// Prevent the default response handler.
-						evt.stop();
+						CKEDITOR.instances["postContent"].on('fileUploadResponse', function( evt ) {
+							// Prevent the default response handler.
+							evt.stop();
 
-						// Get XHR and response.
-						var data = evt.data,
-							xhr = data.fileLoader.xhr,
-							response = xhr.responseText.split( '|' );
+							// Get XHR and response.
+							var data = evt.data,
+								xhr = data.fileLoader.xhr,
+								response = xhr.responseText.split( '|' );
 
-						var responseData = JSON.parse(response[0]);
+							var responseData = JSON.parse(response[0]);
 
-						if(responseData.uploaded !== 1) {
-							// An error occurred during upload.
-							data.message = response[ 1 ];
-							evt.cancel();
-						} else {
-							data.url = responseData.url;
+							if(responseData.uploaded !== 1) {
+								// An error occurred during upload.
+								data.message = response[ 1 ];
+								evt.cancel();
+							} else {
+								data.url = responseData.url;
 
-							$("#admin_post_write_form").prepend($("<input>", {
-								"type": "hidden",
-								"name": "fileNos",
-								"value": responseData.fileNo
-							}));
-						}
+								$("#admin_post_write_form").prepend($("<input>", {
+									"type": "hidden",
+									"name": "fileNos",
+									"value": responseData.fileNo
+								}));
+							}
+						});
 					});
 				</script>
 			</div>
@@ -80,8 +82,17 @@
 		<div class="kre_btn_list">
 			<ul class="kre_btn_list_left">
 				<li><a href="${contextPath}/admin/post/list" class="kre_btn">목록</a></li>
-				<li><button type="submit" class="kre_btn">${formSubmit}</button></li>
+				<li><button id="post_submit" type="submit" class="kre_btn">${formSubmit}</button></li>
 			</ul>
 		</div>
 	</form>
 </section>
+<script>
+	$(window).on("beforeunload", function() {
+		return "작성중인 글이 존재합니다. 페이지를 나가시겠습니까?";
+	});
+
+	$("#admin_post_write_form").on("submit", function() {
+        $(window).off("beforeunload");
+    });
+</script>

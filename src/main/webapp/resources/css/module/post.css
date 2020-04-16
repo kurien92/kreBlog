@@ -140,6 +140,18 @@
 	vertical-align: bottom;
 }
 
+#post_view .kre_article .kre_article_body code {
+	font-family: 'Nanum Gothic', sans-serif;
+	display: block;
+	padding: 10px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	color: #333;
+	font-size: 14px;
+	line-height: 18px;
+}
+
+
 #post_view .kre_article .kre_article_footer {
 	padding: 20px 0;
 }
