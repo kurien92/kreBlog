@@ -135,15 +135,24 @@
 	</div>
 	
 	<script>
-   		//반응형에 따른 스크롤바 적용
-		function setScrollbar() {
-			$(".scrollbar").mCustomScrollbar({
-		    	scrollInertia: 300
-		    });
-		}
-		
-		setScrollbar();
-		
+		/**
+		 * 반응형에 따른 스크롤바 적용
+		 * 모바일에서 destroy를 하지 않는 경우 카테고리가 출력되지 않음.(overflow: hidden이 강제 됨.)
+		 */
+ 		function responsiveScrollbar() {
+            if(isDesktopDevices()) {
+                $(".scrollbar").mCustomScrollbar({
+                    scrollInertia: 300
+                });
+            } else {
+                $(".scrollbar").mCustomScrollbar("destroy");
+            }
+   		}
+        
+        $(window).on("load resize orientationchange", function() {
+            responsiveScrollbar();    
+		});
+
     	$(window).on("resize orientationchange", function() {
 			if($("#mobile_menu_btn").hasClass("active") === false) {
 	    		if(isDesktopDevices()) {

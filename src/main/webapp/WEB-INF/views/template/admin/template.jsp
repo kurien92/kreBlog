@@ -121,18 +121,28 @@
 	</div>
 	
 	<script>
-   		//반응형에 따른 스크롤바 적용
-		function setScrollbar() {
-			$(".scrollbar").mCustomScrollbar({
-		    	scrollInertia: 300,
-		    	keyboard: false,
-		    	updateOnContentResize: false
-		    });
+		/**
+		 * 반응형에 따른 스크롤바 적용
+		 * 모바일에서 destroy를 하지 않는 경우 카테고리가 출력되지 않음.(overflow: hidden이 강제 됨.)
+		 */
+		
+		function responsiveScrollbar() {
+            if(isDesktopDevices()) {
+                $(".scrollbar").mCustomScrollbar({
+                    scrollInertia: 300,
+					keyboard: false,
+					updateOnContentResize: false
+                });
+            } else {
+                $(".scrollbar").mCustomScrollbar("destroy");
+            }
 		}
 		
-		setScrollbar();
 		
-    	$(window).on("resize orientationchange", function() {
+		
+    	$(window).on("load resize orientationchange", function() {
+			responsiveScrollbar();
+
 			if($("#mobile_menu_btn").hasClass("active") === false) {
 	    		if(isDesktopDevices()) {
     				$("#kre_mobile_menu").show(0);
