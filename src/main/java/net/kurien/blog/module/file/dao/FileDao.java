@@ -8,6 +8,7 @@ public interface FileDao {
     public List<File> selectList(List<Integer> fileNos);
     public File selectOne(int fileNo);
     public int selectCount(List<Integer> fileNos);
+    public boolean isExistFilename(String randomizeString);
     public void insert(File file);
     public void delete(int fileNo);
     public void deleteList(List<Integer> fileNos);

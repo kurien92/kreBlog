@@ -46,7 +46,15 @@
 			fileNo = #{fileNo}
         </where>
     </select>
-		
+
+    <select id="isExistFilename" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+			fileStoredName = #{randomizeString}
+        </where>
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="fileNo">
         INSERT INTO
         <include refid="table" /> (

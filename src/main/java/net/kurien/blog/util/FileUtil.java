@@ -1,6 +1,7 @@
 package net.kurien.blog.util;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -30,6 +31,13 @@ public class FileUtil {
 	public static void view(String filename, OutputStream outputStream) throws IOException {
 		FileInputStream fis = null;
 		BufferedInputStream bis = null;
+		
+		File file = new File(filename);
+		
+		if(file.exists() == false) {
+			return;
+		}
+		
 		try {
 			fis = new FileInputStream(filename);
 			bis = new BufferedInputStream(fis);
@@ -42,7 +50,6 @@ public class FileUtil {
 			}
 			
 			outputStream.flush();
-			bis.close();
 		} finally {
 			outputStream.close();
 			bis.close();
@@ -65,7 +72,7 @@ public class FileUtil {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		
 		String randomizeName = UUID.randomUUID().toString() + filename;
-		md.update(filename.getBytes());
+		md.update(randomizeName.getBytes());
 		
 		byte[] mdBytes = md.digest();
 		

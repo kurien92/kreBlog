@@ -35,6 +35,15 @@ public class FileDaoBasic implements FileDao {
         return sqlSession.selectOne(mapper + ".selectCount", fileNos);
     }
 
+	@Override
+	public boolean isExistFilename(String randomizeString) {
+		// TODO Auto-generated method stub
+		int isCount = sqlSession.selectOne(mapper + ".isExistFilename", randomizeString);
+		boolean isExist = isCount > 0;
+		
+		return isExist;
+	}
+	
     @Override
     public void insert(File file) {
         // TODO Auto-generated method stub

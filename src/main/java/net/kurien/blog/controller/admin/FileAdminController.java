@@ -30,26 +30,32 @@ public class FileAdminController {
 	@RequestMapping(value = "/upload/{service}")
 	@ResponseBody
 	public String ckeditorImageUpload(MultipartHttpServletRequest multiFile, @PathVariable String service, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("ckeditorImageUpload start");
+		
 		JsonObject json = new JsonObject();
 		PrintWriter printWriter = null;
 		
 		MultipartFile file = multiFile.getFile("upload");
 		
 		if(file == null) {
+			logger.info("ckeditorImageUpload file is null");
 			return null;
 		}
 		
 		if(file.getSize() < 0) {
+			logger.info("ckeditorImageUpload file size 0");
 			return null;
 		}
 		
 		String fileName = file.getOriginalFilename();
 		
 		if(StringUtils.isBlank(fileName)) {
+			logger.info("ckeditorImageUpload blank filename");
 			return null;
 		}
 		
 		if(file.getContentType().toLowerCase().startsWith("image/") == false) {
+			logger.info("ckeditorImageUpload file isn't image");
 			return null;
 		}
 
@@ -69,6 +75,7 @@ public class FileAdminController {
         json.addProperty("fileNo", fileNo);
         
         printWriter.println(json);
+		logger.info("ckeditorImageUpload file upload complete");
         
 		return null;
 	}

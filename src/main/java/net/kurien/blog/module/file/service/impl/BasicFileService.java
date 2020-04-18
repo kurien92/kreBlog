@@ -16,7 +16,7 @@ import net.kurien.blog.module.file.vo.File;
 import net.kurien.blog.util.FileUtil;
 
 @Service
-public class FileServiceBasic implements FileService {
+public class BasicFileService implements FileService {
 	@Inject
 	private FileDao fileDao;
 	
@@ -31,7 +31,12 @@ public class FileServiceBasic implements FileService {
 			uploadFile.mkdirs();
 		}
 
-		String randomizeString = FileUtil.getRandomizeString(originalFilename);
+		String randomizeString = null;
+		
+		do {
+			randomizeString = FileUtil.getRandomizeString(originalFilename);
+		} while(fileDao.isExistFilename(randomizeString));
+		
 		String uploadFilePath = uploadPath + java.io.File.separator + randomizeString;
 
 		FileUtil.upload(uploadFilePath, fileBytes);
