@@ -19,6 +19,7 @@ import net.kurien.blog.module.category.service.CategoryService;
 import net.kurien.blog.module.category.vo.Category;
 import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
+import net.kurien.blog.util.HtmlUtil;
 
 @Controller
 @RequestMapping("/post")
@@ -73,8 +74,9 @@ public class PostController {
 
 		model.addAttribute("post", post);
 		model.addAttribute("category", category);
-		
-		template.setTitle(post.getPostSubject() + " : Post view &dash; Kurien's Blog");
+
+		template.setSubTitle(post.getPostSubject());
+		template.setDescription(HtmlUtil.stripHtml(post.getPostContent()));
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 		
 		return "post/view";

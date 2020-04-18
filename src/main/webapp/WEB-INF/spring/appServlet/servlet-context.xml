@@ -19,6 +19,7 @@
 	<resources mapping="/font/**" location="/resources/font/" />
 	<resources mapping="/.well-known/**" location="/resources/checkFiles/" />
 	<resources mapping="/robots.txt" location="/resources/main/robots.txt" />
+	<resources mapping="/ads.txt" location="/resources/main/ads.txt" />
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -44,6 +45,7 @@
 	        <exclude-mapping path="/admin/file/**" />
 	        <exclude-mapping path="/.well-known/**"/>
 	        <exclude-mapping path="/robots.txt"/>
+	        <exclude-mapping path="/ads.txt"/>
 	        
 	        <beans:ref bean="TemplateInterceptor"/>
 	    </interceptor>

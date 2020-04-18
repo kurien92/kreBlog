@@ -23,6 +23,7 @@ import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
 import net.kurien.blog.module.post.vo.PostPublishStatus;
 import net.kurien.blog.module.post.vo.PostViewStatus;
+import net.kurien.blog.util.HtmlUtil;
 
 @Controller
 @RequestMapping("/admin/post")
@@ -106,8 +107,8 @@ public class PostAdminController {
 	public String modify(@PathVariable int postNo, Model model) throws Exception {
 		Post post = postService.get(postNo, "Y");
 		List<Category> categories = categoryService.getList();
-		
-		String htmlEscapeContent = StringEscapeUtils.escapeHtml4(post.getPostContent());
+
+		String htmlEscapeContent = HtmlUtil.escapeHtml(post.getPostContent());
 		post.setPostContent(htmlEscapeContent);
 		
 		model.addAttribute("post", post);

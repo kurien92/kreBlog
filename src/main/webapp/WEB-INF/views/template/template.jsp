@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html lang="${template.lang}">
 <head>
+	<!-- favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
@@ -17,21 +18,32 @@
 	<meta name="msapplication-TileColor" content="#2b5797">
 	<meta name="msapplication-config" content="/img/favicon/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
+	
 	<meta charset="${template.charset}">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<meta name="description" content="Kurien's Blog는 프로그래밍과 개발 전반에 대한 내용을 다루는 개인 블로그입니다.">
+
+	<meta name="title" content="${template.title}">
+	<meta name="description" content="${template.description}">
 	
+	<!-- opengraph -->
 	<meta property="og:type" content="website"> 
 	<meta property="og:title" content="${template.title}">
-	<meta property="og:description" content="Kurien's Blog는 프로그래밍과 개발 전반에 대한 내용을 다루는 개인 블로그입니다.">
+	<meta property="og:description" content="${template.description}">
 	<meta property="og:image" content="https://www.kurien.net/img/favicon/android-chrome-384x384.png">
 	<meta property="og:url" content="https://www.kurien.net">
-
+	
+	<!-- 애플 기기에서 전체화면 웹 앱 실행 가능하게 수정 -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	
+	<!-- 사이트 인증 -->
 	<meta name="google-site-verification" content="ATFeKG_4caG8sXM6_QjLeiJEtC0wEkHeeyB9sX79qlg" />
 	<meta name="naver-site-verification" content="b713eac25ca0c28012695006168a9478c1f554b2" />
+	
 	${template.meta}
+	
 	<title>${template.title}</title>
+	
 	<link rel="canonical" href="https://www.kurien.net">
 	<link rel="stylesheet" href="${contextPath}/css/normalize.css">
 	<link rel="stylesheet" href="${contextPath}/css/base.css">
@@ -142,7 +154,8 @@
  		function responsiveScrollbar() {
             if(isDesktopDevices()) {
                 $(".scrollbar").mCustomScrollbar({
-                    scrollInertia: 300
+                    scrollInertia: 300,
+                    documentTouchScroll: true
                 });
             } else {
                 $(".scrollbar").mCustomScrollbar("destroy");

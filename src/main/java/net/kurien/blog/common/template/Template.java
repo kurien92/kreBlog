@@ -12,6 +12,9 @@ public class Template {
 	private String charset;
 	private TemplateMeta meta;
 	private String title;
+	private String mainTitle;
+	private String subTitle;
+	private String description;
 	private TemplateCss css;
 	private TemplateJs headJs;
 	private TemplateJs footJs;
@@ -49,6 +52,30 @@ public class Template {
 		this.title = title;
 	}
 
+	public String getMainTitle() {
+		return mainTitle;
+	}
+
+	public void setMainTitle(String mainTitle) {
+		this.mainTitle = mainTitle;
+	}
+
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public TemplateCss getCss() {
 		return css;
 	}
@@ -83,7 +110,8 @@ public class Template {
 
 	@Override
 	public String toString() {
-		return "Template [lang=" + lang + ", charset=" + charset + ", meta=" + meta + ", title=" + title + ", css="
+		return "Template [lang=" + lang + ", charset=" + charset + ", meta=" + meta + ", title=" + title
+				+ ", mainTitle=" + mainTitle + ", subTitle=" + subTitle + ", description=" + description + ", css="
 				+ css + ", headJs=" + headJs + ", footJs=" + footJs + ", categoryHTML=" + categoryHTML + "]";
 	}
 }

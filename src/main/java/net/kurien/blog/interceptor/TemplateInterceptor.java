@@ -4,7 +4,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.omg.CORBA.Request;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -13,6 +12,7 @@ import net.kurien.blog.common.template.metadata.TemplateCss;
 import net.kurien.blog.common.template.metadata.TemplateJs;
 import net.kurien.blog.common.template.metadata.TemplateMeta;
 import net.kurien.blog.module.category.service.CategoryService;
+import net.kurien.blog.util.HtmlUtil;
 
 public class TemplateInterceptor extends HandlerInterceptorAdapter {
 	@Inject
@@ -26,7 +26,9 @@ public class TemplateInterceptor extends HandlerInterceptorAdapter {
 		
 		template.setLang("ko");
 		template.setCharset("utf-8");
-		template.setTitle("Kurien's Blog");
+		template.setMainTitle("Kurien's Blog");
+		template.setSubTitle("");
+		template.setDescription("Kurien's Blog는 프로그래밍과 개발 전반에 대한 내용을 다루는 블로그입니다.");
 		
 		template.setMeta(new TemplateMeta());
 		template.setCss(new TemplateCss());
@@ -39,6 +41,25 @@ public class TemplateInterceptor extends HandlerInterceptorAdapter {
 	}
 	
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    	// 사이트 설명이 있는 경우 150자로 잘라 처리함
+    	String description = template.getDescription();
+    	description = HtmlUtil.escapeHtml(description);
+    	
+    	if(description.length() > 150) {
+    		description = description.substring(0, 150);
+    		template.setDescription(description + "...");
+    	}
+    	
+    	
+    	// subTitle이 있다면 subTitle을 포함하여 표시한다. 
+    	String title = template.getMainTitle(); 
+    	
+    	if(template.getSubTitle().equals("") == false) {
+    		title = template.getSubTitle() + " | " + title;
+    	}
+    	
+    	template.setTitle(title);
+    	
     	modelAndView.addObject("template", template);
     	
         super.postHandle(request, response, handler, modelAndView);
