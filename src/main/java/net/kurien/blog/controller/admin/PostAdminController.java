@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -105,6 +106,9 @@ public class PostAdminController {
 	public String modify(@PathVariable int postNo, Model model) throws Exception {
 		Post post = postService.get(postNo, "Y");
 		List<Category> categories = categoryService.getList();
+		
+		String htmlEscapeContent = StringEscapeUtils.escapeHtml4(post.getPostContent());
+		post.setPostContent(htmlEscapeContent);
 		
 		model.addAttribute("post", post);
 		model.addAttribute("categories", categories);
