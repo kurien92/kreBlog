@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="request"/>
+<c:set var="requestURI" value="${requestScope['javax.servlet.forward.request_uri']}" scope="request"/>
 <!DOCTYPE html>
 <html lang="${template.lang}">
 <head>
@@ -31,8 +32,13 @@
 	<meta property="og:title" content="${template.title}">
 	<meta property="og:description" content="${template.description}">
 	<meta property="og:image" content="https://www.kurien.net/img/favicon/android-chrome-384x384.png">
-	<meta property="og:url" content="https://www.kurien.net">
+	<meta property="og:url" content="https://www.kurien.net${requestURI}">
 	
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="${template.title}">
+	<meta name="twitter:description" content="${template.description}">
+	<meta name="twitter:image" content="https://www.kurien.net/img/favicon/android-chrome-384x384.png">
+
 	<!-- 애플 기기에서 전체화면 웹 앱 실행 가능하게 수정 -->
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	
@@ -44,7 +50,7 @@
 	
 	<title>${template.title}</title>
 	
-	<link rel="canonical" href="https://www.kurien.net">
+	<link rel="canonical" href="https://www.kurien.net${requestURI}">
 	<link rel="stylesheet" href="${contextPath}/css/normalize.css">
 	<link rel="stylesheet" href="${contextPath}/css/base.css">
 	<link rel="stylesheet" href="${contextPath}/css/layout.css">
