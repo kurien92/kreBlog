@@ -4,6 +4,18 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
+	<definition name="error" template="/WEB-INF/views/template/template.jsp">
+	    <put-attribute name="header" value="/WEB-INF/views/template/header.jsp" />
+	    <put-attribute name="body" value="/WEB-INF/views/error/exception.jsp" />
+	    <put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp" />
+	</definition>
+	
+	<definition name="error/fatalError" template="/WEB-INF/views/error/fatalError.jsp" />
+	
+	<definition name="error/*" extends="error">
+	    <put-attribute name="body" value="/WEB-INF/views/error/{1}.jsp" />
+	</definition>
+
 	<definition name="admin" template="/WEB-INF/views/template/admin/template.jsp">
 	    <put-attribute name="header" value="/WEB-INF/views/template/admin/header.jsp" />
 	    <put-attribute name="body" value="/WEB-INF/views/admin/main.jsp" />

@@ -1,0 +1,90 @@
+@charset "UTF-8";
+
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query since this is the default in Bootstrap */
+
+#exception_box {
+    border: 1px solid #033e6a;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
+}
+
+#exception_header {
+	margin: 0;
+	color: #033e6a;
+	font-size: 24px;
+}
+
+#exception_box .kre_btn {
+	width: 100%;
+	margin-top: 20px;
+	padding: 10px 20px;
+	box-sizing: border-box;
+}
+
+#exception_box .kre_btn:first-child {
+	margin-top: 0;
+}
+
+#exception_description {
+	text-align: left;
+    margin-top: 20px;
+    font-weight: bold;
+    line-height: 1.6em;
+}
+
+#exception_button_wrap {
+	margin-top: 30px;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+	#exception_box {
+		width: 546px;
+    	padding: 50px;
+	}
+
+	#exception_header {
+		font-size: 32px;
+	}
+
+	#exception_box .kre_btn {
+		width: auto;
+		margin-top: 0;
+		margin-left: 20px;
+	}
+	
+	#exception_box .kre_btn:first-child {
+		margin-left: 0;
+	}
+
+	#exception_button_wrap {
+		margin-top: 40px;
+	}
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	#fatal_exception {
+		height: 100%;
+		background-color: #033e6a;
+	}
+	
+	#fatal_exception #exception_box {
+		background-color: #fff;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-left: -272px;
+		margin-top: -150px;
+	}
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}
