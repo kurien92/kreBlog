@@ -21,6 +21,10 @@ input[type="checkbox"] {
 	-webkit-appearance: checkbox;
 }
 
+ins {
+	vertical-align: middle;
+}
+
 .hidden {
 	position: absolute;
 	top: -9999px;
@@ -141,4 +145,3 @@ ul.kre_btn_list_right > li:first-child {
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
 }
-	

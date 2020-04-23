@@ -32,6 +32,19 @@
 		</header>
 		
 		<div class="kre_article_body">
+			<div id="kre_article_ad1" class="adsense">
+				<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<ins class="adsbygoogle"
+				     style="display:block; text-align:center;"
+				     data-ad-layout="in-article"
+				     data-ad-format="fluid"
+				     data-ad-client="ca-pub-4805042826277102"
+				     data-ad-slot="1010816570"></ins>
+				<script>
+				     (adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+			</div>
+						
 			${post.postContent}
 		</div>
 		

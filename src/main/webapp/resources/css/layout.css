@@ -67,6 +67,10 @@
 	display: none;
 }
 
+#ad1 > .adsbygoogle {
+	display: none;
+}
+
 .categoryAdsense {
 	width: 336px;
 	height: 280px;
@@ -201,9 +205,13 @@
 
 	#ad1 {
 		display: block;
+		margin: 0 auto;
+	}
+
+	#ad1 > .adsbygoogle {
+		display: inline-block;
 		width: 250px;
 		height: 250px;
-		margin: 0 auto;
 	}
 	
 	#kre_mobile_menu {
@@ -242,7 +250,6 @@
 		float: left;
 		width: 100%;
 		height: 100%;
-		box-sizing: border-box;
 		padding-top: 0;
 		padding-left: 300px;
 	}
@@ -281,8 +288,8 @@
 	#logo a {
 		padding: 25px 0;
 	}
-
-	#ad1 {
+	
+	#ad1 > .adsbygoogle {
 		width: 336px;
 		height: 280px;
 	}
