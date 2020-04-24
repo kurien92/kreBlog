@@ -2,7 +2,6 @@
 
 /* Extra small devices (portrait phones, less than 576px) */
 /* No media query since this is the default in Bootstrap */
-
 #post_list .kre_grid_item {
 	width: 300px;
 	min-height: 200px;
@@ -18,7 +17,6 @@
 #post_list .kre_grid_item:first-child {
 	margin-top: 0;
 }
-
 
 #post_list .kre_grid_item.kre_grid_item_empty {
 	background-color: rgba(51, 51, 51, 0.8);
@@ -87,7 +85,6 @@
 	height: 250px;
 }
 
-
 #post_view .kre_article .kre_article_subject {
     margin: 0;
     padding: 0 0 10px 0;
@@ -96,7 +93,6 @@
 	font-size: 28px;
 	line-height: 1.3em;
 }
-
 
 #post_view .kre_article .kre_article_info {
 	font-size: 18px;
@@ -138,6 +134,7 @@
 #post_view .kre_article .kre_article_body {
 	min-height: 200px;
     padding: 20px 10px;
+	box-sizing: border-box;
 	border-top: 2px dotted #033e6a;
 	border-bottom: 2px dotted #033e6a;
 	line-height: 1.6em;

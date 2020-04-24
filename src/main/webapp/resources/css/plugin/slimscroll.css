@@ -4,11 +4,7 @@
 	    overflow: hidden;
 	    position: relative;
 	}
-	
-	/* custom stylings */
-	.scroll-wrapper.mac + .scrollBarContainer{
-	    background-color: transparent;
-	}
+
 	.scrollBarContainer.animate .scroll{
 	    transition: 2s opacity ease;
 	    -ms-transition: 2s opacity ease;
@@ -18,13 +14,6 @@
 	    opacity: 0.5;
 	    transition: none;
 	    -ms-transition: none;
-	}
-	.unselectable {
-	    -webkit-user-select: none;
-	    -khtml-user-select: none;
-	    -moz-user-select: -moz-none;
-	    -o-user-select: none;
-	    user-select: none;
 	}
 	
 	#kre_wrap .scrollBarContainer {

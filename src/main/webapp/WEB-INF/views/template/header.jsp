@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <aside id="kre_aside" class="kre_scrollbar">
-	<div class="scroll-wrapper1 unselectable mac">
+	<div class="scroll-wrapper1">
 		<div id="kre_aside_wrap">
 			<header id="kre_header" class="aside_item">
 				<h1 id="logo"><a href="${contextPath}/">Kurien's Blog</a></h1>
@@ -68,7 +68,7 @@
 </aside>
 
 <main id="kre_main" class="kre_scrollbar">
-	<div class="scroll-wrapper2 unselectable mac">
+	<div class="scroll-wrapper2">
 		<h2 class="hidden">Main</h2>
 		
 		<div id="kre_content">

@@ -5,7 +5,6 @@
 	</div><!-- #kre_content -->
 </main><!-- #kre_main -->
 
-	
 <script>
     if(!navigator.userAgent.match('Macintosh')) {
     	var one = null;
@@ -57,7 +56,7 @@
 
             // Apply slim scroll plugin
             one = new slimScroll(kreAsideScroll[0], {
-                wrapperClass: 'scroll-wrapper1 unselectable mac',
+                wrapperClass: 'scroll-wrapper1',
                 scrollBarContainerClass: 'scrollBarContainer',
                 scrollBarContainerSpecialClass: 'animate',
                 scrollBarClass: 'scroll',
@@ -67,7 +66,7 @@
             var kreMainScroll = document.querySelectorAll('#kre_main');
 
             two = new slimScroll(kreMainScroll[0], {
-                wrapperClass: 'scroll-wrapper2 unselectable mac',
+                wrapperClass: 'scroll-wrapper2',
                 scrollBarContainerClass: 'scrollBarContainer',
                 scrollBarContainerSpecialClass: 'animate',
                 scrollBarClass: 'scroll',
@@ -86,7 +85,6 @@
 	        });
         }
     }
-
 </script>
 
 <script>
@@ -111,13 +109,21 @@
    			}
    		});
    	});
+   	
+   	$(window).on("keypress", function(e) {
+   	    if(e.keyCode === 113) {
+   	    	location.href = '${contextPath}/admin';
+   	    }
+   	});
 
 	$(".kre_unimplemented").on("click", function(e) {
 		alert("아직 구현되지 않은 기능입니다.")
 		e.preventDefault();
 	});
 </script>
+
 ${template.footJs}
+
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
 <script type="text/javascript">
 	if(!wcs_add) var wcs_add = {};

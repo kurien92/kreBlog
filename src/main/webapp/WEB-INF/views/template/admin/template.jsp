@@ -34,14 +34,14 @@
 	<link rel="stylesheet" href="${contextPath}/css/normalize.css">
 	<link rel="stylesheet" href="${contextPath}/css/base.css">
 	<link rel="stylesheet" href="${contextPath}/css/layout.css">
-	<link rel="stylesheet" href="${contextPath}/css/plugin/jquery.mCustomScrollbar.min.css" />
+	<link rel="stylesheet" href="${contextPath}/css/plugin/slimscroll.css" />
 	${template.css}
 
 	<!--[if lt IE 9]>
 	<script src="${contextPath}/js/plugin/html5shiv.min.js"></script>
 	<![endif]-->
 	<script src="${contextPath}/js/library/jquery.min.js"></script>
-	<script src="${contextPath}/js/plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="${contextPath}/js/plugin/slimscroll.js"></script>
 	<script>
 		var browserResolution = {
 			width: window.innerWidth || document.body.clientWidth,
@@ -119,56 +119,5 @@
 		<tiles:insertAttribute name="body" />
 		<tiles:insertAttribute name="footer" />
 	</div>
-	
-	<script>
-		/**
-		 * 반응형에 따른 스크롤바 적용
-		 * 모바일에서 destroy를 하지 않는 경우 카테고리가 출력되지 않음.(overflow: hidden이 강제 됨.)
-		 */
-		
-		function responsiveScrollbar() {
-            if(isDesktopDevices()) {
-                $(".scrollbar").mCustomScrollbar({
-                    scrollInertia: 300,
-					keyboard: false,
-					updateOnContentResize: false
-                });
-            } else {
-                $(".scrollbar").mCustomScrollbar("destroy");
-            }
-		}
-		
-		
-		
-    	$(window).on("load resize orientationchange", function() {
-			responsiveScrollbar();
-
-			if($("#mobile_menu_btn").hasClass("active") === false) {
-	    		if(isDesktopDevices()) {
-    				$("#kre_mobile_menu").show(0);
-	    		} else {
-     				$("#kre_mobile_menu").hide(0);
-	    		}
-			}
-    	});
-    	
-    	$(document).ready(function() {
-    		$("#mobile_menu_btn").on("click", function() {
-    			if($(this).hasClass("active")) {
-    				$(this).removeClass("active");    				
-    				$("#kre_mobile_menu").slideUp();
-    			} else {
-    				$(this).addClass("active");    				
-    				$("#kre_mobile_menu").slideDown();
-    			}
-    		});
-    	});
-
-		$(".kre_unimplemented").on("click", function(e) {
-			alert("아직 구현되지 않은 기능입니다.")
-			e.preventDefault();
-		});
-	</script>
-	${template.footJs}
 </body>
 </html>

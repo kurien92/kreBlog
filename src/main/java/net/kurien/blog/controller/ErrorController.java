@@ -117,6 +117,5 @@ public class ErrorController {
 		model.addAttribute("exceptionDescription", "사용자가 많거나 오류로 인하여 서비스가 원활하지 않습니다.<br>잠시 후 다시 시도해보시거나 문제가 지속되는 경우 관리자에게 문의하시기 바랍니다.");
 
 		return "error/exception";
-		
 	}
 }
