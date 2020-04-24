@@ -56,6 +56,16 @@
 	
 	<!-- Error -->
 	<error-page>
+		<error-code>400</error-code>
+		<location>/error/badRequest</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error/forbidden</location>
+	</error-page>
+	
+	<error-page>
 		<error-code>404</error-code>
 		<location>/error/notFound</location>
 	</error-page>
@@ -63,5 +73,10 @@
 	<error-page>
 		<error-code>500</error-code>
 		<location>/error/internalServerError</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>503</error-code>
+		<location>/error/serviceUnavailable</location>
 	</error-page>
 </web-app>

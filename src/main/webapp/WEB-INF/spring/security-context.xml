@@ -42,7 +42,7 @@
 		
 <!-- 		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" /> -->
 
-		<access-denied-handler error-page="/error/accessError"/>
+		<access-denied-handler error-page="/error/forbidden"/>
 	</http>
 
 
