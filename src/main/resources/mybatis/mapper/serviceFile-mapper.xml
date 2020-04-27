@@ -36,7 +36,7 @@
        		fileNo ASC
     </select>
     
-    <insert id="insert" useGeneratedKeys="true" keyProperty="fileNo">
+    <insert id="insert">
         INSERT INTO
         <include refid="table" /> (
         	serviceName,

@@ -23,6 +23,10 @@ import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
 import net.kurien.blog.module.post.vo.PostPublishStatus;
 import net.kurien.blog.module.post.vo.PostViewStatus;
+import net.kurien.blog.module.shortUrl.service.ServiceShortUrlService;
+import net.kurien.blog.module.shortUrl.service.ShortUrlService;
+import net.kurien.blog.module.shortUrl.vo.ServiceShortUrl;
+import net.kurien.blog.module.shortUrl.vo.ShortUrl;
 import net.kurien.blog.util.HtmlUtil;
 
 @Controller
@@ -35,6 +39,12 @@ public class PostAdminController {
 	
 	@Inject
 	private CategoryService categoryService;
+	
+	@Inject
+	private ShortUrlService shortUrlService;
+	
+	@Inject
+	private ServiceShortUrlService serviceShortUrlService;
 	
 	@Inject
 	private Template template;
@@ -91,10 +101,35 @@ public class PostAdminController {
 		post.setPostWriteIp(request.getRemoteAddr());
 
 		postService.write(post, fileNos);
-
+		
+		try {
+			createShortUrl(request, post);
+		} catch(Exception e) {
+			logger.warn("shortUrl 생성을 실패했습니다.");
+		}
+		
 		return "redirect:/admin/post/list";
 	}
 	
+	private void createShortUrl(HttpServletRequest request, Post post) {
+		// TODO Auto-generated method stub
+		String url = "https://" + request.getServerName() + request.getContextPath() + "/post/view/" + post.getPostNo();
+		
+		ShortUrl shortUrl = new ShortUrl();
+		shortUrl.setRealUrl(url);
+		shortUrl.setCreateIp(request.getRemoteAddr());
+		
+		shortUrlService.set(shortUrl);
+		
+		ServiceShortUrl serviceShortUrl = new ServiceShortUrl();
+		serviceShortUrl.setServiceName("post");
+		serviceShortUrl.setServiceNo(post.getPostNo());
+		serviceShortUrl.setShortUrlNo(shortUrl.getShortUrlNo());
+		serviceShortUrl.setCreateIp(request.getRemoteAddr());
+		
+		serviceShortUrlService.add(serviceShortUrl);
+	}
+
 	/**
 	 * 관리자가 작성했던 포스트를 수정한다.
 	 * 
@@ -111,8 +146,16 @@ public class PostAdminController {
 		String htmlEscapeContent = HtmlUtil.escapeHtml(post.getPostContent());
 		post.setPostContent(htmlEscapeContent);
 		
+		ServiceShortUrl serviceShortUrl = serviceShortUrlService.get("post", postNo);
+		ShortUrl shortUrl = null;
+		
+		if(serviceShortUrl != null) {
+			shortUrl = shortUrlService.get(serviceShortUrl.getShortUrlNo());
+		}
+		
 		model.addAttribute("post", post);
 		model.addAttribute("categories", categories);
+		model.addAttribute("shortUrl", shortUrl);
 		model.addAttribute("formAction", "modifyUpdate");
 		model.addAttribute("formSubmit", "수정");
 		
@@ -164,10 +207,21 @@ public class PostAdminController {
 	@RequestMapping(value = "/preview/{postNo}", method = RequestMethod.GET)
 	public String preview(@PathVariable int postNo, Model model) throws Exception {
 		Post post = postService.get(postNo, "Y");
-		
+		Category category = categoryService.get(post.getCategoryId());
+
+		ShortUrl shortUrl = null;
+
+		ServiceShortUrl serviceShortUrl = serviceShortUrlService.get("post", postNo);
+		if(serviceShortUrl != null) {
+			shortUrl = shortUrlService.get(serviceShortUrl.getShortUrlNo());
+		}
+
 		model.addAttribute("post", post);
-		
-		template.setTitle(post.getPostSubject() + " : Post Preview &dash; Kurien's Blog");
+		model.addAttribute("category", category);
+		model.addAttribute("shortUrl", shortUrl);
+
+		template.setSubTitle(post.getPostSubject());
+		template.setDescription(HtmlUtil.stripHtml(post.getPostContent()));
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 		
 		return "post/view";

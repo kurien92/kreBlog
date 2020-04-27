@@ -54,6 +54,7 @@ var slimScroll = function(C, payload){
             i[s].style.height = i.sP1 + U;
 
             i.reposition = getReposition(i[s], i.h);
+            i[w].style.overflow = "";
         },
         // Start of private functions
         setAttr = function(e, p, v){

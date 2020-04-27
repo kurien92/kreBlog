@@ -35,26 +35,31 @@
 							uploadUrl: '${contextPath}/admin/file/upload/post?responseType=json',
 							contentsCss: "${contextPath}/css/plugin/ckeditor.css",
 							height: '500px',
+						    on: {
+						        loaded: function( evt ) {
+				    				resetScroll();
+						        }
+						    }
 						});
 
 						CKEDITOR.instances["postContent"].on('fileUploadResponse', function( evt ) {
 							// Prevent the default response handler.
 							evt.stop();
-
+	
 							// Get XHR and response.
 							var data = evt.data,
 								xhr = data.fileLoader.xhr,
 								response = xhr.responseText.split( '|' );
-
+	
 							var responseData = JSON.parse(response[0]);
-
+	
 							if(responseData.uploaded !== 1) {
 								// An error occurred during upload.
 								data.message = response[ 1 ];
 								evt.cancel();
 							} else {
 								data.url = responseData.url;
-
+	
 								$("#admin_post_write_form").prepend($("<input>", {
 									"type": "hidden",
 									"name": "fileNos",

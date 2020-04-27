@@ -73,6 +73,8 @@ ul.kre_btn_list_right > li:first-child {
     padding: 4px 8px;
     border: 1px solid #033e6a;
     background-color: #fff;
+    line-height: 1.3em;
+    font-size: 18px;
     color: #033e6a;
 	transition: background-color .3s, color .3s;
 	cursor: pointer;
@@ -117,8 +119,65 @@ ul.kre_btn_list_right > li:first-child {
 	float: right;
 }
 
+.content_box {
+    border: 1px solid #033e6a;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
+}
+
+.content_header {
+	margin: 0;
+	color: #033e6a;
+	font-size: 24px;
+}
+
+.content_box .kre_btn {
+	width: 100%;
+	margin-top: 20px;
+	padding: 10px 20px;
+	box-sizing: border-box;
+}
+
+.content_box .kre_btn:first-child {
+	margin-top: 0;
+}
+
+.content_description {
+	text-align: left;
+    margin-top: 20px;
+    font-weight: bold;
+    line-height: 1.6em;
+}
+
+.content_button_wrap {
+	margin-top: 30px;
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
+	.content_box {
+		width: 546px;
+    	padding: 50px;
+	}
+
+	.content_header {
+		font-size: 32px;
+	}
+
+	.content_box .kre_btn {
+		width: auto;
+		margin-top: 0;
+		margin-left: 20px;
+	}
+	
+	.content_box .kre_btn:first-child {
+		margin-left: 0;
+	}
+
+	.content_button_wrap {
+		margin-top: 40px;
+	}
 }
 
 /* Medium devices (tablets, 768px and up) */

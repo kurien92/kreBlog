@@ -122,9 +122,13 @@
 
 #post_view .kre_article .kre_article_info .kre_post_category:before {
     font-family: "Material Icons";
-    content: "\e89e";
+    content: "\e157";
     margin-right: 2px;
     vertical-align: bottom;
+}
+
+#post_view .kre_article .kre_article_info .kre_post_category[target='_blank']:before {
+    content: "\e89e";
 }
 
 #post_view .kre_article .kre_article_info .kre_btn_list {
@@ -159,9 +163,13 @@
 
 #post_view .kre_article .kre_article_body a:before {
     font-family: "Material Icons";
-	content: "\e89e";
+	content: "\e157";
 	margin-right: 2px;
 	vertical-align: bottom;
+}
+
+#post_view .kre_article .kre_article_body a[target='_blank']:before {
+	content: "\e89e";
 }
 
 #post_view .kre_article .kre_article_body code {
@@ -177,6 +185,7 @@
 
 #post_view .kre_article .kre_article_body #kre_article_ad1 {
     margin-bottom: 20px;
+	background-color: transparent!important;
 }
 
 #post_view .kre_article .kre_article_footer {

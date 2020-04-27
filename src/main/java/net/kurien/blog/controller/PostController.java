@@ -19,6 +19,10 @@ import net.kurien.blog.module.category.service.CategoryService;
 import net.kurien.blog.module.category.vo.Category;
 import net.kurien.blog.module.post.service.PostService;
 import net.kurien.blog.module.post.vo.Post;
+import net.kurien.blog.module.shortUrl.service.ServiceShortUrlService;
+import net.kurien.blog.module.shortUrl.service.ShortUrlService;
+import net.kurien.blog.module.shortUrl.vo.ServiceShortUrl;
+import net.kurien.blog.module.shortUrl.vo.ShortUrl;
 import net.kurien.blog.util.HtmlUtil;
 
 @Controller
@@ -34,6 +38,12 @@ public class PostController {
 	
 	@Inject
 	private CategoryService categoryService;
+	
+	@Inject
+	private ShortUrlService shortUrlService;
+	
+	@Inject
+	private ServiceShortUrlService serviceShortUrlService;
 	
 	/**
 	 * 사용자가 목록 화면에 접속한다.
@@ -72,8 +82,16 @@ public class PostController {
 		Post post = postService.get(postNo, "N");
 		Category category = categoryService.get(post.getCategoryId());
 
+		ShortUrl shortUrl = null;
+
+		ServiceShortUrl serviceShortUrl = serviceShortUrlService.get("post", postNo);
+		if(serviceShortUrl != null) {
+			shortUrl = shortUrlService.get(serviceShortUrl.getShortUrlNo());
+		}
+		
 		model.addAttribute("post", post);
 		model.addAttribute("category", category);
+		model.addAttribute("shortUrl", shortUrl);
 
 		template.setSubTitle(post.getPostSubject());
 		template.setDescription(HtmlUtil.stripHtml(post.getPostContent()));

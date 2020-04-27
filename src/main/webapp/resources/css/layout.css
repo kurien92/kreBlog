@@ -71,11 +71,6 @@
 	display: none;
 }
 
-.categoryAdsense {
-	width: 336px;
-	height: 280px;
-}
-
 #kre_mobile_menu {
 	display: none;
     background-color: rgba(255, 255, 255, 0.95);
@@ -256,7 +251,6 @@
 	
 	#kre_content {
 		position: relative;
-		height: 100%;
 		box-sizing: border-box;
 		padding: 30px;
 	}

@@ -21,16 +21,19 @@
 					<li><strong>Registration Time</strong> <fmt:formatDate value="${post.postWriteTime}" pattern="yyyy/MM/dd HH:mm" /></li>
 				</ul>
 				
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<div class="kre_btn_list">
 					<ul class="kre_btn_list_left">
-						<li><a href="${contextPath}/admin/post/modify/${post.postNo}" class="kre_btn">Modify</a></li>
+						<c:if test="${shortUrl != null}">
+						<li><button id="copyUrl" type="button" class="kre_btn" data-clipboard-text="https://www.kurien.net/s/${shortUrl.encodedUrl}">Link Copy</button></li>
+						</c:if>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+							<li><a href="${contextPath}/admin/post/modify/${post.postNo}" class="kre_btn">Modify</a></li>
+						</sec:authorize>
 					</ul>
 				</div>
-				</sec:authorize>
 			</div>
 		</header>
-		
+
 		<div class="kre_article_body">
 			<div id="kre_article_ad1" class="adsense">
 				<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -57,3 +60,16 @@
 		</footer>
 	</article>
 </section>
+
+<script src="${contextPath}/js/plugin/clipboard.min.js"></script>
+<script>
+	if($("#copyUrl").length > 0) {
+		var clipboard = new ClipboardJS('#copyUrl');
+		
+		clipboard.on('success', function(e) {
+			alert("주소가 복사되었습니다.");
+
+		    e.clearSelection();
+		});
+	}
+</script>

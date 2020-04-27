@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.kurien.blog.module.serviceShortUrl.mapper">
+	<resultMap id="resultMap" type="net.kurien.blog.module.shortUrl.vo.ServiceShortUrl">
+		<id property="serviceName" column="serviceName" />
+		<result property="serviceNo" column="serviceNo" />
+		<result property="shortUrlNo" column="shortUrlNo"/>
+		<result property="createTime" column="createTime" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler"/>
+		<result property="createIp" column="createIp" />
+	</resultMap>
+	
+	<sql id="table">
+		kreServiceShortUrl
+	</sql>
+	
+	<select id="selectOne" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+			serviceName = #{serviceName}
+			AND serviceNo = #{serviceNo}
+        </where>
+       	ORDER BY
+       		shortUrlNo ASC
+	</select>
+    
+    <insert id="insert">
+        INSERT INTO
+        <include refid="table" /> (
+        	serviceName,
+        	serviceNo,
+        	shortUrlNo,
+        	createTime,
+        	createIp
+        )
+        VALUES (
+        	#{serviceName},
+        	#{serviceNo},
+        	#{shortUrlNo},
+			#{createTime},
+			#{createIp}
+		)
+    </insert>
+    
+    <delete id="delete">
+        DELETE FROM <include refid="table" />
+        <where>
+			serviceName = #{serviceName}
+			AND serviceNo = #{serviceNo}
+			AND shortUrlNo = #{shortUrlNo}
+        </where>
+    </delete>
+    
+    <delete id="deleteList">
+        DELETE FROM <include refid="table" />
+        <where>
+			serviceName = #{serviceName}
+			AND serviceNo = #{serviceNo}
+        </where>
+    </delete>
+    
+    <delete id="deleteAll">
+        TRUNCATE <include refid="table" />
+    </delete>
+</mapper>

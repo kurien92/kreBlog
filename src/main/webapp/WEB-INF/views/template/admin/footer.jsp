@@ -11,80 +11,91 @@
     	var one = null;
     	var two = null;
 
-        $(window).on("load resize orientationchange", function() {
-    		if(isDesktopDevices()) {
-    			if(alreadyCreateScroll()) {
-	    			// 이벤트가 이미 실행되어있다면 갱신만 한다.
-	    			if(checkStoppedScroll()) {
-		    			one.startScroll();
-		    			two.startScroll(); 
-    				}
-    			
-    	            one.resetValues();
-    	            two.resetValues();
-	    			return;
-    			}
-    			
-    			// 이벤트가 실행되어있지 않다면 새로 만든다.
-    			createScroll();    			
-    		} else {
-    			//모바일 때 이벤트가 있다면 중지시킨다.
-    			if(alreadyCreateScroll()) {
-	    			one.stopScroll();
-	    			two.stopScroll();    				
-    			}
-    		}
+    	scrollInit();
+    	
+        $(window).on("resize orientationchange", function() {
+        	scrollInit();
         });
-        
-        function alreadyCreateScroll() {
-        	if(one === null || two === null) {
-        		return false;
-        	}
-        	
-        	return true;
-        }
-        
-        function checkStoppedScroll() {
-        	if(one.checkStop() && two.checkStop()) {
-        		return true;
-        	}
-        	
-        	return false;
-        }
-        
-        function createScroll() {
-            var kreAsideScroll = document.querySelectorAll('#kre_aside');
-
-            // Apply slim scroll plugin
-            one = new slimScroll(kreAsideScroll[0], {
-                wrapperClass: 'scroll-wrapper1',
-                scrollBarContainerClass: 'scrollBarContainer',
-                scrollBarContainerSpecialClass: 'animate',
-                scrollBarClass: 'scroll',
-                keepFocus: false
-            });
-
-            var kreMainScroll = document.querySelectorAll('#kre_main');
-
-            two = new slimScroll(kreMainScroll[0], {
-                wrapperClass: 'scroll-wrapper2',
-                scrollBarContainerClass: 'scrollBarContainer',
-                scrollBarContainerSpecialClass: 'animate',
-                scrollBarClass: 'scroll',
-                keepFocus: false
-            });
-        }
         
         if(typeof kreGrid !== 'undefined') {
 	        kreGrid.on('layoutComplete', function() {
 	    		if(isDesktopDevices()) {
-	    			if(alreadyCreateScroll()) {
-			            one.resetValues();
-			            two.resetValues();	    				
-	    			}
+	    			resetScroll();
 	    		}
 	        });
         }
+    }
+    
+    function scrollInit() {
+		if(isDesktopDevices()) {
+			if(alreadyCreateScroll()) {
+    			// 이벤트가 이미 실행되어있다면 갱신만 한다.
+    			if(checkStoppedScroll()) {
+	    			one.startScroll();
+	    			two.startScroll(); 
+				}
+
+    			resetScroll();
+    			return;
+			}
+			
+			// 이벤트가 실행되어있지 않다면 새로 만든다.
+			createScroll();    			
+		} else {
+			//모바일 때 이벤트가 있다면 중지시킨다.
+			if(alreadyCreateScroll()) {
+    			one.stopScroll();
+    			two.stopScroll();    				
+			}
+		}
+    }
+    
+    function alreadyCreateScroll() {
+    	if(one === null || two === null) {
+    		return false;
+    	}
+    	
+    	return true;
+    }
+    
+    function checkStoppedScroll() {
+    	if(one.checkStop() && two.checkStop()) {
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    function resetScroll() {
+    	if(alreadyCreateScroll() === false) {
+    		return;	
+    	}
+    	
+        one.resetValues();
+        two.resetValues();
+    }
+    
+    function createScroll() {
+        var kreAsideScroll = document.querySelectorAll('#kre_aside');
+
+        // Apply slim scroll plugin
+        one = new slimScroll(kreAsideScroll[0], {
+            wrapperClass: 'scroll-wrapper1',
+            scrollBarContainerClass: 'scrollBarContainer',
+            scrollBarContainerSpecialClass: 'animate',
+            scrollBarClass: 'scroll',
+            keepFocus: false
+        });
+
+        var kreMainScroll = document.querySelectorAll('#kre_main');
+
+        two = new slimScroll(kreMainScroll[0], {
+            wrapperClass: 'scroll-wrapper2',
+            scrollBarContainerClass: 'scrollBarContainer',
+            scrollBarContainerSpecialClass: 'animate',
+            scrollBarClass: 'scroll',
+            keepFocus: false
+        });
     }
 </script>
 
@@ -111,10 +122,16 @@
    		});
    	});
 
-   	$(window).on("keypress", function(e) {
-   	    if(e.keyCode === 113) {
-   	    	location.href = '${contextPath}/';
+   	$("body").on("keypress", function(e) {
+   	    if(e.keyCode !== 113) {
+   	    	return;
    	    }
+   	    
+   		if($(e.target).is("textarea, input, select")) {
+   			return;
+   		}
+   	    
+ 	    location.href = '${contextPath}/';
    	});
 </script>
 
