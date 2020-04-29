@@ -5,7 +5,7 @@
 
 body {
   font-family: 'Nanum Gothic', sans-serif;
-  line-height: 1.6;
+  line-height: 1.8em;
 }
 
 .cke_editable {
@@ -19,6 +19,7 @@ p {
 }
 
 img {
+	height: auto !important;
 	max-width: 100%;
 	border: 1px solid #ccc;
 	box-sizing: border-box;
@@ -31,10 +32,15 @@ a {
 
 a:before {
     font-family: "Material Icons";
-	content: "\e89e";
+	content: "\e157";
 	margin-right: 2px;
 	vertical-align: bottom;
 }
+
+a[target='_blank']:before {
+	content: "\e89e";
+}
+
 
 code {
 	font-family: 'Nanum Gothic', sans-serif;

@@ -141,16 +141,13 @@
 	box-sizing: border-box;
 	border-top: 2px dotted #033e6a;
 	border-bottom: 2px dotted #033e6a;
-	line-height: 1.6em;
+	line-height: 1.8em;
 	word-break: break-all;
 	font-size: 18px;
 }
 
-#post_view .kre_article .kre_article_body p {
-	margin: 10px 0;
-}
-
 #post_view .kre_article .kre_article_body img {
+	height: auto !important;
 	max-width: 100%;
 	border: 1px solid #ccc;
 	box-sizing: border-box;
