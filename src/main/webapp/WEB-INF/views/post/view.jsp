@@ -61,6 +61,112 @@
 	</article>
 </section>
 
+<section id="comment_view" class="post comment">
+	<h3 id="comment_header" class="section_subject">Comments</h3>
+
+	<div class="kre_row">
+		<input type="text" id="comment_name" class="kre_inp" placeholder="Name">
+	</div>
+	<div class="kre_row">
+		<input type="text" id="comment_password" class="kre_inp" placeholder="Password">
+	</div>
+	<div class="kre_row">
+		<textarea id="comment_text" class="kre_text"></textarea>
+	</div>
+	<div class="kre_row">
+		<input type="submit" id="comment_write_btn" class="kre_btn reverse_btn" value="Write">
+	</div>
+
+	<ul class="comment_list">
+		<li>
+			<div class="comment_wrap">
+				<div class="comment_header">
+					<span class="comment_name">kurien</span>
+					<span class="comment_write_time">2020/05/02 10:57</span>
+					<a href="#" class="kre_link"><span class="material-icons">reply</span> 답글</a>
+					<a href="#" class="kre_link"><span class="material-icons">edit</span> 수정</a>
+					<a href="#" class="kre_link"><span class="material-icons">delete</span> 삭제</a>
+				</div>
+				<div class="comment_body">
+					내용입니다....
+				</div>
+			</div>
+			<ul class="comment_children">
+				<li>
+					<div class="comment_wrap">
+						<div class="comment_header">
+							<span class="comment_name">kurien</span>
+							<span class="comment_write_time">2020/05/02 10:57</span>
+							<a href="#" class="kre_link"><span class="material-icons">reply</span> 답글</a>
+							<a href="#" class="kre_link"><span class="material-icons">edit</span> 수정</a>
+							<a href="#" class="kre_link"><span class="material-icons">delete</span> 삭제</a>
+						</div>
+						<div class="comment_body">
+							답글 내용입니다....
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="comment_wrap">
+						<div class="comment_header">
+							<span class="comment_name">kurien</span>
+							<span class="comment_write_time">2020/05/02 10:57</span>
+							<a href="#" class="kre_link"><span class="material-icons">reply</span> 답글</a>
+							<a href="#" class="kre_link"><span class="material-icons">edit</span> 수정</a>
+							<a href="#" class="kre_link"><span class="material-icons">delete</span> 삭제</a>
+						</div>
+						<div class="comment_body">
+							답글 내용입니다....
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="comment_wrap">
+						<div class="comment_header">
+							<span class="comment_name">kurien</span>
+							<span class="comment_write_time">2020/05/02 10:57</span>
+							<a href="#" class="kre_link"><span class="material-icons">reply</span> 답글</a>
+							<a href="#" class="kre_link"><span class="material-icons">edit</span> 수정</a>
+							<a href="#" class="kre_link"><span class="material-icons">delete</span> 삭제</a>
+						</div>
+						<div class="comment_body">
+							답글 내용입니다....
+						</div>
+					</div>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<div class="comment_wrap">
+				<div class="comment_header">
+					<span class="comment_name">kurien</span>
+					<span class="comment_write_time">2020/05/02 10:57</span>
+					<a href="#" class="kre_link"><span class="material-icons">reply</span> 답글</a>
+					<a href="#" class="kre_link"><span class="material-icons">edit</span> 수정</a>
+					<a href="#" class="kre_link"><span class="material-icons">delete</span> 삭제</a>
+				</div>
+				<div class="comment_body">
+					내용입니다....
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class="comment_wrap">
+				<div class="comment_header">
+					<span class="comment_name">kurien</span>
+					<span class="comment_write_time">2020/05/02 10:57</span>
+					<a href="#" class="kre_link"><span class="material-icons">reply</span> 답글</a>
+					<a href="#" class="kre_link"><span class="material-icons">edit</span> 수정</a>
+					<a href="#" class="kre_link"><span class="material-icons">delete</span> 삭제</a>
+				</div>
+				<div class="comment_body">
+					내용입니다....
+				</div>
+			</div>
+		</li>
+	</ul>
+</section>
+
 <script src="${contextPath}/js/plugin/clipboard.min.js"></script>
 <script>
 	if($("#copyUrl").length > 0) {

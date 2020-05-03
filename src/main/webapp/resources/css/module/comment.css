@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query since this is the default in Bootstrap */
+
+.comment_list {
+    list-style: none;
+    margin: 0;
+    margin-top: 30px;
+    padding: 0;
+}
+
+.comment_wrap {
+    margin-top: 10px;
+    padding: 15px;
+    border: 2px solid #033e6a;
+}
+
+.comment_header {
+    margin-bottom: 15px;
+}
+
+.comment_list ul {
+    list-style: none;
+    margin: 0;
+}
+
+.comment_list ul .comment_wrap {
+    border-color: #999;
+}
+
+#comment_header {
+    margin-top: 0;
+}
+
+#comment_write_btn {
+    width: 200px;
+}
+
+.kre_link {
+    color: #033e6a;
+}
