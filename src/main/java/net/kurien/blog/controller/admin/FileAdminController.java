@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.google.gson.JsonObject;
 
 import net.kurien.blog.module.file.service.FileService;
+import net.kurien.blog.util.RequestUtil;
 
 @Controller
 @RequestMapping("/admin/file")
@@ -61,7 +62,7 @@ public class FileAdminController {
 
 		String uploadPath = request.getServletContext().getRealPath("/") + "../../files/" + service;
 		
-		int fileNo = fileService.upload(uploadPath, service, file.getBytes(), fileName, file.getSize(), file.getContentType(), request.getRemoteAddr());
+		int fileNo = fileService.upload(uploadPath, service, file.getBytes(), fileName, file.getSize(), file.getContentType(), RequestUtil.getRemoteAddr(request));
 		
         printWriter = response.getWriter();
         response.setContentType("text/html");

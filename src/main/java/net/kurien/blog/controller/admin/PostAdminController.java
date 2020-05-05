@@ -28,6 +28,7 @@ import net.kurien.blog.module.shortUrl.service.ShortUrlService;
 import net.kurien.blog.module.shortUrl.vo.ServiceShortUrl;
 import net.kurien.blog.module.shortUrl.vo.ShortUrl;
 import net.kurien.blog.util.HtmlUtil;
+import net.kurien.blog.util.RequestUtil;
 
 @Controller
 @RequestMapping("/admin/post")
@@ -98,7 +99,7 @@ public class PostAdminController {
 	public String writeUpdate(HttpServletRequest request, Post post, Integer[] fileNos) throws Exception {
 		post.setPostAuthor("Kurien");
 		post.setPostWriteTime(Calendar.getInstance().getTime());
-		post.setPostWriteIp(request.getRemoteAddr());
+		post.setPostWriteIp(RequestUtil.getRemoteAddr(request));
 
 		postService.write(post, fileNos);
 		
@@ -117,7 +118,7 @@ public class PostAdminController {
 		
 		ShortUrl shortUrl = new ShortUrl();
 		shortUrl.setRealUrl(url);
-		shortUrl.setCreateIp(request.getRemoteAddr());
+		shortUrl.setCreateIp(RequestUtil.getRemoteAddr(request));
 		
 		shortUrlService.set(shortUrl);
 		
@@ -125,7 +126,7 @@ public class PostAdminController {
 		serviceShortUrl.setServiceName("post");
 		serviceShortUrl.setServiceNo(post.getPostNo());
 		serviceShortUrl.setShortUrlNo(shortUrl.getShortUrlNo());
-		serviceShortUrl.setCreateIp(request.getRemoteAddr());
+		serviceShortUrl.setCreateIp(RequestUtil.getRemoteAddr(request));
 		
 		serviceShortUrlService.add(serviceShortUrl);
 	}
@@ -183,7 +184,7 @@ public class PostAdminController {
 		}
 		
 		if(post.getPostWriteIp() == null) {
-			post.setPostWriteIp(request.getRemoteAddr());
+			post.setPostWriteIp(RequestUtil.getRemoteAddr(request));
 		}
 		
 		postService.modify(post, fileNos);

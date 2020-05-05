@@ -146,6 +146,10 @@
 	font-size: 18px;
 }
 
+#post_view .kre_article .kre_article_body p {
+	margin: 24px 0;
+}
+
 #post_view .kre_article .kre_article_body img {
 	height: auto !important;
 	max-width: 100%;
