@@ -13,10 +13,10 @@
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/css/**" location="/resources/css/" />
-	<resources mapping="/js/**" location="/resources/js/" />
-	<resources mapping="/img/**" location="/resources/img/" />
-	<resources mapping="/font/**" location="/resources/font/" />
+	<resources mapping="/css/**" location="/resources/css/" cache-period="1800" />
+	<resources mapping="/js/**" location="/resources/js/" cache-period="1800" />
+	<resources mapping="/img/**" location="/resources/img/" cache-period="1800" />
+	<resources mapping="/font/**" location="/resources/font/" cache-period="1296000" />
 	<resources mapping="/.well-known/**" location="/resources/checkFiles/" />
 	<resources mapping="/robots.txt" location="/resources/main/robots.txt" />
 	<resources mapping="/ads.txt" location="/resources/main/ads.txt" />
