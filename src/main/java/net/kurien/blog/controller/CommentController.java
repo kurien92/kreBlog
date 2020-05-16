@@ -16,6 +16,7 @@ import net.kurien.blog.module.comment.dto.CommentDto;
 import net.kurien.blog.module.comment.service.CommentService;
 import net.kurien.blog.module.comment.vo.Comment;
 import net.kurien.blog.module.token.vo.Token;
+import net.kurien.blog.util.RequestUtil;
 import net.kurien.blog.util.TokenUtil;
 
 import org.slf4j.Logger;
@@ -72,7 +73,7 @@ public class CommentController {
 		comment.setAuthor(commentDto.getName());
 		comment.setPassword(commentDto.getPassword());
 		comment.setComment(commentDto.getText());
-		comment.setWriteIp(request.getRemoteAddr());
+		comment.setWriteIp(RequestUtil.getRemoteAddr(request));
 		
 		commentService.write(comment);
 	    
@@ -130,7 +131,7 @@ public class CommentController {
 		comment.setAuthor(commentDto.getName());
 		comment.setPassword(commentDto.getPassword());
 		comment.setComment(commentDto.getText());
-		comment.setWriteIp(request.getRemoteAddr());
+		comment.setWriteIp(RequestUtil.getRemoteAddr(request));
 
 		try {
 			commentService.reply(no, comment);
@@ -176,7 +177,7 @@ public class CommentController {
 		comment.setAuthor(commentDto.getName());
 		comment.setPassword(commentDto.getPassword());
 		comment.setComment(commentDto.getText());
-		comment.setWriteIp(request.getRemoteAddr());
+		comment.setWriteIp(RequestUtil.getRemoteAddr(request));
 	    
 	    commentService.modify(comment);
 	    
