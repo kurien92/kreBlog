@@ -16,6 +16,7 @@ import net.kurien.blog.module.comment.dto.CommentDto;
 import net.kurien.blog.module.comment.service.CommentService;
 import net.kurien.blog.module.comment.vo.Comment;
 import net.kurien.blog.module.token.vo.Token;
+import net.kurien.blog.util.HtmlUtil;
 import net.kurien.blog.util.RequestUtil;
 import net.kurien.blog.util.TokenUtil;
 
@@ -70,9 +71,9 @@ public class CommentController {
 		Comment comment = new Comment();
 		
 		comment.setPostNo(postNo);
-		comment.setAuthor(commentDto.getName());
+		comment.setAuthor(HtmlUtil.escapeHtml(commentDto.getName()));
 		comment.setPassword(commentDto.getPassword());
-		comment.setComment(commentDto.getText());
+		comment.setComment(HtmlUtil.escapeHtml(commentDto.getText()));
 		comment.setWriteIp(RequestUtil.getRemoteAddr(request));
 		
 		commentService.write(comment);
@@ -82,35 +83,6 @@ public class CommentController {
 	    json.addProperty("message", "");
         
 	    return json;
-	}
-	
-	private boolean validInput(CommentDto commentDto) throws InvalidRequestException {
-		// TODO Auto-generated method stub
-		if(commentDto.getName().length() < 2) {
-			throw new InvalidRequestException("작성자명은 2자 이상으로 입력해주세요.");
-		}
-		
-		if(commentDto.getName().length() > 30) {
-			throw new InvalidRequestException("작성자명은 30자 미만으로 입력해주세요.");
-		}
-		
-		if(commentDto.getPassword().length() == 0) {
-			throw new InvalidRequestException("비밀번호를 입력해주세요.");
-		}
-		
-		if(commentDto.getPassword().length() > 30) {
-			throw new InvalidRequestException("비밀번호는 30자 미만으로 입력해주세요.");
-		}
-		
-		if(commentDto.getPassword().length() == 0) {
-			throw new InvalidRequestException("댓글을 입력해주세요.");
-		}
-		
-		if(commentDto.getPassword().length() > 30) {
-			throw new InvalidRequestException("댓글은 10000자 미만으로 입력해주세요.");
-		}
-
-		return true;
 	}
 
 	@RequestMapping(value = "/reply/{no}", method = RequestMethod.POST)
@@ -128,9 +100,9 @@ public class CommentController {
 		
 		Comment comment = new Comment();
 		
-		comment.setAuthor(commentDto.getName());
+		comment.setAuthor(HtmlUtil.escapeHtml(commentDto.getName()));
 		comment.setPassword(commentDto.getPassword());
-		comment.setComment(commentDto.getText());
+		comment.setComment(HtmlUtil.escapeHtml(commentDto.getText()));
 		comment.setWriteIp(RequestUtil.getRemoteAddr(request));
 
 		try {
@@ -174,9 +146,9 @@ public class CommentController {
 		Comment comment = new Comment();
 		
 		comment.setCommentNo(no);
-		comment.setAuthor(commentDto.getName());
+		comment.setAuthor(HtmlUtil.escapeHtml(commentDto.getName()));
 		comment.setPassword(commentDto.getPassword());
-		comment.setComment(commentDto.getText());
+		comment.setComment(HtmlUtil.escapeHtml(commentDto.getText()));
 		comment.setWriteIp(RequestUtil.getRemoteAddr(request));
 	    
 	    commentService.modify(comment);
@@ -257,5 +229,35 @@ public class CommentController {
 		commentJson.addProperty("delYn", comment.getDeleteYn());
 		
 		return commentJson;
+	}
+
+	
+	private boolean validInput(CommentDto commentDto) throws InvalidRequestException {
+		// TODO Auto-generated method stub
+		if(commentDto.getName().length() < 2) {
+			throw new InvalidRequestException("작성자명은 2자 이상으로 입력해주세요.");
+		}
+		
+		if(commentDto.getName().length() > 30) {
+			throw new InvalidRequestException("작성자명은 30자 미만으로 입력해주세요.");
+		}
+		
+		if(commentDto.getPassword().length() == 0) {
+			throw new InvalidRequestException("비밀번호를 입력해주세요.");
+		}
+		
+		if(commentDto.getPassword().length() > 30) {
+			throw new InvalidRequestException("비밀번호는 30자 미만으로 입력해주세요.");
+		}
+		
+		if(commentDto.getPassword().length() == 0) {
+			throw new InvalidRequestException("댓글을 입력해주세요.");
+		}
+		
+		if(commentDto.getPassword().length() > 30) {
+			throw new InvalidRequestException("댓글은 10000자 미만으로 입력해주세요.");
+		}
+
+		return true;
 	}
 }
