@@ -67,7 +67,7 @@
 		    		<input type="text" id="comment_name" class="kre_inp" placeholder="Name">
 		    	</div>
 		    	<div class="kre_row">
-		    		<input type="text" id="comment_password" class="kre_inp" placeholder="Password">
+		    		<input type="password" id="comment_password" class="kre_inp" placeholder="Password">
 		    	</div>
 		    	<div class="kre_row">
 		    		<textarea id="comment_text" class="kre_text"></textarea>
@@ -95,7 +95,7 @@
             		<input type="text" id="comment_reply_name" class="kre_inp" placeholder="Name">
             	</div>
             	<div class="kre_row">
-            		<input type="text" id="comment_reply_password" class="kre_inp" placeholder="Password">
+            		<input type="password" id="comment_reply_password" class="kre_inp" placeholder="Password">
             	</div>
             	<div class="kre_row">
             		<textarea id="comment_reply_text" class="kre_text"></textarea>
@@ -110,7 +110,7 @@
                 <h4 id="comment_reply_header">Password Check</h3>
 
             	<div class="kre_row">
-            		<input type="text" id="comment_reply_password" class="kre_inp" placeholder="Password">
+            		<input type="password" id="comment_reply_password" class="kre_inp" placeholder="Password">
             	</div>
 
             	<div class="kre_row">
@@ -151,7 +151,7 @@
         	writeComment(postNo, commentData).then(function(comment) {
         		var commentItem = getReplyCommentItem(comment.no, comment.name, comment.time, comment.text, comment.depth, comment.delYn);
                 
-        		$(".comment_list").prepend(commentItem);
+        		$(".comment_list").append(commentItem);
         		
         		$("#comment_name").val("");
         		$("#comment_password").val("");
