@@ -1,0 +1,123 @@
+@charset "UTF-8";
+
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query since this is the default in Bootstrap */
+
+.comment_list {
+    list-style: none;
+    margin: 0;
+    margin-top: 30px;
+    padding: 0;
+}
+
+.comment_wrap {
+    margin-top: 10px;
+    padding: 15px;
+    border: 2px solid #033e6a;
+    word-break: break-all;
+}
+
+.comment_wrap ul.kre_btn_list_left {
+	float: none;
+}
+
+.comment_wrap ul.kre_btn_list_left > li {
+	float: none;
+	margin-left: 0;
+	margin-top: 6px;
+}
+
+.comment_wrap ul.kre_btn_list_left > li:first-child {
+	margin-top: 0;
+}
+
+.comment_wrap ul.kre_btn_list_right {
+	float: none;
+	margin-top: 10px;
+}
+
+.comment_wrap .comment_btn_active {
+	background-color: #033e6a;
+	color: #fff;
+}
+
+.comment_wrap .comment_btn_text {
+	display: none;
+}
+
+.comment_deleted {
+	color: #aaa;
+}
+
+.comment_header {
+    margin-bottom: 15px;
+}
+
+.comment_input {
+    margin-top: 10px;
+}
+
+#comment_reply_input {
+    border: 2px solid #033e6a;
+    padding: 20px;
+}
+
+.comment_list .comment_children {
+    list-style: none;
+}
+
+.comment_list .comment_children .comment_wrap {
+    border-color: #999;
+}
+
+#comment_header {
+    margin-top: 0;
+}
+
+#comment_write_btn {
+    width: 200px;
+}
+
+#comment_reply_header {
+    margin: 0 0 10px 0;
+}
+
+
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+	.comment_wrap ul.kre_btn_list_left {
+		float: left;
+	}
+	
+	.comment_wrap ul.kre_btn_list_left > li {
+		float: left;
+		margin-left: 8px;
+		margin-top: 0;
+	}
+	
+	.comment_wrap ul.kre_btn_list_left > li:first-child {
+		margin-left: 0;
+	}
+	
+	
+	.comment_wrap ul.kre_btn_list_right {
+		float: right;
+		margin-top: 0;
+	}
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	.comment_wrap .comment_btn_text {
+		display: inline;
+	}
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}

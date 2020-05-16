@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.kurien.blog.module.comment.mapper">
+	<resultMap id="resultMap" type="net.kurien.blog.module.comment.vo.Comment">
+		<id property="commentNo" column="commentNo"/>
+		<result property="postNo" column="postNo"/>
+		<result property="parentCommentNo" column="parentCommentNo"/>
+		<result property="commentOrder" column="commentOrder"/>
+		<result property="commentDepth" column="commentDepth"/>
+		<result property="author" column="author"/>
+		<result property="password" column="password"/>
+		<result property="comment" column="comment"/>
+		<result property="writeTime" column="writeTime"/>
+		<result property="writeIp" column="writeIp"/>
+		<result property="deleteYn" column="deleteYn"/>
+	</resultMap>
+	
+	<sql id="table">
+		kreComment
+	</sql>
+
+    <select id="selectList" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+		<where>
+			postNo = #{postNo}
+		</where>
+		order by 
+			parentCommentNo ASC,
+			commentDepth ASC,
+			commentOrder ASC
+    </select>
+    
+    <select id="selectOne" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	commentNo = #{commentNo}
+        </where>
+    </select>
+    
+    <select id="getLastOrder" resultType="Integer">
+        SELECT max(commentOrder)
+        FROM <include refid="table" />
+        <where>
+        	parentCommentNo = #{parentCommentNo}
+        	AND commentDepth = #{commentDepth}
+        	AND deleteYn = 'N'
+        </where>
+    </select>
+		
+		
+    <insert id="insert" useGeneratedKeys="true" keyProperty="commentNo">
+        INSERT INTO
+        <include refid="table" /> (
+        	commentNo,
+			postNo,
+			parentCommentNo,
+			commentOrder,
+			commentDepth,
+			author,
+			password,
+			comment,
+			writeTime,
+			writeIp,
+			deleteYn
+        )
+        VALUES (
+        	#{commentNo},
+			#{postNo},
+			#{parentCommentNo},
+			#{commentOrder},
+			#{commentDepth},
+			#{author},
+			#{password},
+			#{comment},
+			#{writeTime},
+			#{writeIp},
+			#{deleteYn}
+		)
+    </insert>
+    
+    <update id="update">
+        UPDATE <include refid="table" />
+        <set>
+        	<if test="parentCommentNo != null">
+				parentCommentNo = #{parentCommentNo},
+			</if>
+			
+        	<if test="author != null">
+				author = #{author},
+			</if>
+			
+        	<if test="password != null">
+				password = #{password},
+			</if>
+			
+			<if test="comment != null">
+				comment = #{comment},
+			</if>
+			
+        	<if test="writeTime != null">
+	       		<choose>
+	       			<when test="writeTime.time == 0">
+	       				writeTime = null,
+	       			</when>
+	       			<otherwise>
+	       				writeTime = #{writeTime},
+	       			</otherwise>
+	       		</choose>
+        	</if>
+			
+			<if test="writeIp != null">
+				writeIp = #{writeIp},
+			</if>
+			
+			<if test="deleteYn != null">
+				deleteYn = #{deleteYn},
+			</if>
+       	</set>
+       	<where>
+       		commentNo = #{commentNo}
+       	</where>
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM <include refid="table" />
+        <where>
+       		commentNo = #{commentNo}
+        </where>
+    </delete>
+</mapper>
