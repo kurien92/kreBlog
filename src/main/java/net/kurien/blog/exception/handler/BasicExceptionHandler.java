@@ -18,6 +18,7 @@ import net.kurien.blog.common.template.metadata.TemplateCss;
 import net.kurien.blog.common.template.metadata.TemplateJs;
 import net.kurien.blog.common.template.metadata.TemplateMeta;
 import net.kurien.blog.exception.DuplicatedKeyException;
+import net.kurien.blog.exception.InvalidRequestException;
 import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.module.category.service.CategoryService;
 import net.kurien.blog.util.HtmlUtil;
@@ -46,6 +47,28 @@ public class BasicExceptionHandler {
 	    	model.addAttribute("template", this.setTemplate(request));
 			model.addAttribute("exceptionMsg", nfe.getMessage());
 			model.addAttribute("exceptionDescription", "페이지가 이동되었거나 삭제되었습니다.<br>카테고리를 선택하시거나 아래에 표시된 버튼을 통해 이동하시기 바랍니다.");
+
+			return "error/exception";
+		} catch(Exception e) {
+			logger.error("exception requestURI: " + requestURI, e);
+			return "error/fatalError";
+		}
+	}
+	
+	@ExceptionHandler({InvalidRequestException.class})
+	@ResponseStatus(value=HttpStatus.BAD_REQUEST)
+	public String invalidRequestExceptionhandler(HttpServletRequest request, HttpServletResponse response, Model model, Exception ire) {
+		String requestURI = (String)request.getAttribute("javax.servlet.forward.request_uri");
+		String referer = request.getHeader("referer");
+
+		model.addAttribute("referer", referer);
+		
+		try {
+			logger.error("exception requestURI: " + requestURI, ire);
+	
+	    	model.addAttribute("template", this.setTemplate(request));
+			model.addAttribute("exceptionMsg", ire.getMessage());
+			model.addAttribute("exceptionDescription", "잘못된 경로로 접근하셨습니다.<br>카테고리를 선택하시거나 아래에 표시된 버튼을 통해 정상적인 경로로 접근하여주시기 바랍니다.");
 
 			return "error/exception";
 		} catch(Exception e) {
