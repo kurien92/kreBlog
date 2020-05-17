@@ -1,4 +1,4 @@
-package net.kurien.blog.module.comment.vo;
+package net.kurien.blog.module.comment.entity;
 
 import java.util.Date;
 

@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.module.file.dao.FileDao;
-import net.kurien.blog.module.file.vo.File;
+import net.kurien.blog.module.file.entity.File;
 
 @Repository
 public class FileDaoBasic implements FileDao {

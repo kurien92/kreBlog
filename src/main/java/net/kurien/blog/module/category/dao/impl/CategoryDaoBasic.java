@@ -10,7 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.module.category.dao.CategoryDao;
-import net.kurien.blog.module.category.vo.Category;
+import net.kurien.blog.module.category.entity.Category;
 
 @Repository
 public class CategoryDaoBasic implements CategoryDao {

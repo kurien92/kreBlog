@@ -10,7 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.module.comment.dao.CommentDao;
-import net.kurien.blog.module.comment.vo.Comment;
+import net.kurien.blog.module.comment.entity.Comment;
 
 @Repository
 public class BasicCommentDao implements CommentDao {

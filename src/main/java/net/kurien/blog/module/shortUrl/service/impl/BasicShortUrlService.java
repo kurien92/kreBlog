@@ -7,8 +7,8 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.module.shortUrl.dao.ShortUrlDao;
+import net.kurien.blog.module.shortUrl.entity.ShortUrl;
 import net.kurien.blog.module.shortUrl.service.ShortUrlService;
-import net.kurien.blog.module.shortUrl.vo.ShortUrl;
 import net.kurien.blog.util.Base62Util;
 
 @Service

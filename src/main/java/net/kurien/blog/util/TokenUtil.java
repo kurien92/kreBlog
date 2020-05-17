@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 
-import net.kurien.blog.module.token.vo.Token;
+import net.kurien.blog.vo.Token;
 
 @Component
 public class TokenUtil {

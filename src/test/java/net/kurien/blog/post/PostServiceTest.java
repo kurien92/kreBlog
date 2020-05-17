@@ -25,10 +25,10 @@ import net.kurien.blog.exception.EmptyParameterException;
 import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.exception.NotUsePrimaryKeyException;
 import net.kurien.blog.module.file.service.ServiceFileService;
+import net.kurien.blog.module.post.entity.Post;
+import net.kurien.blog.module.post.entity.PostPublishStatus;
+import net.kurien.blog.module.post.entity.PostViewStatus;
 import net.kurien.blog.module.post.service.PostService;
-import net.kurien.blog.module.post.vo.Post;
-import net.kurien.blog.module.post.vo.PostPublishStatus;
-import net.kurien.blog.module.post.vo.PostViewStatus;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml", "file:src/main/webapp/WEB-INF/spring/*-context.xml"})

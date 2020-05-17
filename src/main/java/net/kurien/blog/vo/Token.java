@@ -1,4 +1,4 @@
-package net.kurien.blog.module.token.vo;
+package net.kurien.blog.vo;
 
 import java.util.Date;
 

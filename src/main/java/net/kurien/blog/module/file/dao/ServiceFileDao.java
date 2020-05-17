@@ -2,7 +2,7 @@ package net.kurien.blog.module.file.dao;
 
 import java.util.List;
 
-import net.kurien.blog.module.file.vo.ServiceFile;
+import net.kurien.blog.module.file.entity.ServiceFile;
 
 public interface ServiceFileDao {
 	public ServiceFile selectOne(String serviceName, int serviceNo, int fileNo);

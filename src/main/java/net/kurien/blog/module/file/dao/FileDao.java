@@ -2,7 +2,7 @@ package net.kurien.blog.module.file.dao;
 
 import java.util.List;
 
-import net.kurien.blog.module.file.vo.File;
+import net.kurien.blog.module.file.entity.File;
 
 public interface FileDao {
     public List<File> selectList(List<Integer> fileNos);

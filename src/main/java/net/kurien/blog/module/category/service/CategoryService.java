@@ -2,7 +2,7 @@ package net.kurien.blog.module.category.service;
 
 import java.util.List;
 
-import net.kurien.blog.module.category.vo.Category;
+import net.kurien.blog.module.category.entity.Category;
 
 public interface CategoryService {
 	List<Category> getList();

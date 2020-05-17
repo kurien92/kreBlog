@@ -11,8 +11,8 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.module.file.dao.FileDao;
+import net.kurien.blog.module.file.entity.File;
 import net.kurien.blog.module.file.service.FileService;
-import net.kurien.blog.module.file.vo.File;
 import net.kurien.blog.util.FileUtil;
 
 @Service

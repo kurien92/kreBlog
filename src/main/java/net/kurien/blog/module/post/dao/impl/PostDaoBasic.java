@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.module.post.dao.PostDao;
-import net.kurien.blog.module.post.vo.Post;
+import net.kurien.blog.module.post.entity.Post;
 
 @Repository
 public class PostDaoBasic implements PostDao {

@@ -2,7 +2,7 @@ package net.kurien.blog.module.category.dao;
 
 import java.util.List;
 
-import net.kurien.blog.module.category.vo.Category;
+import net.kurien.blog.module.category.entity.Category;
 
 public interface CategoryDao {
 	List<Category> selectList();

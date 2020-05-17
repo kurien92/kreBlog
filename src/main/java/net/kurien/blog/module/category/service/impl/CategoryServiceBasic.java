@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.kurien.blog.module.category.dao.CategoryDao;
+import net.kurien.blog.module.category.entity.Category;
 import net.kurien.blog.module.category.service.CategoryService;
-import net.kurien.blog.module.category.vo.Category;
 import net.kurien.blog.module.post.service.PostService;
 
 @Service

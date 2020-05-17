@@ -4,7 +4,7 @@ CREATE TABLE `krePost` (
   `postAuthor` varchar(30) NOT NULL,
   `postPassword` varchar(100) DEFAULT NULL,
   `postSubject` varchar(100) NOT NULL,
-  `postContent` text NOT NULL,
+  `postContent` mediumtext NOT NULL,
   `postView` tinyint(1) NOT NULL DEFAULT '0',
   `postPublish` tinyint(1) NOT NULL DEFAULT '0',
   `postWriteTime` datetime NOT NULL,

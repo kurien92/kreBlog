@@ -1,4 +1,4 @@
-package net.kurien.blog.module.shortUrl.vo;
+package net.kurien.blog.module.shortUrl.entity;
 
 import java.util.Date;
 

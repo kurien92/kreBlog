@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import net.kurien.blog.exception.InvalidRequestException;
 import net.kurien.blog.module.comment.dao.CommentDao;
+import net.kurien.blog.module.comment.entity.Comment;
 import net.kurien.blog.module.comment.service.CommentService;
-import net.kurien.blog.module.comment.vo.Comment;
 
 @Service
 public class BasicCommentService implements CommentService {

@@ -10,8 +10,8 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.module.file.dao.ServiceFileDao;
+import net.kurien.blog.module.file.entity.ServiceFile;
 import net.kurien.blog.module.file.service.ServiceFileService;
-import net.kurien.blog.module.file.vo.ServiceFile;
 
 @Service
 public class BasicServiceFileService implements ServiceFileService {

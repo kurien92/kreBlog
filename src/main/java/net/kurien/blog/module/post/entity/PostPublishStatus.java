@@ -1,4 +1,4 @@
-package net.kurien.blog.module.post.vo;
+package net.kurien.blog.module.post.entity;
 
 public enum PostPublishStatus {
 	FALSE(0), TRUE(1);

@@ -17,8 +17,8 @@ import net.kurien.blog.common.template.Template;
 import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.domain.PageMaker;
 import net.kurien.blog.domain.SearchCriteria;
+import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.post.service.PostService;
-import net.kurien.blog.module.post.vo.Post;
 
 /**
  * Handles requests for the application home page.

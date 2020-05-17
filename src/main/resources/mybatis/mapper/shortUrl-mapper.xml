@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.kurien.blog.module.shortUrl.mapper">
-	<resultMap id="resultMap" type="net.kurien.blog.module.shortUrl.vo.ShortUrl">
+	<resultMap id="resultMap" type="net.kurien.blog.module.shortUrl.entity.ShortUrl">
 		<id property="shortUrlNo" column="shortUrlNo" />
 		<result property="realUrl" column="realUrl"/>
 		<result property="encodedUrl" column="encodedUrl"/>

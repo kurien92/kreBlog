@@ -13,8 +13,8 @@ import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.exception.NotUsePrimaryKeyException;
 import net.kurien.blog.module.file.service.ServiceFileService;
 import net.kurien.blog.module.post.dao.PostDao;
+import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.post.service.PostService;
-import net.kurien.blog.module.post.vo.Post;
 
 @Service
 public class BasicPostService implements PostService {

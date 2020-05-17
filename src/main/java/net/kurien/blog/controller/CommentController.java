@@ -13,12 +13,12 @@ import com.google.gson.JsonObject;
 
 import net.kurien.blog.exception.InvalidRequestException;
 import net.kurien.blog.module.comment.dto.CommentDto;
+import net.kurien.blog.module.comment.entity.Comment;
 import net.kurien.blog.module.comment.service.CommentService;
-import net.kurien.blog.module.comment.vo.Comment;
-import net.kurien.blog.module.token.vo.Token;
 import net.kurien.blog.util.HtmlUtil;
 import net.kurien.blog.util.RequestUtil;
 import net.kurien.blog.util.TokenUtil;
+import net.kurien.blog.vo.Token;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

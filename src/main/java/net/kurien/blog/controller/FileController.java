@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import net.kurien.blog.module.file.entity.File;
 import net.kurien.blog.module.file.service.FileService;
-import net.kurien.blog.module.file.vo.File;
 import net.kurien.blog.util.FileUtil;
 
 @Controller

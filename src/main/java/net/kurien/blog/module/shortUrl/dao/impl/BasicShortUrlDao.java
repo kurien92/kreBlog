@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.module.shortUrl.dao.ShortUrlDao;
-import net.kurien.blog.module.shortUrl.vo.ShortUrl;
+import net.kurien.blog.module.shortUrl.entity.ShortUrl;
 
 @Repository
 public class BasicShortUrlDao implements ShortUrlDao {

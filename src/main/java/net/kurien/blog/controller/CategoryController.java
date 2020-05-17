@@ -16,10 +16,10 @@ import net.kurien.blog.common.template.Template;
 import net.kurien.blog.domain.PageMaker;
 import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.exception.NotFoundDataException;
+import net.kurien.blog.module.category.entity.Category;
 import net.kurien.blog.module.category.service.CategoryService;
-import net.kurien.blog.module.category.vo.Category;
+import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.post.service.PostService;
-import net.kurien.blog.module.post.vo.Post;
 
 @Controller
 @RequestMapping("/category")

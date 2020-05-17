@@ -3,7 +3,7 @@ package net.kurien.blog.module.post.service;
 import java.util.List;
 
 import net.kurien.blog.domain.Criteria;
-import net.kurien.blog.module.post.vo.Post;
+import net.kurien.blog.module.post.entity.Post;
 
 public interface PostService {
 	public List<Post> getList(String manageYn);

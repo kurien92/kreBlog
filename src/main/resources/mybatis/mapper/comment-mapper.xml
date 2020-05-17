@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.kurien.blog.module.comment.mapper">
-	<resultMap id="resultMap" type="net.kurien.blog.module.comment.vo.Comment">
+	<resultMap id="resultMap" type="net.kurien.blog.module.comment.entity.Comment">
 		<id property="commentNo" column="commentNo"/>
 		<result property="postNo" column="postNo"/>
 		<result property="parentCommentNo" column="parentCommentNo"/>

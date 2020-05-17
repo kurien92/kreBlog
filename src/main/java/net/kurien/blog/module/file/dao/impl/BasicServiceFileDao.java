@@ -10,7 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.module.file.dao.ServiceFileDao;
-import net.kurien.blog.module.file.vo.ServiceFile;
+import net.kurien.blog.module.file.entity.ServiceFile;
 
 @Repository
 public class BasicServiceFileDao implements ServiceFileDao {

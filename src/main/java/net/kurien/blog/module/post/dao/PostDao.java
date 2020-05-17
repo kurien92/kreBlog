@@ -3,7 +3,7 @@ package net.kurien.blog.module.post.dao;
 import java.util.List;
 
 import net.kurien.blog.domain.Criteria;
-import net.kurien.blog.module.post.vo.Post;
+import net.kurien.blog.module.post.entity.Post;
 
 public interface PostDao {
 	public List<Post> selectList(String manageYn);

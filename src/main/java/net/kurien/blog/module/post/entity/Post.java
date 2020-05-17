@@ -1,4 +1,4 @@
-package net.kurien.blog.module.post.vo;
+package net.kurien.blog.module.post.entity;
 
 import java.util.Date;
 

@@ -3,7 +3,7 @@ package net.kurien.blog.module.comment.service;
 import java.util.List;
 
 import net.kurien.blog.exception.InvalidRequestException;
-import net.kurien.blog.module.comment.vo.Comment;
+import net.kurien.blog.module.comment.entity.Comment;
 
 public interface CommentService {
     public List<Comment> getList(int postNo);

@@ -1,4 +1,4 @@
-package net.kurien.blog.module.category.vo;
+package net.kurien.blog.module.category.entity;
 
 public class Category {
 	private Integer categoryNo;

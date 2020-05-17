@@ -2,7 +2,7 @@ package net.kurien.blog.module.file.service;
 
 import java.util.List;
 
-import net.kurien.blog.module.file.vo.ServiceFile;
+import net.kurien.blog.module.file.entity.ServiceFile;
 
 public interface ServiceFileService {
 	public ServiceFile get(String serviceName, int serviceNo, int fileNo);

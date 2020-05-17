@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import net.kurien.blog.common.template.Template;
+import net.kurien.blog.module.category.entity.Category;
 import net.kurien.blog.module.category.service.CategoryService;
-import net.kurien.blog.module.category.vo.Category;
 import net.kurien.blog.module.post.service.PostService;
 
 @Controller

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.kurien.blog.module.category.mapper">
-	<resultMap id="resultMap" type="net.kurien.blog.module.category.vo.Category">
+	<resultMap id="resultMap" type="net.kurien.blog.module.category.entity.Category">
 		<id property="categoryNo" column="categoryNo" />
 		<result property="categoryParentNo" column="categoryParentNo"/>
 		<result property="categoryDepth" column="categoryDepth"/>

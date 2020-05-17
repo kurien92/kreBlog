@@ -1,6 +1,6 @@
 package net.kurien.blog.module.shortUrl.dao;
 
-import net.kurien.blog.module.shortUrl.vo.ShortUrl;
+import net.kurien.blog.module.shortUrl.entity.ShortUrl;
 
 public interface ShortUrlDao {
 

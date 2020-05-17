@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import net.kurien.blog.common.template.Template;
 import net.kurien.blog.domain.PageMaker;
 import net.kurien.blog.domain.SearchCriteria;
+import net.kurien.blog.module.category.entity.Category;
 import net.kurien.blog.module.category.service.CategoryService;
-import net.kurien.blog.module.category.vo.Category;
+import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.post.service.PostService;
-import net.kurien.blog.module.post.vo.Post;
+import net.kurien.blog.module.shortUrl.entity.ServiceShortUrl;
+import net.kurien.blog.module.shortUrl.entity.ShortUrl;
 import net.kurien.blog.module.shortUrl.service.ServiceShortUrlService;
 import net.kurien.blog.module.shortUrl.service.ShortUrlService;
-import net.kurien.blog.module.shortUrl.vo.ServiceShortUrl;
-import net.kurien.blog.module.shortUrl.vo.ShortUrl;
 import net.kurien.blog.util.HtmlUtil;
 
 @Controller
