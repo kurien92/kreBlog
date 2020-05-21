@@ -35,6 +35,10 @@
 							</li>
 							
 							<li>
+								<a href="/admin/comment/list"><span class="material-icons">arrow_right</span>Comment</a>
+							</li>
+							
+							<li>
 								<a href="/admin/category/list"><span class="material-icons">arrow_right</span>Category</a>
 							</li>
 							

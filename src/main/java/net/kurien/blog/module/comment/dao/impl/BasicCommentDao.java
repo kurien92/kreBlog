@@ -18,11 +18,17 @@ public class BasicCommentDao implements CommentDao {
 	private SqlSession sqlSession;
 	
 	private final static String mapper = "net.kurien.blog.module.comment.mapper";
+
+	@Override
+	public List<Comment> selectList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(mapper + ".selectList");
+	}
 	
 	@Override
-	public List<Comment> selectList(int postNo) {
+	public List<Comment> selectListByPostNo(int postNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(mapper + ".selectList", postNo);
+		return sqlSession.selectList(mapper + ".selectListByPostNo", postNo);
 	}
 
 	@Override

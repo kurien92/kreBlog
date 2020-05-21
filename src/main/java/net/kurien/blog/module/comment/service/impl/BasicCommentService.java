@@ -17,11 +17,17 @@ import net.kurien.blog.module.comment.service.CommentService;
 public class BasicCommentService implements CommentService {
 	@Inject
 	private CommentDao commentDao;
+
+	@Override
+	public List<Comment> getList() {
+		// TODO Auto-generated method stub
+		return commentDao.selectList();
+	}
 	
 	@Override
 	public List<Comment> getList(int postNo) {
 		// TODO Auto-generated method stub
-		return commentDao.selectList(postNo);
+		return commentDao.selectListByPostNo(postNo);
 	}
 
 	@Override
@@ -88,6 +94,12 @@ public class BasicCommentService implements CommentService {
 		comment.setDeleteYn("Y");
 		
 		commentDao.update(comment);
+	}
+
+	@Override
+	public void remove(int commentNo) {
+		// TODO Auto-generated method stub
+		commentDao.delete(commentNo);
 	}
 	
 	/**

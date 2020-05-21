@@ -22,6 +22,11 @@
     <select id="selectList" resultMap="resultMap">
         SELECT *
         FROM <include refid="table" />
+    </select>
+    
+    <select id="selectListByPostNo" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
 		<where>
 			postNo = #{postNo}
 		</where>
