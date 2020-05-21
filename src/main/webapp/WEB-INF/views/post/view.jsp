@@ -702,6 +702,12 @@
     });
 </script>
 
+<script src="${contextPath}/js/plugin/kreFullImage.min.js"></script>
+<script>
+	var fullImage = kreFullImage({
+		targets: ".kre_article_body"
+	}).start();
+</script>
 <script src="${contextPath}/js/plugin/clipboard.min.js"></script>
 <script>
 	if($("#copyUrl").length > 0) {

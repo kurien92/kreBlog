@@ -151,7 +151,6 @@
 }
 
 #post_view .kre_article .kre_article_body img {
-	height: auto !important;
 	max-width: 100%;
 	border: 1px solid #ccc;
 	box-sizing: border-box;
@@ -209,6 +208,27 @@
     color: #033e6a;
     font-size: 28px;
     font-weight: bold;
+}
+
+/* fullImage */
+body.hide {
+	overflow: hidden;
+}
+
+.fullImageWrap {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.fullImageWrap.fullImageWrapActive {
+	z-index: 9001;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+.fullImageWrap img {
+	vertical-align: middle;
 }
 
 /* Small devices (landscape phones, 576px and up) */
