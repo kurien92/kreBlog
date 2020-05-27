@@ -51,6 +51,23 @@ public class TokenUtil {
 		return true;
 	}
 	
+	public static String getTokenString() throws NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		
+		String randomizeName = UUID.randomUUID().toString();
+		md.update(randomizeName.getBytes());
+		
+		byte[] mdBytes = md.digest();
+		
+		StringBuffer sb = new StringBuffer();
+		
+		for(int i = 0; i < mdBytes.length; i++) {
+			sb.append(Integer.toString((mdBytes[i]&0xff) + 0x100, 16).substring(1));
+		}
+		
+		return sb.toString();
+	}
+	
 	private static Map<String, Token> getTokenMap(HttpServletRequest request, String tokenType) {
 		tokenType = "token_" + tokenType;
 		
@@ -67,22 +84,5 @@ public class TokenUtil {
 		}
 		
 		return tokenMap;
-	}
-	
-	private static String getTokenString() throws NoSuchAlgorithmException {
-		MessageDigest md = MessageDigest.getInstance("MD5");
-		
-		String randomizeName = UUID.randomUUID().toString();
-		md.update(randomizeName.getBytes());
-		
-		byte[] mdBytes = md.digest();
-		
-		StringBuffer sb = new StringBuffer();
-		
-		for(int i = 0; i < mdBytes.length; i++) {
-			sb.append(Integer.toString((mdBytes[i]&0xff) + 0x100, 16).substring(1));
-		}
-		
-		return sb.toString();
 	}
 }

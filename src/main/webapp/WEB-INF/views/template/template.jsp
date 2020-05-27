@@ -72,10 +72,13 @@
 	<!--[if lt IE 9]>
 	<script src="${contextPath}/js/plugin/html5shiv.min.js"></script>
 	<![endif]-->
+	<script src="${contextPath}/js/plugin/bluebird.min.js"></script>
 	<script src="${contextPath}/js/library/jquery.min.js"></script>
     <script src="${contextPath}/js/plugin/slimscroll.js"></script>
 
 	<script>
+		var contextPath = "${contextPath}";
+	
 		var browserResolution = {
 			width: window.innerWidth || document.body.clientWidth,
 			height: window.innerHeight || document.body.clientHeight 

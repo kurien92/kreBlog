@@ -37,6 +37,7 @@
 	    <interceptor>
 	        <mapping path="/**"/>
 	        <exclude-mapping path="/comment/**" />
+	        <exclude-mapping path="/visitor/**" />
 	        
 	        <exclude-mapping path="/css/**" />
 	        <exclude-mapping path="/js/**" />

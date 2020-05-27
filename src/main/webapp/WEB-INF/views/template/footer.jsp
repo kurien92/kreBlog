@@ -147,3 +147,4 @@ ${template.footJs}
 	wcs_add["wa"] = "56a40a9e644d38";
 	wcs_do();
 </script>
+<script src="${contextPath}/js/api/kreVisitorCollect.js"></script>
