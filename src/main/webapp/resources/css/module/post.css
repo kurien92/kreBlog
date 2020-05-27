@@ -216,7 +216,7 @@ body.hide {
 }
 
 .fullImageWrap {
-	display: inline-block;
+	display: block;
 	cursor: pointer;
 }
 

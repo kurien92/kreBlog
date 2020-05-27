@@ -92,9 +92,9 @@ public class CommentController {
 		try {
 			validInput(commentDto);
 		} catch(InvalidRequestException ire) {
-		    json.addProperty("result", "success");
+		    json.addProperty("result", "fail");
 		    json.add("value", new JsonObject());
-		    json.addProperty("message", "");
+		    json.addProperty("message", ire.getMessage());
 		    return json;
 		}
 		

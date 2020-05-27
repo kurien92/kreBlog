@@ -87,36 +87,36 @@
     $(function() {
         var commentView = $("#comment_view");
         
-        var commentReplyInput = `
-            <div id="comment_reply_input" class="comment_input">
-                <h4 id="comment_reply_header">Reply</h3>
+        var commentReplyInput = ''
+            + '<div id="comment_reply_input" class="comment_input">'
+            + '    <h4 id="comment_reply_header">Reply</h3>'
+            + ''
+            + '	<div class="kre_row">'
+            + '		<input type="text" id="comment_reply_name" class="kre_inp" placeholder="Name">'
+            + '	</div>'
+            + '	<div class="kre_row">'
+            + '		<input type="password" id="comment_reply_password" class="kre_inp" placeholder="Password">'
+            + '	</div>'
+            + '	<div class="kre_row">'
+            + '		<textarea id="comment_reply_text" class="kre_text"></textarea>'
+            + '	</div>'
+            + '	<div class="kre_row">'
+            + '		<input type="submit" id="comment_reply_write_btn" class="kre_btn reverse_btn" value="Write">'
+            + '	</div>'
+            + '</div>';
             
-            	<div class="kre_row">
-            		<input type="text" id="comment_reply_name" class="kre_inp" placeholder="Name">
-            	</div>
-            	<div class="kre_row">
-            		<input type="password" id="comment_reply_password" class="kre_inp" placeholder="Password">
-            	</div>
-            	<div class="kre_row">
-            		<textarea id="comment_reply_text" class="kre_text"></textarea>
-            	</div>
-            	<div class="kre_row">
-            		<input type="submit" id="comment_reply_write_btn" class="kre_btn reverse_btn" value="Write">
-            	</div>
-            </div>`;
-            
-        var commentPasswordCheckInput = `
-            <div id="comment_reply_input" class="comment_input">
-                <h4 id="comment_reply_header">Password Check</h3>
-
-            	<div class="kre_row">
-            		<input type="password" id="comment_reply_password" class="kre_inp" placeholder="Password">
-            	</div>
-
-            	<div class="kre_row">
-            		<input type="submit" id="comment_password_check_btn" class="kre_btn reverse_btn" value="Check">
-            	</div>
-            </div>`;
+        var commentPasswordCheckInput = ''
+        	+ '<div id="comment_reply_input" class="comment_input">'
+        	+ '    <h4 id="comment_reply_header">Password Check</h3>'
+        	+ ''
+        	+ '    <div class="kre_row">'
+        	+ '        <input type="password" id="comment_reply_password" class="kre_inp" placeholder="Password">'
+        	+ '    </div>'
+        	+ ''
+        	+ '    <div class="kre_row">'
+        	+ '        <input type="submit" id="comment_password_check_btn" class="kre_btn reverse_btn" value="Check">'
+        	+ '    </div>'
+        	+ '</div>';
 
         var commentListAction = "${contextPath}/comment/list/";
         var commentWriteAction = "${contextPath}/comment/write/";
@@ -174,10 +174,9 @@
             var activeReplyBtn = $(".comment_btn_active");
             
             if(activeReplyBtn.length > 0) {
-                var activeReplyBtn = $(".comment_btn_active");
-                parentComment.find(".kre_reply_btn").children(".comment_btn_text").text('답글');
-                parentComment.find(".kre_modify_btn").children(".comment_btn_text").text('수정');
-                parentComment.find(".kre_delete_btn").children(".comment_btn_text").text('삭제');
+            	activeReplyBtn.filter(".kre_reply_btn").children(".comment_btn_text").text('답글');
+            	activeReplyBtn.filter(".kre_modify_btn").children(".comment_btn_text").text('수정');
+            	activeReplyBtn.filter(".kre_delete_btn").children(".comment_btn_text").text('삭제');
 
                 activeReplyBtn.removeClass("comment_btn_active");
                 
@@ -207,10 +206,9 @@
             var activeReplyBtn = $(".comment_btn_active");
             
             if(activeReplyBtn.length > 0) {
-                var activeReplyBtn = $(".comment_btn_active");
-                parentComment.find(".kre_reply_btn").children(".comment_btn_text").text('답글');
-                parentComment.find(".kre_modify_btn").children(".comment_btn_text").text('수정');
-                parentComment.find(".kre_delete_btn").children(".comment_btn_text").text('삭제');
+                activeReplyBtn.filter(".kre_reply_btn").children(".comment_btn_text").text('답글');
+                activeReplyBtn.filter(".kre_modify_btn").children(".comment_btn_text").text('수정');
+                activeReplyBtn.filter(".kre_delete_btn").children(".comment_btn_text").text('삭제');
 
                 activeReplyBtn.removeClass("comment_btn_active");
                 
@@ -242,9 +240,9 @@
             var activeReplyBtn = $(".comment_btn_active");
             
             if(activeReplyBtn.length > 0) {
-                parentComment.find(".kre_reply_btn").children(".comment_btn_text").text('답글');
-                parentComment.find(".kre_modify_btn").children(".comment_btn_text").text('수정');
-                parentComment.find(".kre_delete_btn").children(".comment_btn_text").text('삭제');
+            	activeReplyBtn.filter(".kre_reply_btn").children(".comment_btn_text").text('답글');
+                activeReplyBtn.filter(".kre_modify_btn").children(".comment_btn_text").text('수정');
+                activeReplyBtn.filter(".kre_delete_btn").children(".comment_btn_text").text('삭제');
                 activeReplyBtn.removeClass("comment_btn_active");
                 
                 $("#comment_reply_input").remove();
@@ -267,7 +265,7 @@
         });
         
         commentView.on("click", "#comment_password_check_btn", function() {
-            if(["edit", "delete"].includes(commentState) === false) {
+            if(["edit", "delete"].indexOf(commentState) === -1) {
                 return;
             }
 
@@ -328,7 +326,7 @@
         });
         
         commentView.on("click", "#comment_reply_write_btn", function() {
-            if(["reply", "edit"].includes(commentState) === false) {
+            if(["reply", "edit"].indexOf(commentState) === -1) {
                 return;
             }
             
@@ -551,49 +549,48 @@
             	text = "작성자가 삭제한 댓글입니다.";
             }
             
-            var replyCommentItem = `
-                <li class="commentDepth_\${depth}">
-					<div id="comment_item_\${no}" class="\${commentItemClass}" data-key="\${no}">
-					    \${commentItem}
-					</div>
-				</li>`;
+            var replyCommentItem = ''
+            	+ '<li class="commentDepth_' + depth + '">'
+            	+ '    <div id="comment_item_' + no + '" class="' + commentItemClass + '" data-key="' + no + '">'
+            	+ '        ' + commentItem + ''
+            	+ '	   </div>'
+            	+ '</li>';
     			
     		return replyCommentItem;
         }
         
         function getCommentItem(name, time, text, depth, delYn) {
-        	var commentBtn = "";
+        	var commentBtn = '';
 
 
             if(depth === 1) {
-            	commentBtn += `
-   			        <li><button type="button" class="kre_btn kre_reply_btn"><span class="material-icons">reply</span> <span class="comment_btn_text">답글</span></button></li>`;
+            	commentBtn += '<li><button type="button" class="kre_btn kre_reply_btn"><span class="material-icons">reply</span> <span class="comment_btn_text">답글</span></button></li>';
             }
             
            	if(delYn === "N") {
-            	commentBtn += `
-			        <li><button type="button" class="kre_btn kre_modify_btn"><span class="material-icons">edit</span> <span class="comment_btn_text">수정</span></button></li>
-			        <li><button type="button" class="kre_btn kre_delete_btn"><span class="material-icons">delete</span> <span class="comment_btn_text">삭제</span></button></li>`;
+            	commentBtn += ''
+			        + '<li><button type="button" class="kre_btn kre_modify_btn"><span class="material-icons">edit</span> <span class="comment_btn_text">수정</span></button></li>'
+			        + '<li><button type="button" class="kre_btn kre_delete_btn"><span class="material-icons">delete</span> <span class="comment_btn_text">삭제</span></button></li>';
            	}
            	
            	if(commentBtn !== "") {
-           		commentBtn = `
-           			<ul class="kre_btn_list_right">
-           				\${commentBtn}
-			    	</ul>`;
+           		commentBtn = ''
+           			+ '<ul class="kre_btn_list_right">'
+           			+ '    ' + commentBtn + ''
+			    	+ '</ul>';
            	}
            		
-            var commentItem = `
-    			<div class="comment_header kre_btn_list">
-    			    <ul class="kre_btn_list_left">
-    			        <li><span class="comment_name">\${name}</span></li>
-    			        <li><span class="comment_write_time">\${time}</span></li>
-    			    </ul>
-    			    \${commentBtn}
-    			</div>
-    			<div class="comment_body">
-    				\${text}
-    			</div>`;
+            var commentItem = ''
+            	+ '<div class="comment_header kre_btn_list">'
+            	+ '    <ul class="kre_btn_list_left">'
+            	+ '        <li><span class="comment_name">' + name + '</span></li>'
+            	+ '        <li><span class="comment_write_time">' + time + '</span></li>'
+            	+ '    </ul>'
+            	+ '    ' + commentBtn + ''
+            	+ '</div>'
+            	+ '<div class="comment_body">'
+            	+ '	' + text + ''
+            	+ '</div>';
     			
     		return commentItem;
         }

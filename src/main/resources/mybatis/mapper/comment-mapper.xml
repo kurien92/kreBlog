@@ -10,7 +10,7 @@
 		<result property="author" column="author"/>
 		<result property="password" column="password"/>
 		<result property="comment" column="comment"/>
-		<result property="writeTime" column="writeTime"/>
+		<result property="writeTime" column="writeTime" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler"/>
 		<result property="writeIp" column="writeIp"/>
 		<result property="deleteYn" column="deleteYn"/>
 	</resultMap>
