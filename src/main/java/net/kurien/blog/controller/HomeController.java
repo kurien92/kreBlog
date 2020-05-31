@@ -69,7 +69,7 @@ public class HomeController {
 		root.addContent(channel);
 		
 		channel.addContent(new Element("title").setText("<![CDATA[Kurien's Blog]]>"));
-		channel.addContent(new Element("link").setText("https://kurien.net/"));
+		channel.addContent(new Element("link").setText("https://www.kurien.net/"));
 		channel.addContent(new Element("description").setText("<![CDATA[Kurien's Blog는 프로그래밍과 개발 전반에 대한 내용을 다루는 블로그입니다.]]>"));
 
 		for(int i = 0; i < posts.size(); i++) {
