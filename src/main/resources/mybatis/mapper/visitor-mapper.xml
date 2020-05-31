@@ -16,6 +16,12 @@
 	<sql id="table">
 		kreVisitor
 	</sql>
+	
+	<sql id="criteria">
+		<if test="offset != null and rowCount != null">
+			LIMIT #{offset}, #{rowCount}
+		</if>
+	</sql>
 		
     <insert id="insert" useGeneratedKeys="true" keyProperty="visitorNo">
         INSERT INTO
@@ -42,4 +48,17 @@
 			#{visitorIp}
 		)
     </insert>
+    
+    <select id="selectList" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+       	ORDER BY
+       		visitorNo DESC
+       	<include refid="criteria" />
+    </select>
+    
+    <select id="selectCount" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+    </select>
 </mapper>

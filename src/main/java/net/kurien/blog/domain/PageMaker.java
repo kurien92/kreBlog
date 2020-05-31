@@ -13,7 +13,7 @@ public class PageMaker {
 	private boolean next = false;
 	private boolean last = false;
 	
-	private int pageCount;
+	private int pageCount = 5;
 	
 	private Criteria criteria;
 
@@ -122,7 +122,7 @@ public class PageMaker {
 		endPage = (int) (Math.ceil(criteria.getPage() / (double) pageCount) * pageCount);
 		startPage = (endPage - pageCount) + 1;
 		
-		int totalEndPage = (int) (Math.ceil(totalRowCount / (double) criteria.getOffset()));
+		int totalEndPage = (int) (Math.ceil(totalRowCount / (double) criteria.getRowCount()));
 		
 		if(endPage > totalEndPage) {
 			endPage = totalEndPage;
@@ -132,7 +132,7 @@ public class PageMaker {
 			prev = true;
 		}
 		
-		if(endPage * criteria.getOffset() < totalRowCount) {
+		if(endPage * criteria.getRowCount() < totalRowCount) {
 			next = true;
 		}
 	}

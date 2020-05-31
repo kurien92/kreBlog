@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query since this is the default in Bootstrap */
+
+#admin_visitor_list a.visitorLink {
+    color: #033e6a;
+    font-weight: bold;
+}
+
+#admin_visitor_list a.visitorLink[target='_blank']:before {
+    font-family: "Material Icons";
+    content: "\e89e";
+    margin-right: 2px;
+    vertical-align: bottom;
+}
+
+.visitorNo {
+	width: 100px;
+	text-align: center;
+}
+
+.currentUrl {
+	width: 400px;
+}
+
+.referrer {
+	width: 400px;
+}
+
+.browser {
+	width: 100px;
+	text-align: center;
+}
+
+.browserType {
+	width: 100px;
+	text-align: center;
+}
+
+.platform {
+	width: 100px;
+	text-align: center;
+}
+
+.deviceType {
+	width: 100px;
+	text-align: center;
+}
+
+.resolution {
+	width: 200px;
+	text-align: center;
+}
+
+.visitTime {
+	width: 200px;
+	text-align: center;
+}
+
+.visitorIp {
+	width: 140px;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}

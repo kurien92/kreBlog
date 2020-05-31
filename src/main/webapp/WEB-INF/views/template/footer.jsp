@@ -12,7 +12,7 @@
     if(!navigator.userAgent.match('Macintosh')) {
     	scrollInit();
     	
-        $(window).on("resize orientationchange", function() {
+        $(window).on("load resize orientationchange", function() {
         	scrollInit();
         });
         

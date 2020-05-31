@@ -47,11 +47,7 @@
 							</li>
 							
 							<li>
-								<a href="/admin/category/list"><span class="material-icons">arrow_right</span>Income statistics</a>
-							</li>
-							
-							<li>
-								<a href="/admin/category/list"><span class="material-icons">arrow_right</span>Visitor statistics</a>
+								<a href="/admin/visitor/list"><span class="material-icons">arrow_right</span>Visitor statistics</a>
 							</li>
 						</ul>
 					</div>
