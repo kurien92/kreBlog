@@ -1,17 +1,23 @@
 package net.kurien.blog.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jdom2.Attribute;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.kurien.blog.common.template.Template;
 import net.kurien.blog.domain.Criteria;
@@ -47,12 +53,49 @@ public class HomeController {
 
 		return "post/list";
 	}
-
-	@RequestMapping(value="/auth/signin", method={RequestMethod.GET, RequestMethod.POST})
-	public String authLogin(HttpServletRequest request, Model model) {
-		template.setTitle("Sign in &dash; Kurien's Blog");
-		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/auth.css\">");
+	
+	@RequestMapping(value = "/rss", method = RequestMethod.GET, produces="application/xml;charset=utf-8")
+	public @ResponseBody String rss(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		Criteria criteria = new Criteria(1, 500);
 		
-		return "auth/signin";
+		List<Post> posts = postService.getList("N", criteria);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+		
+		Element root = new Element("rss");
+		root.setAttribute(new Attribute("version", "2.0"));
+		
+		Element channel = new Element("channel");
+		root.addContent(channel);
+		
+		channel.addContent(new Element("title").setText("<![CDATA[Kurien's Blog]]>"));
+		channel.addContent(new Element("link").setText("https://kurien.net/"));
+		channel.addContent(new Element("description").setText("<![CDATA[Kurien's Blog는 프로그래밍과 개발 전반에 대한 내용을 다루는 블로그입니다.]]>"));
+
+		for(int i = 0; i < posts.size(); i++) {
+			Element item = new Element("item");
+
+			String link = "https://www.kurien.net/post/view/" + posts.get(i).getPostNo();
+			
+			item.addContent(new Element("title").setText("<![CDATA[" + posts.get(i).getPostSubject() + "]]>"));
+			item.addContent(new Element("link").setText(link));
+			item.addContent(new Element("description").setText("<![CDATA[" + posts.get(i).getPostContent() + "]]>"));
+			item.addContent(new Element("pubDate").setText(sdf.format(posts.get(i).getPostWriteTime())));
+			item.addContent(new Element("guid").setText(link));
+			
+			channel.addContent(item);
+		}
+		
+		Document doc = new Document();
+		doc.setRootElement(root);
+		
+		Format f = Format.getPrettyFormat();
+		f.setEncoding("UTF-8");
+		f.setLineSeparator("\r\n");
+		
+		
+		XMLOutputter outputter = new XMLOutputter(f);
+		
+		return outputter.outputString(doc);
 	}
 }
