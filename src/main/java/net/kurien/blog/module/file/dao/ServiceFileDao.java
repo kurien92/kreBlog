@@ -10,6 +10,7 @@ public interface ServiceFileDao {
 	public void insert(ServiceFile serviceFile);
 	public void insertFiles(List<ServiceFile> serviceFiles);
 	public void delete(String serviceName, int serviceNo, int fileNo);
+	public void deleteList(String serviceName, int serviceNo, Integer[] fileNos);
 	public void deleteList(String serviceName, int serviceNo);
 	public void deleteAll();
 }

@@ -89,6 +89,13 @@
         <where>
 			serviceName = #{serviceName}
 			AND serviceNo = #{serviceNo}
+			
+			<if test="fileNos != null">
+	            AND fileNo IN
+	            <foreach collection="fileNos" item="fileNo" index="index" open="(" close=")" separator=",">
+	                #{fileNo}
+	            </foreach>
+			</if>
         </where>
     </delete>
     

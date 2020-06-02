@@ -30,9 +30,9 @@ public class FileDaoBasic implements FileDao {
     }
 
     @Override
-    public int selectCount(List<Integer> fileNos) {
+    public int selectCount(Integer fileNo) {
         // TODO Auto-generated method stub
-        return sqlSession.selectOne(mapper + ".selectCount", fileNos);
+        return sqlSession.selectOne(mapper + ".selectCount", fileNo);
     }
 
 	@Override

@@ -7,7 +7,7 @@ import net.kurien.blog.module.file.entity.File;
 public interface FileDao {
     public List<File> selectList(List<Integer> fileNos);
     public File selectOne(int fileNo);
-    public int selectCount(List<Integer> fileNos);
+    public int selectCount(Integer fileNo);
     public boolean isExistFilename(String randomizeString);
     public void insert(File file);
     public void delete(int fileNo);

@@ -80,9 +80,9 @@ public class BasicFileService implements FileService {
 	}
 
 	@Override
-	public int getCount(List<Integer> fileNos) {
+	public int getCount(Integer fileNo) {
 		// TODO Auto-generated method stub
-		return fileDao.selectCount(fileNos);
+		return fileDao.selectCount(fileNo);
 	}
 
 	@Override

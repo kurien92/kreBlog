@@ -6,8 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class ServiceFile {
 	private String serviceName;
-	private int serviceNo;
-	private int fileNo;
+	private Integer serviceNo;
+	private Integer fileNo;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date serviceFileWriteTime;
 	private String serviceFileWriteIp;
@@ -18,16 +18,16 @@ public class ServiceFile {
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
 	}
-	public int getServiceNo() {
+	public Integer getServiceNo() {
 		return serviceNo;
 	}
-	public void setServiceNo(int serviceNo) {
+	public void setServiceNo(Integer serviceNo) {
 		this.serviceNo = serviceNo;
 	}
-	public int getFileNo() {
+	public Integer getFileNo() {
 		return fileNo;
 	}
-	public void setFileNo(int fileNo) {
+	public void setFileNo(Integer fileNo) {
 		this.fileNo = fileNo;
 	}
 	public Date getServiceFileWriteTime() {

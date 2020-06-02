@@ -1,6 +1,11 @@
 package net.kurien.blog.module.post.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -90,10 +95,21 @@ public class BasicPostService implements PostService {
 		}
 		
 		postDao.insert(post);
-
+		
 		if(fileNos != null) {
 			serviceFileService.addFiles("post", post.getPostNo(), fileNos, post.getPostWriteIp());
 		}
+		
+		Set<Integer> useFilesNo = new HashSet<>();
+		
+		Pattern pattern = Pattern.compile("[\'|\"]/file/viewer/post/(\\d+?)[\'|\"]");
+		Matcher matcher = pattern.matcher(post.getPostContent());
+		
+		while(matcher.find()) {
+			useFilesNo.add(Integer.parseInt(matcher.group(1)));
+		}
+		
+		serviceFileService.syncFiles("post", post.getPostNo(), useFilesNo, post.getPostWriteIp());
 	}
 
 	@Override
@@ -112,6 +128,17 @@ public class BasicPostService implements PostService {
 		if(fileNos != null) {
 			serviceFileService.addFiles("post", post.getPostNo(), fileNos, post.getPostWriteIp());
 		}
+		
+		Set<Integer> useFilesNo = new HashSet<>();
+		
+		Pattern pattern = Pattern.compile("[\'|\"]/file/viewer/post/(\\d+?)[\'|\"]");
+		Matcher matcher = pattern.matcher(post.getPostContent());
+		
+		while(matcher.find()) {
+			useFilesNo.add(Integer.parseInt(matcher.group(1)));
+		}
+		
+		serviceFileService.syncFiles("post", post.getPostNo(), useFilesNo, post.getPostWriteIp());
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public interface FileService {
 	public java.io.File download(String serviceName, int serviceNo);
     public List<File> getList(List<Integer> fileNos);
     public File get(int fileNo);
-    public int getCount(List<Integer> fileNos);
+    public int getCount(Integer fileNo);
     public void insert(File file);
     public void delete(int fileNo);
     public void deleteList(List<Integer> fileNos);
