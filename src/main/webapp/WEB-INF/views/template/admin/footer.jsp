@@ -7,24 +7,22 @@
 
 	
 <script>
-    if(!navigator.userAgent.match('Macintosh')) {
-    	var one = null;
-    	var two = null;
+   	var one = null;
+   	var two = null;
 
-    	scrollInit();
-    	
-        $(window).on("resize orientationchange", function() {
-        	scrollInit();
-        });
-        
-        if(typeof kreGrid !== 'undefined') {
-	        kreGrid.on('layoutComplete', function() {
-	    		if(isDesktopDevices()) {
-	    			resetScroll();
-	    		}
-	        });
-        }
-    }
+   	scrollInit();
+   	
+	$(window).on("resize orientationchange", function() {
+		scrollInit();
+	});
+	 
+	if(typeof kreGrid !== 'undefined') {
+		kreGrid.on('layoutComplete', function() {
+			if(isDesktopDevices()) {
+				resetScroll();
+			}
+		});
+	}
     
     function scrollInit() {
 		if(isDesktopDevices()) {

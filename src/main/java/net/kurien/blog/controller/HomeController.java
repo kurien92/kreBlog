@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jdom2.Attribute;
+import org.jdom2.CDATA;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
@@ -68,18 +69,18 @@ public class HomeController {
 		Element channel = new Element("channel");
 		root.addContent(channel);
 		
-		channel.addContent(new Element("title").setText("<![CDATA[Kurien's Blog]]>"));
+		channel.addContent(new Element("title").addContent(new CDATA("Kurien's Blog")));
 		channel.addContent(new Element("link").setText("https://www.kurien.net/"));
-		channel.addContent(new Element("description").setText("<![CDATA[Kurien's Blog는 프로그래밍과 개발 전반에 대한 내용을 다루는 블로그입니다.]]>"));
+		channel.addContent(new Element("description").addContent(new CDATA("Kurien's Blog는 프로그래밍과 개발 전반에 대한 내용을 다루는 블로그입니다.")));
 
 		for(int i = 0; i < posts.size(); i++) {
 			Element item = new Element("item");
 
 			String link = "https://www.kurien.net/post/view/" + posts.get(i).getPostNo();
 			
-			item.addContent(new Element("title").setText("<![CDATA[" + posts.get(i).getPostSubject() + "]]>"));
+			item.addContent(new Element("title").addContent(new CDATA(posts.get(i).getPostSubject())));
 			item.addContent(new Element("link").setText(link));
-			item.addContent(new Element("description").setText("<![CDATA[" + posts.get(i).getPostContent() + "]]>"));
+			item.addContent(new Element("description").addContent(new CDATA(posts.get(i).getPostContent())));
 			item.addContent(new Element("pubDate").setText(sdf.format(posts.get(i).getPostWriteTime())));
 			item.addContent(new Element("guid").setText(link));
 			

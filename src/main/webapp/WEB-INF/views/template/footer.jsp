@@ -6,24 +6,22 @@
 </main><!-- #kre_main -->
 
 <script>
-	var one = null;
-	var two = null;
-	
-    if(!navigator.userAgent.match('Macintosh')) {
-    	scrollInit();
-    	
-        $(window).on("load resize orientationchange", function() {
-        	scrollInit();
-        });
-        
-        if(typeof kreGrid !== 'undefined') {
-	        kreGrid.on('layoutComplete', function() {
-	    		if(isDesktopDevices()) {
-	    			resetScroll();
-	    		}
-	        });
-        }
-    }
+   	var one = null;
+   	var two = null;
+
+   	scrollInit();
+   	
+	$(window).on("resize orientationchange", function() {
+		scrollInit();
+	});
+	 
+	if(typeof kreGrid !== 'undefined') {
+		kreGrid.on('layoutComplete', function() {
+			if(isDesktopDevices()) {
+				resetScroll();
+			}
+		});
+	}
     
     function scrollInit() {
 		if(isDesktopDevices()) {

@@ -2,7 +2,6 @@ package net.kurien.blog.controller.admin;
 
 import java.io.PrintWriter;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,7 +29,7 @@ public class FileAdminController {
 	
 	@RequestMapping(value = "/upload/{service}")
 	@ResponseBody
-	public String ckeditorImageUpload(MultipartHttpServletRequest multiFile, @PathVariable String service, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String ckeditorImageUpload(@PathVariable String service, MultipartHttpServletRequest multiFile, HttpServletResponse response) throws Exception {
 		logger.info("ckeditorImageUpload start");
 		
 		JsonObject json = new JsonObject();
@@ -60,15 +59,15 @@ public class FileAdminController {
 			return null;
 		}
 
-		String uploadPath = request.getServletContext().getRealPath("/") + "../../files/" + service;
+		String uploadPath = multiFile.getServletContext().getRealPath("/") + "../../files/" + service;
 		
-		int fileNo = fileService.upload(uploadPath, service, file.getBytes(), fileName, file.getSize(), file.getContentType(), RequestUtil.getRemoteAddr(request));
+		int fileNo = fileService.upload(uploadPath, service, file.getBytes(), fileName, file.getSize(), file.getContentType(), RequestUtil.getRemoteAddr(multiFile));
 		
         printWriter = response.getWriter();
         response.setContentType("text/html");
         
 		// TODO: DB 연동 후에 변경 할 부분
-        String fileUrl = request.getContextPath() + "/file/viewer/" + service + "/" + fileNo;
+        String fileUrl = multiFile.getContextPath() + "/file/viewer/" + service + "/" + fileNo;
         
         json.addProperty("uploaded", 1);
         json.addProperty("fileName", fileName);
