@@ -86,7 +86,7 @@
     <delete id="delete">
         DELETE FROM <include refid="table" />
         <where>
-        	postNo = #{postNo}
+        	fileNo = #{fileNo}
         </where>
     </delete>
     

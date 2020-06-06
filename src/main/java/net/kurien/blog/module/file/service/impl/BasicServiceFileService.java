@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import com.google.gson.JsonObject;
+import net.kurien.blog.exception.NotFoundDataException;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.module.file.dao.ServiceFileDao;
@@ -21,18 +23,29 @@ public class BasicServiceFileService implements ServiceFileService {
 	@Inject
 	private ServiceFileDao serviceFileDao;
 	
-	@Inject FileService fileService;
+	@Inject
+	private FileService fileService;
 	
 	@Override
-	public ServiceFile get(String serviceName, int serviceNo, int fileNo) {
+	public ServiceFile get(String serviceName, Integer serviceNo, Integer fileNo) {
 		// TODO Auto-generated method stub
 		return serviceFileDao.selectOne(serviceName, serviceNo, fileNo);
 	}
 
 	@Override
-	public List<ServiceFile> getFiles(String serviceName, int serviceNo) {
+	public List<ServiceFile> getFiles(String serviceName, Integer serviceNo) {
 		// TODO Auto-generated method stub
 		return serviceFileDao.selectList(serviceName, serviceNo);
+	}
+
+	@Override
+	public int getCount(Integer fileNo) {
+		return serviceFileDao.selectCount(fileNo);
+	}
+
+	@Override
+	public int getCount(String serviceName, Integer serviceNo) {
+		return serviceFileDao.selectCount(serviceName, serviceNo);
 	}
 
 	@Override
@@ -80,19 +93,37 @@ public class BasicServiceFileService implements ServiceFileService {
 	}
 
 	@Override
-	public void remove(String serviceName, int serviceNo, int fileNo) {
+	public void remove(Integer fileNo) throws Exception {
+		int fileCount = fileService.getCount(fileNo);
+		int serviceFileCount = serviceFileDao.selectCount(fileNo);
+
+		if(fileCount == 0 && serviceFileCount == 0) {
+			throw new NotFoundDataException("파일이 업로드 되지 않았거나 삭제되었습니다.");
+		}
+
+		if(fileCount > 0) {
+			fileService.delete(fileNo);
+		}
+
+		if(serviceFileCount > 0) {
+			serviceFileDao.delete(fileNo);
+		}
+	}
+
+	@Override
+	public void remove(String serviceName, Integer serviceNo, Integer fileNo) {
 		// TODO Auto-generated method stub
 		serviceFileDao.delete(serviceName, serviceNo, fileNo);
 	}
 
 	@Override
-	public void removeFilesByNo(String serviceName, int serviceNo, Integer[] fileNos) {
+	public void removeFilesByNo(String serviceName, Integer serviceNo, Integer[] fileNos) {
 		// TODO Auto-generated method stub
 		serviceFileDao.deleteList(serviceName, serviceNo, fileNos);
 	}
 
 	@Override
-	public void removeFiles(String serviceName, int serviceNo) {
+	public void removeFiles(String serviceName, Integer serviceNo) {
 		// TODO Auto-generated method stub
 		serviceFileDao.deleteList(serviceName, serviceNo);
 	}

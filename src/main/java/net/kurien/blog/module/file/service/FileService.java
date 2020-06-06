@@ -13,7 +13,7 @@ public interface FileService {
     public File get(int fileNo);
     public int getCount(Integer fileNo);
     public void insert(File file);
-    public void delete(int fileNo);
+    public void delete(int fileNo) throws Exception;
     public void deleteList(List<Integer> fileNos);
     public void deleteAll();
 }

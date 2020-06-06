@@ -27,6 +27,10 @@ public class FileUtil {
 			outputStream.close();
 		}
 	}
+
+	public static void delete(File deleteFile) {
+		deleteFile.delete();
+	}
 	
 	public static void view(String filename, OutputStream outputStream) throws IOException {
 		FileInputStream fis = null;

@@ -12,19 +12,22 @@
 	<sql id="table">
 		kreServiceFile
 	</sql>
-	
-	<select id="select" resultMap="resultMap">
+
+	<select id="selectOne" resultMap="resultMap">
         SELECT *
         FROM <include refid="table" />
         <where>
-			serviceName = #{serviceName}
-			AND serviceNo = #{serviceNo}
+			<if test="serviceName != null and serviceNo != null">
+				AND serviceName = #{serviceName}
+				AND serviceNo = #{serviceNo}
+			</if>
+
 			AND fileNo = #{fileNo}
         </where>
        	ORDER BY
        		fileNo ASC
 	</select>
-    
+
     <select id="selectList" resultMap="resultMap">
         SELECT *
         FROM <include refid="table" />
@@ -35,8 +38,26 @@
        	ORDER BY
        		fileNo ASC
     </select>
-    
-    <insert id="insert">
+
+	<select id="selectCount" resultType="Integer">
+		SELECT count(*)
+		FROM <include refid="table" />
+		<where>
+			<choose>
+				<when test="serviceName != null and serviceNo != null">
+					AND serviceName = #{serviceName}
+					AND serviceNo = #{serviceNo}
+				</when>
+				<otherwise>
+					AND fileNo = #{fileNo}
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY
+			fileNo ASC
+	</select>
+
+	<insert id="insert">
         INSERT INTO
         <include refid="table" /> (
         	serviceName,
@@ -78,27 +99,35 @@
     <delete id="delete">
         DELETE FROM <include refid="table" />
         <where>
-			serviceName = #{serviceName}
-			AND serviceNo = #{serviceNo}
+			<if test="serviceName != null and serviceNo != null">
+				AND serviceName = #{serviceName}
+				AND serviceNo = #{serviceNo}
+			</if>
+
 			AND fileNo = #{fileNo}
-        </where>
+		</where>
     </delete>
-    
+
     <delete id="deleteList">
         DELETE FROM <include refid="table" />
         <where>
-			serviceName = #{serviceName}
-			AND serviceNo = #{serviceNo}
-			
-			<if test="fileNos != null">
-	            AND fileNo IN
-	            <foreach collection="fileNos" item="fileNo" index="index" open="(" close=")" separator=",">
-	                #{fileNo}
-	            </foreach>
-			</if>
+			<choose>
+				<when test="serviceName != null and serviceNo != null">
+					AND serviceName = #{serviceName}
+					AND serviceNo = #{serviceNo}
+				</when>
+				<otherwise>
+					<if test="fileNos != null">
+						AND fileNo IN
+						<foreach collection="fileNos" item="fileNo" index="index" open="(" close=")" separator=",">
+							#{fileNo}
+						</foreach>
+					</if>
+				</otherwise>
+			</choose>
         </where>
     </delete>
-    
+
     <delete id="deleteAll">
         TRUNCATE <include refid="table" />
     </delete>

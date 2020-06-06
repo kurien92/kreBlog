@@ -37,10 +37,11 @@
 	    <interceptor>
 	        <mapping path="/**"/>
 	        <exclude-mapping path="/comment/**" />
-	        <exclude-mapping path="/visitor/**" />
-	        <exclude-mapping path="/rss" />
-	        
-	        <exclude-mapping path="/css/**" />
+			<exclude-mapping path="/visitor/**" />
+			<exclude-mapping path="/admin/post/deleteFile/*" />
+			<exclude-mapping path="/rss" />
+
+			<exclude-mapping path="/css/**" />
 	        <exclude-mapping path="/js/**" />
 	        <exclude-mapping path="/img/**" />
 	        <exclude-mapping path="/font/**" />

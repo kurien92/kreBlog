@@ -41,7 +41,6 @@ public class BasicFileService implements FileService {
 
 		FileUtil.upload(uploadFilePath, fileBytes);
 		
-
 		Timestamp today = new Timestamp(Calendar.getInstance().getTimeInMillis());
 		today.setNanos(0);
 		
@@ -92,8 +91,29 @@ public class BasicFileService implements FileService {
 	}
 
 	@Override
-	public void delete(int fileNo) {
+	public void delete(int fileNo) throws Exception {
 		// TODO Auto-generated method stub
+		if(fileDao.selectCount(fileNo) == 0) {
+			return;
+		}
+
+		File file = fileDao.selectOne(fileNo);
+
+		java.io.File deleteFile = new java.io.File(file.getFilePath() + java.io.File.separator + file.getFileStoredName());
+
+		if(deleteFile.exists() == false) {
+			throw new Exception("삭제하려는 파일이 없습니다.");
+		}
+
+		if(deleteFile.isDirectory() == true) {
+			throw new Exception("폴더는 지울 수 없습니다.");
+		}
+
+		// 무조건 deleteFile.isFile() == true임.
+
+		// TODO: 삭제 이력 남기고, 파일은 다른 곳으로 이동하여 보관처리할 것.
+		FileUtil.delete(deleteFile);
+
 		fileDao.delete(fileNo);
 	}
 

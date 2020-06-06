@@ -1,5 +1,6 @@
 package net.kurien.blog.controller.admin;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+import net.kurien.blog.exception.NotFoundDataException;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import net.kurien.blog.common.template.Template;
 import net.kurien.blog.module.category.entity.Category;
 import net.kurien.blog.module.category.service.CategoryService;
+import net.kurien.blog.module.file.entity.File;
+import net.kurien.blog.module.file.entity.ServiceFile;
+import net.kurien.blog.module.file.service.FileService;
+import net.kurien.blog.module.file.service.ServiceFileService;
 import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.post.entity.PostPublishStatus;
 import net.kurien.blog.module.post.entity.PostViewStatus;
@@ -29,6 +36,7 @@ import net.kurien.blog.module.shortUrl.service.ServiceShortUrlService;
 import net.kurien.blog.module.shortUrl.service.ShortUrlService;
 import net.kurien.blog.util.HtmlUtil;
 import net.kurien.blog.util.RequestUtil;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/admin/post")
@@ -46,6 +54,12 @@ public class PostAdminController {
 	
 	@Inject
 	private ServiceShortUrlService serviceShortUrlService;
+	
+	@Inject
+	private ServiceFileService serviceFileService;
+
+	@Inject
+	private FileService fileService;
 	
 	@Inject
 	private Template template;
@@ -112,25 +126,6 @@ public class PostAdminController {
 		return "redirect:/admin/post/list";
 	}
 	
-	private void createShortUrl(HttpServletRequest request, Post post) {
-		// TODO Auto-generated method stub
-		String url = "https://" + request.getServerName() + request.getContextPath() + "/post/view/" + post.getPostNo();
-		
-		ShortUrl shortUrl = new ShortUrl();
-		shortUrl.setRealUrl(url);
-		shortUrl.setCreateIp(RequestUtil.getRemoteAddr(request));
-		
-		shortUrlService.set(shortUrl);
-		
-		ServiceShortUrl serviceShortUrl = new ServiceShortUrl();
-		serviceShortUrl.setServiceName("post");
-		serviceShortUrl.setServiceNo(post.getPostNo());
-		serviceShortUrl.setShortUrlNo(shortUrl.getShortUrlNo());
-		serviceShortUrl.setCreateIp(RequestUtil.getRemoteAddr(request));
-		
-		serviceShortUrlService.add(serviceShortUrl);
-	}
-
 	/**
 	 * 관리자가 작성했던 포스트를 수정한다.
 	 * 
@@ -141,6 +136,9 @@ public class PostAdminController {
 	 */
 	@RequestMapping(value = "/modify/{postNo}", method = RequestMethod.GET)
 	public String modify(@PathVariable int postNo, Model model) throws Exception {
+		ShortUrl shortUrl = null;
+		List<File> files = null;
+		
 		Post post = postService.get(postNo, "Y");
 		List<Category> categories = categoryService.getList();
 
@@ -148,15 +146,28 @@ public class PostAdminController {
 		post.setPostContent(htmlEscapeContent);
 		
 		ServiceShortUrl serviceShortUrl = serviceShortUrlService.get("post", postNo);
-		ShortUrl shortUrl = null;
 		
 		if(serviceShortUrl != null) {
 			shortUrl = shortUrlService.get(serviceShortUrl.getShortUrlNo());
 		}
-		
+
+		List<ServiceFile> serviceFiles = serviceFileService.getFiles("post", postNo);
+
+		if(serviceFiles.size() > 0) {
+			List<Integer> fileNos = new ArrayList<>();
+			
+			for(ServiceFile serviceFile : serviceFiles) {
+				fileNos.add(serviceFile.getFileNo());
+			}
+			
+			files = fileService.getList(fileNos);
+		}
+
 		model.addAttribute("post", post);
 		model.addAttribute("categories", categories);
 		model.addAttribute("shortUrl", shortUrl);
+		model.addAttribute("files", files);
+		
 		model.addAttribute("formAction", "modifyUpdate");
 		model.addAttribute("formSubmit", "수정");
 		
@@ -228,4 +239,53 @@ public class PostAdminController {
 		
 		return "post/view";
 	}
+
+	@RequestMapping(value = "/deleteFile/{fileNo}")
+	public @ResponseBody JsonObject deleteFile(@PathVariable int fileNo) {
+		JsonObject json = new JsonObject();
+
+		try {
+			serviceFileService.remove(fileNo);
+		} catch(NotFoundDataException e) {
+			e.printStackTrace();
+			json.addProperty("result", "fail");
+			json.add("value", new JsonObject());
+			json.addProperty("message", e.getMessage());
+
+			return json;
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.addProperty("result", "fail");
+			json.add("value", new JsonObject());
+			json.addProperty("message", "알 수 없는 오류가 발생했습니다.");
+
+			return json;
+		}
+
+		json.addProperty("result", "success");
+		json.add("value", new JsonObject());
+		json.addProperty("message", "");
+
+		return json;
+	}
+	
+	private void createShortUrl(HttpServletRequest request, Post post) {
+		// TODO Auto-generated method stub
+		String url = "https://" + request.getServerName() + request.getContextPath() + "/post/view/" + post.getPostNo();
+		
+		ShortUrl shortUrl = new ShortUrl();
+		shortUrl.setRealUrl(url);
+		shortUrl.setCreateIp(RequestUtil.getRemoteAddr(request));
+		
+		shortUrlService.set(shortUrl);
+		
+		ServiceShortUrl serviceShortUrl = new ServiceShortUrl();
+		serviceShortUrl.setServiceName("post");
+		serviceShortUrl.setServiceNo(post.getPostNo());
+		serviceShortUrl.setShortUrlNo(shortUrl.getShortUrlNo());
+		serviceShortUrl.setCreateIp(RequestUtil.getRemoteAddr(request));
+		
+		serviceShortUrlService.add(serviceShortUrl);
+	}
+
 }
