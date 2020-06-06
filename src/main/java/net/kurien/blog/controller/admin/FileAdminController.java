@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -26,14 +27,12 @@ public class FileAdminController {
 	
 	@Inject
 	private FileService fileService;
-	
-	@RequestMapping(value = "/upload/{service}")
-	@ResponseBody
-	public String ckeditorImageUpload(@PathVariable String service, MultipartHttpServletRequest multiFile, HttpServletResponse response) throws Exception {
+
+	@RequestMapping(value = "/upload/{service}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public @ResponseBody JsonObject ckeditorImageUpload(@PathVariable String service, MultipartHttpServletRequest multiFile, HttpServletResponse response) throws Exception {
 		logger.info("ckeditorImageUpload start");
 		
 		JsonObject json = new JsonObject();
-		PrintWriter printWriter = null;
 		
 		MultipartFile file = multiFile.getFile("upload");
 		
@@ -46,7 +45,7 @@ public class FileAdminController {
 			logger.info("ckeditorImageUpload file size 0");
 			return null;
 		}
-		
+
 		String fileName = file.getOriginalFilename();
 		
 		if(StringUtils.isBlank(fileName)) {
@@ -60,24 +59,23 @@ public class FileAdminController {
 		}
 
 		String uploadPath = multiFile.getServletContext().getRealPath("/") + "../../files/" + service;
-		
-		int fileNo = fileService.upload(uploadPath, service, file.getBytes(), fileName, file.getSize(), file.getContentType(), RequestUtil.getRemoteAddr(multiFile));
-		
-        printWriter = response.getWriter();
-        response.setContentType("text/html");
-        
+
+		long fileSize = file.getSize();
+
+		int fileNo = fileService.upload(uploadPath, service, file.getBytes(), fileName, fileSize, file.getContentType(), RequestUtil.getRemoteAddr(multiFile));
+
 		// TODO: DB 연동 후에 변경 할 부분
         String fileUrl = multiFile.getContextPath() + "/file/viewer/" + service + "/" + fileNo;
         
         json.addProperty("uploaded", 1);
-        json.addProperty("fileName", fileName);
+		json.addProperty("fileName", fileName);
+		json.addProperty("fileSize", fileSize);
         json.addProperty("url", fileUrl);
         json.addProperty("fileNo", fileNo);
-        
-        printWriter.println(json);
+
 		logger.info("ckeditorImageUpload file upload complete");
         
-		return null;
+		return json;
 	}
 	
 	public void fileDownload() {

@@ -250,11 +250,11 @@ public class CommentController {
 			throw new InvalidRequestException("비밀번호는 30자 미만으로 입력해주세요.");
 		}
 		
-		if(commentDto.getPassword().length() == 0) {
+		if(commentDto.getText().length() == 0) {
 			throw new InvalidRequestException("댓글을 입력해주세요.");
 		}
 		
-		if(commentDto.getPassword().length() > 30) {
+		if(commentDto.getText().length() > 30) {
 			throw new InvalidRequestException("댓글은 10000자 미만으로 입력해주세요.");
 		}
 

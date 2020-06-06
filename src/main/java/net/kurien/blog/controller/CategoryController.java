@@ -37,8 +37,6 @@ public class CategoryController {
 	
 	@RequestMapping("/{categoryId}")
 	public String list(@PathVariable String categoryId, SearchCriteria criteria, Model model) throws Exception {
-		logger.info(categoryId + " : 메서드 시작");
-		
 		Category category = categoryService.get(categoryId);
 		
 		if(category == null) {

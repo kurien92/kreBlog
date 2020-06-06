@@ -5,16 +5,18 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class MySQLConnectionTest {
+public class MariadbConnectionTest {
 	public static void main(String[] args) {
 		Connection c = null;
 		Statement stmt = null;
 		
-		String url = "jdbc:mysql://127.0.0.1:3306/kreBlog?useTimezone=true&serverTimezone=UTC&useSSL=false";
+		String url = "jdbc:mysql://mariadb:3306/kreBlog?useTimezone=true&serverTimezone=UTC&useSSL=false";
 		
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			c = DriverManager.getConnection(url, "kreBlog", "kreBlog");
+//			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("org.mariadb.jdbc.Driver");
+
+			c = DriverManager.getConnection(url, "kre", "kre1234");
 			stmt = c.createStatement();
 
 			String sql = "insert into test values('한글')";

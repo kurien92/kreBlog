@@ -589,7 +589,7 @@
             	+ '    ' + commentBtn + ''
             	+ '</div>'
             	+ '<div class="comment_body">'
-            	+ '	' + text + ''
+            	+ '	' + text.replace(/\n/g, "<br>"); + ''
             	+ '</div>';
     			
     		return commentItem;

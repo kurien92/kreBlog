@@ -6,7 +6,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import net.kurien.blog.module.category.dao.CategoryDao;
 import net.kurien.blog.module.category.entity.Category;
