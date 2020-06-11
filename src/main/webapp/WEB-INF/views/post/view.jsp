@@ -717,3 +717,6 @@
 		});
 	}
 </script>
+
+<script src="${contextPath}/js/plugin/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>

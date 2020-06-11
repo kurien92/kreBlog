@@ -97,6 +97,7 @@ public class PostController {
 		template.setDescription(HtmlUtil.stripHtml(post.getPostContent()));
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/comment.css\">");
+		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/plugin/highlight.css\">");
 		
 		return "post/view";
 	}

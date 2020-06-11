@@ -173,6 +173,7 @@ public class PostAdminController {
 		
 		template.setTitle(post.getPostSubject() + " : Post Modify &dash; Kurien's Blog");
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
+		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/plugin/highlight.css\">");
 		
 		return "admin/post/admin/write";
 	}
@@ -236,6 +237,7 @@ public class PostAdminController {
 		template.setDescription(HtmlUtil.stripHtml(post.getPostContent()));
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/post.css\">");
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/comment.css\">");
+		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/plugin/highlight.css\">");
 		
 		return "post/view";
 	}
