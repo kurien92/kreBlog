@@ -1,5 +1,6 @@
 package net.kurien.blog.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.inject.Inject;
@@ -19,7 +20,7 @@ import net.kurien.blog.util.FileUtil;
 @RequestMapping("/file")
 public class FileController {
 	@Inject
-	FileService fileService;
+	private FileService fileService;
 	
 	@RequestMapping("/viewer/{service}/{fileNo}")
 	public void imageFileView(@PathVariable String service, @PathVariable int fileNo, HttpServletRequest request, HttpServletResponse response) throws NotFoundDataException, IOException {
@@ -33,11 +34,10 @@ public class FileController {
 		
 		// TODO: DB 연동 후에 변경할 부분
 		String filename = uploadPath + java.io.File.separator + file.getFileStoredName();
-		
 		String mimeType = FileUtil.getMimeType(filename);
 
 		response.setContentType(mimeType);
-		
+
 		FileUtil.view(filename, response.getOutputStream());
 	}
 }

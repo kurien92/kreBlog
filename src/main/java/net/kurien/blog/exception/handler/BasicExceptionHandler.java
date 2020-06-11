@@ -23,6 +23,8 @@ import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.module.category.service.CategoryService;
 import net.kurien.blog.util.HtmlUtil;
 
+import java.io.FileNotFoundException;
+
 @ControllerAdvice
 public class BasicExceptionHandler {
 	Logger logger = LoggerFactory.getLogger(BasicExceptionHandler.class);
@@ -40,13 +42,35 @@ public class BasicExceptionHandler {
 		String referer = request.getHeader("referer");
 
 		model.addAttribute("referer", referer);
-		
+
 		try {
 			logger.info("exception requestURI: " + requestURI, nfe);
-	
-	    	model.addAttribute("template", this.setTemplate(request));
+
+			model.addAttribute("template", this.setTemplate(request));
 			model.addAttribute("exceptionMsg", nfe.getMessage());
 			model.addAttribute("exceptionDescription", "페이지가 이동되었거나 삭제되었습니다.<br>카테고리를 선택하시거나 아래에 표시된 버튼을 통해 이동하시기 바랍니다.");
+
+			return "error/exception";
+		} catch(Exception e) {
+			logger.error("exception requestURI: " + requestURI, e);
+			return "error/fatalError";
+		}
+	}
+
+	@ExceptionHandler({FileNotFoundException.class})
+	@ResponseStatus(value=HttpStatus.NOT_FOUND)
+	public String fileNotFoundExceptionHandler(HttpServletRequest request, HttpServletResponse response, Model model, Exception fnfe) {
+		String requestURI = (String)request.getAttribute("javax.servlet.forward.request_uri");
+		String referer = request.getHeader("referer");
+
+		model.addAttribute("referer", referer);
+
+		try {
+			logger.info("exception requestURI: " + requestURI, fnfe);
+
+			model.addAttribute("template", this.setTemplate(request));
+			model.addAttribute("exceptionMsg", fnfe.getMessage());
+			model.addAttribute("exceptionDescription", "파일이 존재하지 않습니다.<br>카테고리를 선택하시거나 아래에 표시된 버튼을 통해 이동하시기 바랍니다.");
 
 			return "error/exception";
 		} catch(Exception e) {
@@ -89,7 +113,7 @@ public class BasicExceptionHandler {
 			logger.warn("exception requestURI: " + requestURI, e);
 	
 	    	model.addAttribute("template", this.setTemplate(request));
-			model.addAttribute("exceptionMsg", e.getMessage());
+			model.addAttribute("exceptionMsg", "알 수 없는 오류가 발생했습니다.");
 			model.addAttribute("exceptionDescription", "예상하지 못한 오류가 발생했습니다.<br>카테고리를 선택하시거나 아래에 표시된 버튼을 통해 이동하시기 바랍니다.");
 
 			return "error/exception";
