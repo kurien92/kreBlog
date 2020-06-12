@@ -39,14 +39,14 @@ public class HomeController {
 	private PostService postService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(HttpServletRequest request, Locale locale, Model model) {
-		Criteria criteria = new SearchCriteria(1, 10);
-		int totalRowCount = postService.getCount("N", criteria);
+	public String home(SearchCriteria criteria, HttpServletRequest request, Locale locale, Model model) {
+		int totalRowCount = postService.getCount("N");
 		PageMaker pageMaker = new PageMaker(criteria, totalRowCount);
 		
 		List<Post> posts = postService.getList("N", criteria);
-		
+
 		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("pageUrl", request.getContextPath() + "/");
 		model.addAttribute("posts", posts);
 		
 		template.getCss().add("<link rel=\"stylesheet\" href=\"/css/home.css\">");

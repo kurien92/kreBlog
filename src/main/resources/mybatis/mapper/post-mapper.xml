@@ -41,24 +41,28 @@
 	</sql>
 	
 	<sql id="criteria">
-		<if test="offset != null and rowCount != null">
-			LIMIT #{offset}, #{rowCount}
+		<if test="criteria != null">
+			<if test="criteria.offset != null and criteria.rowCount != null">
+				LIMIT #{criteria.offset}, #{criteria.rowCount}
+			</if>
 		</if>
 	</sql>
 	
 	<sql id="search">
-		<if test="searchType != null and keyword != null">
-			<choose>
-				<when test="searchType eq 'category'">
-					categoryId = #{keyword} 
-				</when>
-				<when test="searchType eq 'subject'">
-					postSubject like CONCAT('%', #{keyword}, '%') 
-				</when>
-				<when test="searchType eq 'author'">
-					postAuthor like CONCAT('%', #{keyword}, '%') 
-				</when>
-			</choose>
+		<if test="criteria != null">
+			<if test="criteria.searchType != null and criteria.keyword != null">
+				<choose>
+					<when test="criteria.searchType eq 'category'">
+						categoryId = #{criteria.keyword}
+					</when>
+					<when test="criteria.searchType eq 'subject'">
+						postSubject like CONCAT('%', #{criteria.keyword}, '%')
+					</when>
+					<when test="criteria.searchType eq 'author'">
+						postAuthor like CONCAT('%', #{criteria.keyword}, '%')
+					</when>
+				</choose>
+			</if>
 		</if>
 	</sql>
     
@@ -72,7 +76,7 @@
         </where>
        	ORDER BY
        		postNo DESC
-       	<include refid="criteria" />
+		<include refid="criteria" />
     </select>
   
     <select id="selectListByCategoryIds" parameterType="list" resultMap="resultMap">
@@ -88,13 +92,13 @@
         </where>
        	ORDER BY
        		postNo DESC
+		<include refid="criteria" />
     </select>
     
     <select id="selectCount" resultType="Integer">
         SELECT count(*)
         FROM <include refid="table" />
         <where>
-        	<include refid="search" />
 			<include refid="manageYn" />
         </where>
     </select>
@@ -119,6 +123,7 @@
             
             <include refid="manageYn" />
         </where>
+		<include refid="criteria" />
     </select>
     
     

@@ -3,6 +3,8 @@ package net.kurien.blog.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,12 +55,13 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(SearchCriteria criteria, Model model) {
-		int totalRowCount = postService.getCount("N", criteria);
+	public String list(SearchCriteria criteria, HttpServletRequest request, HttpServletResponse response, Model model) {
+		int totalRowCount = postService.getCount("N");
 		PageMaker pageMaker = new PageMaker(criteria, totalRowCount);
 		
 		List<Post> posts = postService.getList("N", criteria);
-		
+
+		model.addAttribute("pageUrl", request.getContextPath() + "/post/list");
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("posts", posts);
 

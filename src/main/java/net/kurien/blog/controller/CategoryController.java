@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +39,7 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@RequestMapping("/{categoryId}")
-	public String list(@PathVariable String categoryId, SearchCriteria criteria, Model model) throws Exception {
+	public String list(@PathVariable String categoryId, SearchCriteria criteria, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		Category category = categoryService.get(categoryId);
 		
 		if(category == null) {
@@ -49,8 +52,9 @@ public class CategoryController {
 		List<String> categories = new ArrayList<>();
 		categories.add(category.getCategoryId());
 		
-		List<Post> posts = postService.getListByCategoryIds(categories, "N");
-		
+		List<Post> posts = postService.getListByCategoryIds(categories, "N", criteria);
+
+		model.addAttribute("pageUrl", request.getContextPath() + "/category/" + categoryId);
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("posts", posts);
 		

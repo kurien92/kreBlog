@@ -14,7 +14,7 @@ import net.kurien.blog.module.post.dao.PostDao;
 import net.kurien.blog.module.post.entity.Post;
 
 @Repository
-public class PostDaoBasic implements PostDao {
+public class BasicPostDao implements PostDao {
 	@Inject
 	private SqlSession sqlSession;
 	
@@ -31,11 +31,12 @@ public class PostDaoBasic implements PostDao {
 	}
 
 	@Override
-	public List<Post> selectListByCategoryIds(List<String> categoryIds, String manageYn) {
+	public List<Post> selectListByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria) {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<>();
 		param.put("categoryIds", categoryIds);
 		param.put("manageYn", manageYn);
+		param.put("criteria", criteria);
 		
 		return sqlSession.selectList(mapper + ".selectListByCategoryIds", param);
 	}
@@ -56,16 +57,6 @@ public class PostDaoBasic implements PostDao {
 		param.put("manageYn", manageYn);
 		
 		return sqlSession.selectOne(mapper + ".selectCount", param);		
-	}
-
-	@Override
-	public int selectCount(String manageYn, Criteria criteria) {
-		// TODO Auto-generated method stub
-		Map<String, Object> param = new HashMap<>();
-		param.put("manageYn", manageYn);
-		param.put("criteria", criteria);
-		
-		return sqlSession.selectOne(mapper + ".selectCount", param);
 	}
 	
 	@Override
@@ -127,21 +118,23 @@ public class PostDaoBasic implements PostDao {
 	}
 
 	@Override
-	public int selectCountByCategoryId(String categoryId, String manageYn) {
+	public int selectCountByCategoryId(String categoryId, String manageYn, Criteria criteria) {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<>();
 		param.put("categoryId", categoryId);
 		param.put("manageYn", manageYn);
+		param.put("criteria", criteria);
 		
 		return sqlSession.selectOne(mapper + ".selectCountByCategoryId", param);
 	}
 
 	@Override
-	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn) {
+	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria) {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<>();
 		param.put("categoryIds", categoryIds);
 		param.put("manageYn", manageYn);
+		param.put("criteria", criteria);
 		
 		return sqlSession.selectOne(mapper + ".selectCountByCategoryIds", param);
 	}

@@ -11,13 +11,12 @@ public interface PostDao {
 	
 	public Post selectOne(int postNo, String manageYn);
 	
-	public List<Post> selectListByCategoryIds(List<String> categoryIds, String manageYn);
+	public List<Post> selectListByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria);
 
 	public int selectCount(String manageYn);
-	public int selectCount(String manageYn, Criteria criteria);
 
-	public int selectCountByCategoryId(String categoryId, String manageYn);
-	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn);
+	public int selectCountByCategoryId(String categoryId, String manageYn, Criteria criteria);
+	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria);
 	
 	public void insert(Post post);
 	public void update(Post post);

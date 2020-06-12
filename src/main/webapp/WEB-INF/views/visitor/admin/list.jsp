@@ -68,13 +68,13 @@
 
 		<div class="pagination">
             <c:if test="${pageMaker.prev}">
-                <a href="${path}/admin/visitor/list${pageMaker.makeQuery(pageMaker.startPage - 1)}" class="pagination_item pagination_prev">◀</a></li>
+                <a href="${contextPath}/admin/visitor/list${pageMaker.makeQuery(pageMaker.startPage - 1)}" class="pagination_item pagination_prev">◀</a></li>
             </c:if>
             
             <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="i">
                 <c:choose>
                 	<c:when test="${pageMaker.criteria.page != i}">
-		                <a href="${path}/admin/visitor/list${pageMaker.makeQuery(i)}" class="pagination_item">${i}</a>
+		                <a href="${contextPath}/admin/visitor/list${pageMaker.makeQuery(i)}" class="pagination_item">${i}</a>
                 	</c:when>
                 	<c:otherwise>
                 		<span class="pagination_item pagination_current">${i}</span>
@@ -83,7 +83,7 @@
             </c:forEach>
             
             <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                <a href="${path}/admin/visitor/list${pageMaker.makeQuery(pageMaker.endPage + 1)}" class="pagination_item pagination_next">▶</a>
+                <a href="${contextPath}/admin/visitor/list${pageMaker.makeQuery(pageMaker.endPage + 1)}" class="pagination_item pagination_next">▶</a>
             </c:if>
 		</div>
 	</div>

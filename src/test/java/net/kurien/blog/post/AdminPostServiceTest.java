@@ -181,8 +181,8 @@ public class AdminPostServiceTest {
 		List<String> categoryIds = new ArrayList<>();
 		categoryIds.add("test");
 		
-		assertThat(postService.getListByCategoryIds(categoryIds, "Y").size(), is(5));
-		assertThat(postService.getCountByCategoryIds(categoryIds, "Y"), is(5));
+		assertThat(postService.getListByCategoryIds(categoryIds, "Y", null).size(), is(5));
+		assertThat(postService.getCountByCategoryIds(categoryIds, "Y", null), is(5));
 	}
 	/**
 	 * 관리가능여부("N")에 따라 Post가 보여질지 안보여질지를 결정한다.
@@ -203,8 +203,8 @@ public class AdminPostServiceTest {
 		List<String> categoryIds = new ArrayList<>();
 		categoryIds.add("test");
 		
-		assertThat(postService.getListByCategoryIds(categoryIds, "N").size(), is(2));
-		assertThat(postService.getCountByCategoryIds(categoryIds, "N"), is(2));
+		assertThat(postService.getListByCategoryIds(categoryIds, "N", null).size(), is(2));
+		assertThat(postService.getCountByCategoryIds(categoryIds, "N", null), is(2));
 	}
 	
 	@Test

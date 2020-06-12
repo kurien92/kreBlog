@@ -11,12 +11,11 @@ public interface PostService {
 	
 	public Post get(int postNo, String manageYn) throws Exception;
 	
-	public List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn);
+	public List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria);
 	
 	public int getCount(String manageYn);
-	public int getCount(String manageYn, Criteria criteria);
 	public int getCountByCategoryId(String categoryId, String manageYn);
-	public int getCountByCategoryIds(List<String> categoryIds, String manageYn);
+	public int getCountByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria);
 
 	public void write(Post post, Integer[] fileNos) throws Exception;
 	public void modify(Post post, Integer[] fileNos) throws Exception;

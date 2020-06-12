@@ -42,9 +42,9 @@ public class BasicPostService implements PostService {
 	}
 
 	@Override
-	public List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn) {
+	public List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria) {
 		// TODO Auto-generated method stub
-		return postDao.selectListByCategoryIds(categoryIds, manageYn);
+		return postDao.selectListByCategoryIds(categoryIds, manageYn, criteria);
 	}
 	
 	@Override
@@ -54,21 +54,14 @@ public class BasicPostService implements PostService {
 	}
 
 	@Override
-	public int getCount(String manageYn, Criteria criteria) {
-		// TODO Auto-generated method stub
-		return postDao.selectCount(manageYn, criteria);
-	}
-
-	@Override
 	public int getCountByCategoryId(String categoryId, String manageYn) {
-		// TODO Auto-generated method stub
-		return postDao.selectCountByCategoryId(categoryId, manageYn);
+		return postDao.selectCountByCategoryId(categoryId, manageYn, null);
 	}
 
 	@Override
-	public int getCountByCategoryIds(List<String> categoryIds, String manageYn) {
+	public int getCountByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria) {
 		// TODO Auto-generated method stub
-		return postDao.selectCountByCategoryIds(categoryIds, manageYn);
+		return postDao.selectCountByCategoryIds(categoryIds, manageYn, criteria);
 	}
 	
 	@Override
