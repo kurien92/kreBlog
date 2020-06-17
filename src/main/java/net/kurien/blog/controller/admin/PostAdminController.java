@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.JsonObject;
+import net.kurien.blog.domain.PageMaker;
+import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.exception.NotFoundDataException;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
@@ -72,8 +74,14 @@ public class PostAdminController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model) {
-		List<Post> posts = postService.getList("Y");
+	public String list(SearchCriteria criteria, Model model, HttpServletRequest request, HttpServletResponse response) {
+		int totalRowCount = postService.getCount("Y");
+		PageMaker pageMaker = new PageMaker(criteria, totalRowCount);
+
+		List<Post> posts = postService.getList("Y", criteria);
+
+		model.addAttribute("pageUrl", request.getContextPath() + "/admin/post/list");
+		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("posts", posts);
 
 		template.setTitle("Post List &dash; Kurien's Blog");
