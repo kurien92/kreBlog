@@ -157,7 +157,6 @@
 }
 
 #post_view .kre_article .kre_article_body a {
-	color: #033e6a;
 	font-weight: bold;
 }
 
@@ -189,6 +188,26 @@
 
 #post_view .kre_article .kre_article_footer {
 	padding: 20px 0;
+}
+
+#admin_post_list .post_item .postViewLink {
+	font-weight: bold;
+}
+
+#admin_post_list .post_item {
+	margin-top: 20px;
+}
+
+#admin_post_list .post_item:first-child {
+	margin-top: 0;
+}
+
+#admin_post_list .post_item > div {
+	margin-top: 6px;
+}
+
+#admin_post_list .post_item > div:first-child {
+	margin-top: 0;
 }
 
 #admin_post_write .kre_writing > div {

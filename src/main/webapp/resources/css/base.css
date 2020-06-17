@@ -2,8 +2,20 @@
 
 @import url('font.css');
 
+::selection {
+	background-color: #036e9a;
+	color: #fff;
+}
+
 a {
+	color: #033e6a;
 	text-decoration: none;
+}
+
+a:hover,
+a:active,
+a:focus {
+	color: #f80;
 }
 
 /* IOS에서는 기본 스타일이 지정되어 레이아웃이 틀어지므로 초기화 해야한다. */

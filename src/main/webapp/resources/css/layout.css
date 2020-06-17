@@ -3,6 +3,10 @@
 /* Extra small devices (portrait phones, less than 576px) */
 /* No media query since this is the default in Bootstrap */
 
+#kre_wrap {
+	background-color: #f6f6f6;
+}
+
 #kre_aside {
 	position: absolute;
 	width:100%;
@@ -144,8 +148,11 @@
 }
 
 #kre_content {
+	max-width: 1100px;
+	min-height: 100%;
 	box-sizing: border-box;
 	padding: 15px;
+	background-color: #fff;
 }
 
 .section_subject {

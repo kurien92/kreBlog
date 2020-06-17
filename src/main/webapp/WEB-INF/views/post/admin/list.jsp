@@ -30,10 +30,16 @@
 		<ul>
 			<c:forEach var="post" items="${posts}">
 			<li class="post_item">
-				<a href="${contextPath}/admin/post/modify/${post.postNo}" class="postViewLink">${post.postSubject}</a>
-				<fmt:formatDate value="${post.postWriteTime}" pattern="yy/MM/dd HH:mm" />
-				<a href="${contextPath}/admin/post/preview/${post.postNo}" class="postPreviewLink kre_btn" target="_blank">미리보기</a>
-				<a href="${contextPath}/admin/post/delete/${post.postNo}" class="postDeleteLink kre_btn">삭제</a>
+				<div>
+					<a href="${contextPath}/admin/post/modify/${post.postNo}" class="postViewLink">[${post.postNo}] ${post.postSubject}</a>
+				</div>
+				<div>
+					<fmt:formatDate value="${post.postWriteTime}" pattern="yy/MM/dd HH:mm" />
+				</div>
+				<div>
+					<a href="${contextPath}/admin/post/preview/${post.postNo}" class="postPreviewLink kre_btn" target="_blank">미리보기</a>
+					<a href="${contextPath}/admin/post/delete/${post.postNo}" class="postDeleteLink kre_btn">삭제</a>
+				</div>
 			</li>
 			</c:forEach>
 		</ul>
