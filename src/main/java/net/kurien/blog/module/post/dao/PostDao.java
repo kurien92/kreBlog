@@ -1,6 +1,7 @@
 package net.kurien.blog.module.post.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.module.post.entity.Post;
@@ -25,4 +26,6 @@ public interface PostDao {
 	public void deleteAll();
 	public int isExist(int postNo, String manageYn);
 	public int removeCategoryId(String categoryId);
+
+    public List<Post> search(String[] keywords);
 }

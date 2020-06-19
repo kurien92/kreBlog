@@ -1,14 +1,14 @@
 package net.kurien.blog.module.post.service.impl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
 import net.kurien.blog.domain.SearchCriteria;
+import net.kurien.blog.module.search.dto.SearchDTO;
+import net.kurien.blog.module.search.dto.Searchable;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.exception.DuplicatedKeyException;
@@ -21,7 +21,7 @@ import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.post.service.PostService;
 
 @Service
-public class BasicPostService implements PostService {
+public class BasicPostService implements PostService, Searchable {
 	@Inject
 	private PostDao postDao;
 	
@@ -166,5 +166,28 @@ public class BasicPostService implements PostService {
 	public int removeCategoryId(String categoryId) {
 		// TODO Auto-generated method stub
 		return postDao.removeCategoryId(categoryId);
+	}
+
+	@Override
+	public SearchDTO search(String[] keywords) {
+		List<Map<String, Object>> contents = new ArrayList<>();
+
+		SearchDTO searchDto = new SearchDTO();
+		searchDto.setTitle("post");
+		searchDto.setContents(contents);
+
+		List<Post> posts = postDao.search(keywords);
+
+		for(Post post : posts) {
+			Map<String, Object> content = new LinkedHashMap<>();
+
+			content.put("id", post.getPostNo());
+			content.put("title", post.getPostSubject());
+			content.put("content", post.getPostContent());
+
+			contents.add(content);
+		}
+
+		return searchDto;
 	}
 }

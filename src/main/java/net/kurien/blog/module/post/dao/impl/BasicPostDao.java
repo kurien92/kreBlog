@@ -133,7 +133,19 @@ public class BasicPostDao implements PostDao {
 		param.put("categoryIds", categoryIds);
 		param.put("manageYn", manageYn);
 		param.put("criteria", criteria);
-		
+
 		return sqlSession.selectOne(mapper + ".selectCountByCategoryIds", param);
+	}
+
+	@Override
+	public List<Post> search(String[] keywords) {
+		String[] keys = new String[]{"postSubject", "postContent"};
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("keys", keys);
+		param.put("manageYn", "N");
+		param.put("keywords", keywords);
+
+		return sqlSession.selectList(mapper + ".search", param);
 	}
 }

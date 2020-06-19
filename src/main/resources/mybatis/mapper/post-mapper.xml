@@ -47,7 +47,7 @@
 			</if>
 		</if>
 	</sql>
-	
+
 	<sql id="search">
 		<if test="criteria != null">
 			<if test="criteria.searchType != null and criteria.keyword != null">
@@ -84,9 +84,9 @@
         FROM <include refid="table" />
         <where>
         	categoryId IN
-        	<foreach collection="categoryIds" item="item" index="index" open="(" close=")" separator=",">
-        		#{item}
-        	</foreach>
+			<foreach collection="categoryIds" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
         	
         	<include refid="manageYn" />
         </where>
@@ -255,4 +255,19 @@
         	<include refid="manageYn" />
         </where>
     </select>
+
+	<select id="search" resultMap="resultMap">
+		SELECT *
+		FROM <include refid="table" />
+		<where>
+			<foreach collection="keys" item="key" open="(" close=")" separator="OR">
+				<foreach collection="keywords" item="keyword" open="(" close=")" separator="AND">
+					${key} like CONCAT('%', #{keyword}, '%')
+				</foreach>
+			</foreach>
+			<include refid="manageYn" />
+		</where>
+		ORDER BY
+		postNo DESC
+	</select>
 </mapper>
