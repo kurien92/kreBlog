@@ -51,12 +51,14 @@ public class TemplateInterceptor extends HandlerInterceptorAdapter {
     	}
     	
     	
-    	// subTitle이 있다면 subTitle을 포함하여 표시한다. 
-    	String title = template.getMainTitle(); 
+    	// subTitle이 있다면 subTitle을 표시한다.
+    	String title = null;
     	
     	if(template.getSubTitle().equals("") == false) {
-    		title = template.getSubTitle() + " | " + title;
-    	}
+    		title = template.getSubTitle();
+    	} else {
+			title = template.getMainTitle();
+		}
     	
     	template.setTitle(title);
     	
