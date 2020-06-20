@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.kurien.blog.common.template.Template;
-import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.domain.PageMaker;
 import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.module.post.entity.Post;
@@ -57,7 +56,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/rss", method = RequestMethod.GET, produces="application/xml;charset=utf-8")
 	public @ResponseBody String rss(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-		Criteria criteria = new Criteria(1, 500);
+		SearchCriteria criteria = new SearchCriteria(1, 500);
 		
 		List<Post> posts = postService.getList("N", criteria);
 

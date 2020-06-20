@@ -1,6 +1,5 @@
 package net.kurien.blog.module.post.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,9 +8,9 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import net.kurien.blog.domain.SearchCriteria;
 import org.springframework.stereotype.Service;
 
-import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.exception.DuplicatedKeyException;
 import net.kurien.blog.exception.EmptyParameterException;
 import net.kurien.blog.exception.NotFoundDataException;
@@ -36,13 +35,13 @@ public class BasicPostService implements PostService {
 	}
 	
 	@Override
-	public List<Post> getList(String manageYn, Criteria criteria) {
+	public List<Post> getList(String manageYn, SearchCriteria criteria) {
 		// TODO Auto-generated method stub
 		return postDao.selectList(manageYn, criteria);
 	}
 
 	@Override
-	public List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria) {
+	public List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria) {
 		// TODO Auto-generated method stub
 		return postDao.selectListByCategoryIds(categoryIds, manageYn, criteria);
 	}
@@ -59,7 +58,7 @@ public class BasicPostService implements PostService {
 	}
 
 	@Override
-	public int getCountByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria) {
+	public int getCountByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria) {
 		// TODO Auto-generated method stub
 		return postDao.selectCountByCategoryIds(categoryIds, manageYn, criteria);
 	}
@@ -88,21 +87,8 @@ public class BasicPostService implements PostService {
 		}
 		
 		postDao.insert(post);
-		
-		if(fileNos != null) {
-			serviceFileService.addFiles("post", post.getPostNo(), fileNos, post.getPostWriteIp());
-		}
-		
-		Set<Integer> useFilesNo = new HashSet<>();
-		
-		Pattern pattern = Pattern.compile("[\'|\"]/file/viewer/post/(\\d+?)[\'|\"]");
-		Matcher matcher = pattern.matcher(post.getPostContent());
-		
-		while(matcher.find()) {
-			useFilesNo.add(Integer.parseInt(matcher.group(1)));
-		}
-		
-		serviceFileService.syncFiles("post", post.getPostNo(), useFilesNo, post.getPostWriteIp());
+
+		addServiceFiles(post, fileNos);
 	}
 
 	@Override
@@ -117,20 +103,24 @@ public class BasicPostService implements PostService {
 		}
 
 		postDao.update(post);
-		
+
+		addServiceFiles(post, fileNos);
+	}
+
+	private void addServiceFiles(Post post, Integer[] fileNos) {
 		if(fileNos != null) {
 			serviceFileService.addFiles("post", post.getPostNo(), fileNos, post.getPostWriteIp());
 		}
-		
+
 		Set<Integer> useFilesNo = new HashSet<>();
-		
-		Pattern pattern = Pattern.compile("[\'|\"]/file/viewer/post/(\\d+?)[\'|\"]");
+
+		Pattern pattern = Pattern.compile("['|\"]/file/viewer/post/(\\d+?)['|\"]");
 		Matcher matcher = pattern.matcher(post.getPostContent());
-		
+
 		while(matcher.find()) {
 			useFilesNo.add(Integer.parseInt(matcher.group(1)));
 		}
-		
+
 		serviceFileService.syncFiles("post", post.getPostNo(), useFilesNo, post.getPostWriteIp());
 	}
 
@@ -173,10 +163,8 @@ public class BasicPostService implements PostService {
 	}
 
 	@Override
-	public int removeCategoryId(String categoryId) throws Exception {
+	public int removeCategoryId(String categoryId) {
 		// TODO Auto-generated method stub
-		int removedCount = postDao.removeCategoryId(categoryId);
-		
-		return removedCount;
+		return postDao.removeCategoryId(categoryId);
 	}
 }

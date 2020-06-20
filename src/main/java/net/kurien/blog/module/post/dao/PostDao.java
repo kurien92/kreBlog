@@ -2,21 +2,21 @@ package net.kurien.blog.module.post.dao;
 
 import java.util.List;
 
-import net.kurien.blog.domain.Criteria;
+import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.module.post.entity.Post;
 
 public interface PostDao {
 	public List<Post> selectList(String manageYn);
-	public List<Post> selectList(String manageYn, Criteria criteria);
+	public List<Post> selectList(String manageYn, SearchCriteria criteria);
 	
 	public Post selectOne(int postNo, String manageYn);
 	
-	public List<Post> selectListByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria);
+	public List<Post> selectListByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria);
 
 	public int selectCount(String manageYn);
 
-	public int selectCountByCategoryId(String categoryId, String manageYn, Criteria criteria);
-	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria);
+	public int selectCountByCategoryId(String categoryId, String manageYn, SearchCriteria criteria);
+	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria);
 	
 	public void insert(Post post);
 	public void update(Post post);

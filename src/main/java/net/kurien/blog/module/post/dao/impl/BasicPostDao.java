@@ -6,10 +6,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import net.kurien.blog.domain.SearchCriteria;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import net.kurien.blog.domain.Criteria;
 import net.kurien.blog.module.post.dao.PostDao;
 import net.kurien.blog.module.post.entity.Post;
 
@@ -21,7 +21,7 @@ public class BasicPostDao implements PostDao {
 	private final static String mapper = "net.kurien.blog.module.post.mapper";
 	
 	@Override
-	public List<Post> selectList(String manageYn, Criteria criteria) {
+	public List<Post> selectList(String manageYn, SearchCriteria criteria) {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<>();
 		param.put("manageYn", manageYn);
@@ -31,7 +31,7 @@ public class BasicPostDao implements PostDao {
 	}
 
 	@Override
-	public List<Post> selectListByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria) {
+	public List<Post> selectListByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria) {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<>();
 		param.put("categoryIds", categoryIds);
@@ -102,9 +102,7 @@ public class BasicPostDao implements PostDao {
 	@Override
 	public int removeCategoryId(String categoryId) {
 		// TODO Auto-generated method stub
-		int updatedCount = sqlSession.update(mapper + ".removeCategoryId", categoryId);
-		
-		return updatedCount;
+		return sqlSession.update(mapper + ".removeCategoryId", categoryId);
 	}
 
 	@Override
@@ -118,7 +116,7 @@ public class BasicPostDao implements PostDao {
 	}
 
 	@Override
-	public int selectCountByCategoryId(String categoryId, String manageYn, Criteria criteria) {
+	public int selectCountByCategoryId(String categoryId, String manageYn, SearchCriteria criteria) {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<>();
 		param.put("categoryId", categoryId);
@@ -129,7 +127,7 @@ public class BasicPostDao implements PostDao {
 	}
 
 	@Override
-	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn, Criteria criteria) {
+	public int selectCountByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria) {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<>();
 		param.put("categoryIds", categoryIds);
