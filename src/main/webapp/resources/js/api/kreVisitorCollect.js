@@ -14,9 +14,7 @@ var kreVisitorCollect = (function(contextPath) {
 			visitor.userCookie = token;
 			return sendVisitorCollect(visitor);
 		}).then(function(result) {
-			console.log(result);
 		}).catch(function(err) {
-			console.error(err);
 		});
 	}
 	
