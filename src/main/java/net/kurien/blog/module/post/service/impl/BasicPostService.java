@@ -169,24 +169,26 @@ public class BasicPostService implements PostService, Searchable {
 	}
 
 	@Override
-	public SearchDTO search(String[] keywords) {
+	public SearchDTO search(String[] queries) {
 		List<Map<String, Object>> contents = new ArrayList<>();
-
 		SearchDTO searchDto = new SearchDTO();
-		searchDto.setTitle("post");
-		searchDto.setContents(contents);
 
-		List<Post> posts = postDao.search(keywords);
+
+		List<Post> posts = postDao.search(queries);
 
 		for(Post post : posts) {
 			Map<String, Object> content = new LinkedHashMap<>();
 
 			content.put("id", post.getPostNo());
+			content.put("name", post.getPostAuthor());
 			content.put("title", post.getPostSubject());
-			content.put("content", post.getPostContent());
+			content.put("description", post.getPostContent());
 
 			contents.add(content);
 		}
+
+		searchDto.setTitle("POST");
+		searchDto.setContents(contents);
 
 		return searchDto;
 	}

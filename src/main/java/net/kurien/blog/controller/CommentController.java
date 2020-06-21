@@ -6,7 +6,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -18,26 +17,33 @@ import net.kurien.blog.module.comment.service.CommentService;
 import net.kurien.blog.util.HtmlUtil;
 import net.kurien.blog.util.RequestUtil;
 import net.kurien.blog.util.TokenUtil;
-import net.kurien.blog.vo.Token;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
+@Controller
 @RequestMapping("/comment")
 public class CommentController {
 	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
 	
 	@Inject
 	private CommentService commentService;
-	
+
+	@RequestMapping(value = "/search/{commentNo}")
+	public String search(@PathVariable int commentNo, Model model) {
+		Comment comment = commentService.get(commentNo);
+
+		return "redirect: /post/view/" + comment.getPostNo() + "#comment" + comment.getCommentNo();
+	}
+
 	@RequestMapping(value = "/list/{postNo}", method = RequestMethod.GET)
-	public JsonObject list(@PathVariable int postNo) {
+	public @ResponseBody JsonObject list(@PathVariable int postNo) {
 	    JsonObject json = new JsonObject();
 
 		List<Comment> comments = commentService.getList(postNo);
@@ -56,7 +62,7 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value = "/write/{postNo}", method = RequestMethod.POST)
-	public JsonObject write(@PathVariable int postNo, CommentDto commentDto, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public @ResponseBody JsonObject write(@PathVariable int postNo, CommentDto commentDto, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 	    JsonObject json = new JsonObject();
 	    
 		try {
@@ -86,7 +92,7 @@ public class CommentController {
 	}
 
 	@RequestMapping(value = "/reply/{no}", method = RequestMethod.POST)
-	public JsonObject reply(@PathVariable int no, CommentDto commentDto, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public @ResponseBody JsonObject reply(@PathVariable int no, CommentDto commentDto, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		JsonObject json = new JsonObject();
 		
 		try {
@@ -123,7 +129,7 @@ public class CommentController {
     }
     
 	@RequestMapping(value = "/modify/{no}", method = RequestMethod.POST)
-	public JsonObject modify(@PathVariable int no, CommentDto commentDto, String token, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public @ResponseBody JsonObject modify(@PathVariable int no, CommentDto commentDto, String token, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		JsonObject json = new JsonObject();
 		
 	    if(TokenUtil.checkToken(request, "comment", token) == false) {
@@ -163,7 +169,7 @@ public class CommentController {
     }
     
 	@RequestMapping(value = "/delete/{no}", method = RequestMethod.POST)
-	public JsonObject delete(@PathVariable int no, String token, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public @ResponseBody JsonObject delete(@PathVariable int no, String token, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 	    JsonObject json = new JsonObject();
 
 	    if(TokenUtil.checkToken(request, "comment", token) == false) {
@@ -184,7 +190,7 @@ public class CommentController {
     }
     
 	@RequestMapping(value = "/passwordCheck/{no}", method = RequestMethod.POST)
-	public JsonObject passwordCheck(@PathVariable int no, String password, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public @ResponseBody JsonObject passwordCheck(@PathVariable int no, String password, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		boolean checkedPassword = commentService.checkPassword(no, password);
 		
 		JsonObject json = new JsonObject();

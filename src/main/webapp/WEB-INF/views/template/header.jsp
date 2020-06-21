@@ -27,6 +27,44 @@
 			</div>
 			
 			<div id="kre_mobile_menu">
+				<div id="kre_search" class="aside_item">
+					<h2 id="kre_search_header">Search</h2>
+
+					<div id="kre_search_area">
+						<input type="text" id="searchQuery" class="kre_inp" placeholder="Please enter a word." value="${template.searchQuery}"><button type="button" id="searchBtn" class="kre_btn"><span class="material-icons">
+search
+</span></button>
+					</div>
+					<script>
+						$(function() {
+							$("#searchBtn").on("click", function() {
+								var keyword = $("#searchQuery").val();
+
+								searchQuery(keyword);
+							});
+
+							$("#searchQuery").on("keypress", function(e) {
+								if(e.keyCode !== 13) {
+									return;
+								}
+								var keyword = $("#searchQuery").val();
+
+								searchQuery(keyword);
+							});
+
+							function searchQuery(searchQuery) {
+								if(searchQuery.length < 2) {
+									alert("검색어는 2자 이상 입력해주세요!");
+									return;
+								}
+
+								searchQuery = encodeURIComponent(searchQuery);
+								location.href = "${contextPath}/search?q=" + searchQuery;
+							}
+						});
+					</script>
+				</div>
+
 				<div id="kre_category" class="aside_item">
 					<h2 id="kre_category_header">Category</h2>
 					

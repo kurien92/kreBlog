@@ -138,13 +138,13 @@ public class BasicPostDao implements PostDao {
 	}
 
 	@Override
-	public List<Post> search(String[] keywords) {
-		String[] keys = new String[]{"postSubject", "postContent"};
+	public List<Post> search(String[] queries) {
+		String[] searchColumns = new String[]{"postSubject", "postContent"};
 
 		Map<String, Object> param = new HashMap<>();
-		param.put("keys", keys);
+		param.put("searchColumns", searchColumns);
 		param.put("manageYn", "N");
-		param.put("keywords", keywords);
+		param.put("searchQueries", queries);
 
 		return sqlSession.selectList(mapper + ".search", param);
 	}

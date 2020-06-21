@@ -1,10 +1,12 @@
 package net.kurien.blog.module.comment.service.impl;
 
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import javax.inject.Inject;
 
+import net.kurien.blog.module.post.entity.Post;
+import net.kurien.blog.module.search.dto.SearchDTO;
+import net.kurien.blog.module.search.dto.Searchable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ import net.kurien.blog.module.comment.entity.Comment;
 import net.kurien.blog.module.comment.service.CommentService;
 
 @Service
-public class BasicCommentService implements CommentService {
+public class BasicCommentService implements CommentService, Searchable {
 	@Inject
 	private CommentDao commentDao;
 
@@ -138,5 +140,29 @@ public class BasicCommentService implements CommentService {
 		}
 		
 		return commentOrder + 1;
+	}
+
+	@Override
+	public SearchDTO search(String[] queries) {
+		List<Map<String, Object>> contents = new ArrayList<>();
+		SearchDTO searchDto = new SearchDTO();
+
+		List<Comment> comments = commentDao.search(queries);
+
+		for(Comment comment : comments) {
+			Map<String, Object> content = new LinkedHashMap<>();
+
+			content.put("id", comment.getCommentNo());
+			content.put("name", comment.getAuthor());
+			content.put("title", comment.getComment());
+			content.put("description", null);
+
+			contents.add(content);
+		}
+
+		searchDto.setTitle("COMMENT");
+		searchDto.setContents(contents);
+
+		return searchDto;
 	}
 }

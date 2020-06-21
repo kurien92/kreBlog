@@ -36,6 +36,8 @@ public class TemplateInterceptor extends HandlerInterceptorAdapter {
 		template.setFootJs(new TemplateJs());
 		
 		template.setCategoryHTML(categoryService.getCategoryHTML(contextPath));
+
+		template.setSearchQuery("");
 		
 		return super.preHandle(request, response, handler);
 	}

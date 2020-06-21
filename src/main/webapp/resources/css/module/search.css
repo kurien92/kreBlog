@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query since this is the default in Bootstrap */
+
+#search_query .search_item_title {
+    font-size: 18px;
+}
+
+#search_query .search_item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2em;
+    word-break: break-all;
+}
+
+#search_query .search_item_list {
+    margin: 20px 0;
+}
+
+#search_query .search_item_list dl {
+    margin: 0;
+}
+
+#search_query .search_item_list dt {
+    font-weight: bold;
+}
+
+#search_query .search_item_list dd {
+    font-size: 16px;
+    margin: 10px 0 0 0;
+    color: #777;
+    max-height: 84px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}

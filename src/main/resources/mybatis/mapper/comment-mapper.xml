@@ -19,6 +19,25 @@
 		kreComment
 	</sql>
 
+	<sql id="manageYn">
+		<!-- mybatis에서 if test='manageYn != "Y"' 작성 시 Y를 작은따옴표로 감싸거나 감싸지 않으면 char 형으로 인식하여 숫자로 검사한다.  -->
+		<!-- 반드시 큰따옴표로 감싸야 스트링 검사를 한다. -->
+		<if test='manageYn != "Y"'>
+			<!-- 공개된 게시물 중 예약발행이 아니거나, 예약발행이고 예약시간이 지난 글만 출력한다. -->
+			<![CDATA[
+       		AND postView = 1
+
+       		AND (
+       			postPublish = 0
+       			OR (
+       				postPublish = 1
+       				AND postReservationTime <= now()
+       			)
+       		)
+       	]]>
+		</if>
+	</sql>
+
     <select id="selectList" resultMap="resultMap">
         SELECT *
         FROM <include refid="table" />
@@ -134,4 +153,23 @@
        		commentNo = #{commentNo}
         </where>
     </delete>
+
+
+	<select id="search" resultMap="resultMap">
+		SELECT C.*
+		FROM
+			<include refid="table" /> C,
+			krePost P
+		<where>
+			<foreach collection="searchColumns" item="searchColumn" open="(" close=")" separator=" OR ">
+				<foreach collection="searchQueries" item="searchQuery" open="(" close=")" separator=" AND ">
+					C.${searchColumn} like CONCAT('%', #{searchQuery}, '%')
+				</foreach>
+			</foreach>
+			AND C.postNo = P.postNo
+			<include refid="manageYn"/>
+		</where>
+		ORDER BY
+		C.postNo, C.commentNo DESC
+	</select>
 </mapper>

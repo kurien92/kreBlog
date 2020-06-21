@@ -2,6 +2,10 @@
 
 @import url('font.css');
 
+* {
+	outline-color: #f90;
+}
+
 ::selection {
 	background-color: #036e9a;
 	color: #fff;
@@ -99,6 +103,11 @@ ul.kre_btn_list_right > li:first-child {
 .kre_btn.reverse_btn {
     background-color: #033e6a;
     color: #fff;
+}
+
+.kre_btn.btn_small {
+	vertical-align: middle;
+	font-size: 16px;
 }
 
 .kre_btn.link_btn {

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.kurien.blog.module.comment.entity.Comment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -105,4 +106,9 @@ public class PostController {
 		return "post/view";
 	}
 	
+
+	@RequestMapping(value = "/search/{postNo}")
+	public String search(@PathVariable int postNo, Model model) {
+		return "redirect: /post/view/" + postNo;
+	}
 }

@@ -5,11 +5,12 @@ import java.util.List;
 import net.kurien.blog.module.comment.entity.Comment;
 
 public interface CommentDao {
-	public List<Comment> selectList();
-	public List<Comment> selectListByPostNo(int postNo);
-	public Comment selectOne(int commentNo);
-	public Integer getLastOrder(int parentCommentNo, int commentDepth);
-	public void insert(Comment comment);
-	public void update(Comment comment);
-	public void delete(int commentNo);
+	List<Comment> selectList();
+	List<Comment> selectListByPostNo(int postNo);
+	Comment selectOne(int commentNo);
+	Integer getLastOrder(int parentCommentNo, int commentDepth);
+	void insert(Comment comment);
+	void update(Comment comment);
+	void delete(int commentNo);
+    List<Comment> search(String[] queries);
 }

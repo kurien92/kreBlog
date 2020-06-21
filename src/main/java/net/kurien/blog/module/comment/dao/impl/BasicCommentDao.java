@@ -64,4 +64,15 @@ public class BasicCommentDao implements CommentDao {
 		// TODO Auto-generated method stub
 		sqlSession.delete(mapper + ".delete", commentNo);
 	}
+
+	@Override
+	public List<Comment> search(String[] queries) {
+		String[] searchColumns = new String[]{"author", "comment"};
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("searchColumns", searchColumns);
+		param.put("searchQueries", queries);
+
+		return sqlSession.selectList(mapper + ".search", param);
+	}
 }

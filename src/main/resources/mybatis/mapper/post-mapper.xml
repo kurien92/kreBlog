@@ -260,9 +260,9 @@
 		SELECT *
 		FROM <include refid="table" />
 		<where>
-			<foreach collection="keys" item="key" open="(" close=")" separator="OR">
-				<foreach collection="keywords" item="keyword" open="(" close=")" separator="AND">
-					${key} like CONCAT('%', #{keyword}, '%')
+			<foreach collection="searchColumns" item="searchColumn" open="(" close=")" separator=" OR ">
+				<foreach collection="searchQueries" item="searchQuery" open="(" close=")" separator=" AND ">
+					${searchColumn} like CONCAT('%', #{searchQuery}, '%')
 				</foreach>
 			</foreach>
 			<include refid="manageYn" />

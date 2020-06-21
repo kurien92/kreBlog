@@ -5,12 +5,11 @@
 #post_list .kre_grid_item {
 	width: 300px;
 	min-height: 200px;
-	margin: 0 auto;
-	border: 1px solid #333;
+	margin: 15px auto 0 auto;
+	border: 2px solid #033e6a;
 	padding: 10px;
 	box-sizing: border-box;
 	background-color: #fff;
-	margin-top: 15px;
 	transition: background-color 1s, color 1s;
 }
 
