@@ -158,6 +158,7 @@
 }
 
 #kre_main {
+	display: block; /* IE에서 main 태그를 block으로 인식하지 못함. */
 	box-sizing: border-box;
 	padding-top: 50px;
 }

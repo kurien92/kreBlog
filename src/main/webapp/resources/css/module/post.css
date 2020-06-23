@@ -273,6 +273,7 @@ body.hide {
 	#post_list .kre_grid_item:hover {
 		background-color: rgba(51, 51, 51, 0.8);
 		color: #fff;
+		border-color: #f90;
 	}
 	
 	#post_list .kre_grid_item:hover .post_subject a {

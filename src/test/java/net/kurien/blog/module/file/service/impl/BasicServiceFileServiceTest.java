@@ -22,7 +22,7 @@ public class BasicServiceFileServiceTest extends TestCase {
 
     @Test
     public void getCount() {
-        assertThat(serviceFileService.getCount(84), is(1));
+        assertThat(serviceFileService.getCount(84), is(0));
     }
 
 //    @Test

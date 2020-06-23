@@ -59,7 +59,9 @@
                             <li class="search_item_list">
                                 <dl>
                                     <dt>
-                                        <a href="${contextPath}/comment/search/${searchedItemContents.id}" class="searchViewLink">${searchedItemContents.title}</a>
+                                        <a href="${contextPath}/comment/search/${searchedItemContents.id}" class="searchViewLink">
+                                            [${searchedItemContents.name}] ${searchedItemContents.title}
+                                        </a>
                                     </dt>
                                 </dl>
                             </li>

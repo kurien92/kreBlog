@@ -173,7 +173,6 @@ public class BasicPostService implements PostService, Searchable {
 		List<Map<String, Object>> contents = new ArrayList<>();
 		SearchDTO searchDto = new SearchDTO();
 
-
 		List<Post> posts = postDao.search(queries);
 
 		for(Post post : posts) {

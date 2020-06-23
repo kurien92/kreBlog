@@ -19,7 +19,6 @@ import net.kurien.blog.vo.Token;
 
 @Component
 public class TokenUtil {
-	@SuppressWarnings("unchecked")
 	public static String createToken(HttpServletRequest request, String tokenType, int expirationMillisecondTime) throws NoSuchAlgorithmException {
 		Map<String, Token> tokenMap = getTokenMap(request, tokenType);
 		
