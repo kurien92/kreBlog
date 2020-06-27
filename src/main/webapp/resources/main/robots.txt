@@ -1,6 +1,5 @@
 User-agent: *
 Disallow: /admin
-Disallow: /category
 Disallow: /auth
 Disallow: /s
 Disallow: /search

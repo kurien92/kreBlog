@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import net.kurien.blog.module.post.entity.Post;
+import net.kurien.blog.module.sitemap.SitemapCreatable;
+import net.kurien.blog.module.sitemap.SitemapDTO;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.module.category.dao.CategoryDao;
@@ -13,7 +16,7 @@ import net.kurien.blog.module.category.service.CategoryService;
 import net.kurien.blog.module.post.service.PostService;
 
 @Service
-public class CategoryServiceBasic implements CategoryService {
+public class CategoryServiceBasic implements CategoryService, SitemapCreatable {
 	@Inject
 	private CategoryDao categoryDao;
 
@@ -134,5 +137,25 @@ public class CategoryServiceBasic implements CategoryService {
 		}
 		
 		return categoryDepth;
+	}
+
+	@Override
+	public List<SitemapDTO> sitemap(String siteUrl) {
+		List<SitemapDTO> sitemapDtos = new ArrayList<>();
+
+		List<Category> categories = categoryDao.selectList();
+
+		for(Category category : categories) {
+			SitemapDTO sitemapDto = new SitemapDTO();
+
+			sitemapDto.setLoc(siteUrl + "/category/" + category.getCategoryId());
+			sitemapDto.setLastmod(null);
+			sitemapDto.setChangefreq("weekly");
+			sitemapDto.setPriority(0.3);
+
+			sitemapDtos.add(sitemapDto);
+		}
+
+		return sitemapDtos;
 	}
 }

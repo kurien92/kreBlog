@@ -40,6 +40,7 @@
 			<exclude-mapping path="/visitor/**" />
 			<exclude-mapping path="/admin/post/deleteFile/*" />
 			<exclude-mapping path="/rss" />
+			<exclude-mapping path="/sitemap" />
 
 			<exclude-mapping path="/css/**" />
 	        <exclude-mapping path="/js/**" />

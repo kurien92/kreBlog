@@ -1,6 +1,7 @@
 package net.kurien.blog.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -8,10 +9,10 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jdom2.Attribute;
-import org.jdom2.CDATA;
-import org.jdom2.Document;
-import org.jdom2.Element;
+import net.kurien.blog.module.category.service.CategoryService;
+import net.kurien.blog.module.sitemap.SitemapCreatable;
+import net.kurien.blog.module.sitemap.SitemapDTO;
+import org.jdom2.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,10 @@ public class HomeController {
 	
 	@Inject
 	private PostService postService;
-	
+
+	@Inject
+	private CategoryService categoryService;
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(SearchCriteria criteria, HttpServletRequest request, Locale locale, Model model) {
 		int totalRowCount = postService.getCount("N");
@@ -92,10 +96,73 @@ public class HomeController {
 		Format f = Format.getPrettyFormat();
 		f.setEncoding("UTF-8");
 		f.setLineSeparator("\r\n");
-		
-		
+
 		XMLOutputter outputter = new XMLOutputter(f);
 		
+		return outputter.outputString(doc);
+	}
+
+	/**
+	 * 사이트맵에 추가될 컨텐츠의 링크 작성에 필요한 정보를 가져온다.
+	 *
+	 *
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/sitemap", method = RequestMethod.GET, produces="application/xml;charset=utf-8")
+	public @ResponseBody String sitemap(HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<SitemapCreatable> sitemapCreatables = new ArrayList<>();
+		List<SitemapDTO> sitemapDtos = new ArrayList<>();
+
+		String siteUrl = "https://www.kurien.net";
+
+		sitemapCreatables.add((SitemapCreatable)postService);
+		sitemapCreatables.add((SitemapCreatable)categoryService);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ENGLISH);
+
+		Namespace nsDefault = Namespace.getNamespace("urn:URI");
+		Namespace nsSitemap = Namespace.getNamespace("http://www.sitemaps.org/schemas/sitemap/0.9");
+
+
+		Element root = new Element("urlset", nsSitemap);
+
+		for(SitemapCreatable sitemapCreatable : sitemapCreatables) {
+			sitemapDtos.addAll(sitemapCreatable.sitemap(siteUrl));
+		}
+
+		for(SitemapDTO sitemapDto : sitemapDtos) {
+			Element url = new Element("url", nsSitemap);
+
+			url.addContent(new Element("loc", nsSitemap).addContent(sitemapDto.getLoc()));
+
+			if(sitemapDto.getLastmod() != null) {
+				url.addContent(new Element("lastmod", nsSitemap).setText(sdf.format(sitemapDto.getLastmod())));
+			}
+
+			if(sitemapDto.getChangefreq() != null) {
+				url.addContent(new Element("changefreq", nsSitemap).addContent(sitemapDto.getChangefreq()));
+			}
+
+			if(sitemapDto.getPriority() != null) {
+				url.addContent(new Element("priority", nsSitemap).setText(sitemapDto.getPriority().toString()));
+			}
+
+
+			root.addContent(url);
+		}
+
+		Document doc = new Document();
+		doc.setRootElement(root);
+
+		Format f = Format.getPrettyFormat();
+		f.setEncoding("UTF-8");
+		f.setLineSeparator("\r\n");
+
+		XMLOutputter outputter = new XMLOutputter(f);
+
 		return outputter.outputString(doc);
 	}
 }

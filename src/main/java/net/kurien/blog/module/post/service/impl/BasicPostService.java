@@ -9,6 +9,8 @@ import javax.inject.Inject;
 import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.module.search.dto.SearchDTO;
 import net.kurien.blog.module.search.dto.Searchable;
+import net.kurien.blog.module.sitemap.SitemapCreatable;
+import net.kurien.blog.module.sitemap.SitemapDTO;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.exception.DuplicatedKeyException;
@@ -21,7 +23,7 @@ import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.post.service.PostService;
 
 @Service
-public class BasicPostService implements PostService, Searchable {
+public class BasicPostService implements PostService, Searchable, SitemapCreatable {
 	@Inject
 	private PostDao postDao;
 	
@@ -190,5 +192,25 @@ public class BasicPostService implements PostService, Searchable {
 		searchDto.setContents(contents);
 
 		return searchDto;
+	}
+
+	@Override
+	public List<SitemapDTO> sitemap(String siteUrl) {
+		List<SitemapDTO> sitemapDtos = new ArrayList<>();
+
+		List<Post> posts = postDao.selectList("N");
+
+		for(Post post : posts) {
+			SitemapDTO sitemapDto = new SitemapDTO();
+
+			sitemapDto.setLoc(siteUrl + "/post/view/" + post.getPostNo());
+			sitemapDto.setLastmod(post.getPostWriteTime());
+			sitemapDto.setChangefreq("daily");
+			sitemapDto.setPriority(0.5);
+
+			sitemapDtos.add(sitemapDto);
+		}
+
+		return sitemapDtos;
 	}
 }
