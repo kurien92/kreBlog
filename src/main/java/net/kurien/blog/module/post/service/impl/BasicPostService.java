@@ -116,11 +116,17 @@ public class BasicPostService implements PostService, Searchable, SitemapCreatab
 
 		Set<Integer> useFilesNo = new HashSet<>();
 
-		Pattern pattern = Pattern.compile("['|\"]/file/viewer/post/(\\d+?)['|\"]");
-		Matcher matcher = pattern.matcher(post.getPostContent());
+		List<Pattern> patterns = new ArrayList<>();
 
-		while(matcher.find()) {
-			useFilesNo.add(Integer.parseInt(matcher.group(1)));
+		patterns.add(Pattern.compile("['|\"]/file/viewer/post/(\\d+?)['|\"]"));
+		patterns.add(Pattern.compile("['|\"]/file/download/post/(\\d+?)['|\"]"));
+
+		for(Pattern pattern : patterns) {
+			Matcher matcher = pattern.matcher(post.getPostContent());
+
+			while(matcher.find()) {
+				useFilesNo.add(Integer.parseInt(matcher.group(1)));
+			}
 		}
 
 		serviceFileService.syncFiles("post", post.getPostNo(), useFilesNo, post.getPostWriteIp());

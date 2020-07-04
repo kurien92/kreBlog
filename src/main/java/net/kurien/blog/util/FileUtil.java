@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,6 +16,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class FileUtil {
@@ -32,18 +36,23 @@ public class FileUtil {
 		deleteFile.delete();
 	}
 
-	public static void view(String filename, OutputStream outputStream) throws IOException {
+	public static void view(String filePath, HttpServletResponse response) throws IOException {
 		FileInputStream fis = null;
 		BufferedInputStream bis = null;
+		OutputStream outputStream = response.getOutputStream();
 
-		File file = new File(filename);
+		File file = new File(filePath);
 
 		if(file.exists() == false) {
 			throw new FileNotFoundException("파일이 업로드 되지 않았거나 삭제되었습니다.");
 		}
 
+		String mimeType = FileUtil.getMimeType(filePath);
+
+		response.setContentType(mimeType);
+
 		try {
-			fis = new FileInputStream(filename);
+			fis = new FileInputStream(filePath);
 			bis = new BufferedInputStream(fis);
 
 			int readCount = 0;
@@ -102,4 +111,51 @@ public class FileUtil {
 
 		return mimeType;
 	}
+
+    public static void download(String filePath, String realFileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		FileInputStream fis = null;
+		BufferedInputStream bis = null;
+		OutputStream outputStream = response.getOutputStream();
+
+		File file = new File(filePath);
+
+		if(file.exists() == false) {
+			throw new FileNotFoundException("파일이 업로드 되지 않았거나 삭제되었습니다.");
+		}
+
+		String fileName = null;
+
+		String userAgent = request.getHeader("User-Agent");
+
+		if(userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1) {
+			fileName = URLEncoder.encode(realFileName, "UTF-8").replaceAll("\\+", "%20");
+		} else {
+			fileName = new String(realFileName.getBytes("UTF-8"), "8859_1");
+		}
+
+		String mimeType = FileUtil.getMimeType(filePath);
+
+		response.setContentType(mimeType);
+		response.setContentLengthLong(file.length());
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+
+		try {
+			fis = new FileInputStream(filePath);
+			bis = new BufferedInputStream(fis);
+
+			int readCount = 0;
+			byte[] buffer = new byte[1024];
+
+			while((readCount = bis.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, readCount);
+			}
+
+			outputStream.flush();
+		} finally {
+			outputStream.close();
+			bis.close();
+			fis.close();
+		}
+    }
 }

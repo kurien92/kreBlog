@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import net.kurien.blog.module.file.dto.FileDTO;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.module.file.dao.FileDao;
@@ -21,9 +22,9 @@ public class BasicFileService implements FileService {
 	private FileDao fileDao;
 	
 	@Override
-	public int upload(String uploadPath, String serviceName, byte[] fileBytes, String originalFilename, long fileSize, String contentType, String uploadIp) throws NoSuchAlgorithmException, IOException {
+	public FileDTO upload(String uploadPath, String serviceName, FileDTO fileDto, String uploadIp) throws NoSuchAlgorithmException, IOException {
 		// TODO Auto-generated method stub
-		String fileExtension = FileUtil.getExtension(originalFilename);
+		String fileExtension = FileUtil.getExtension(fileDto.getFileName());
 		
 		java.io.File uploadFile = new java.io.File(uploadPath);
 		
@@ -34,30 +35,41 @@ public class BasicFileService implements FileService {
 		String randomizeString = null;
 		
 		do {
-			randomizeString = FileUtil.getRandomizeString(originalFilename);
+			randomizeString = FileUtil.getRandomizeString(fileDto.getFileName());
 		} while(fileDao.isExistFilename(randomizeString));
 		
 		String uploadFilePath = uploadPath + java.io.File.separator + randomizeString;
 
-		FileUtil.upload(uploadFilePath, fileBytes);
+		FileUtil.upload(uploadFilePath, fileDto.getBytes());
 		
 		Timestamp today = new Timestamp(Calendar.getInstance().getTimeInMillis());
 		today.setNanos(0);
 		
 		File file = new File();
 		file.setFileExtension(fileExtension);
-		file.setFileMime(contentType);
-		file.setFileName(originalFilename);
+		file.setFileMime(fileDto.getContentType());
+		file.setFileName(fileDto.getFileName());
 		file.setFilePath(uploadPath);
-		file.setFileSize(fileSize);
+		file.setFileSize(fileDto.getSize());
 		file.setFileStoredName(randomizeString);
 		file.setFileType("file");
 		file.setFileUploadIp(uploadIp);
 		file.setFileUploadTime(today);
 		
 		fileDao.insert(file);
-		
-		return file.getFileNo();
+
+		fileDto.setNo(file.getFileNo());
+
+		return fileDto;
+	}
+
+	@Override
+	public List<FileDTO> upload(String uploadPath, String serviceName, List<FileDTO> fileDtos, String remoteAddr) throws IOException, NoSuchAlgorithmException {
+		for(FileDTO fileDto : fileDtos) {
+			upload(uploadPath, serviceName, fileDto, remoteAddr);
+		}
+
+		return fileDtos;
 	}
 
 	@Override

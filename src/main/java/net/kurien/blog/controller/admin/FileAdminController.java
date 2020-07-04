@@ -1,9 +1,15 @@
 package net.kurien.blog.controller.admin;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonArray;
+import net.kurien.blog.module.file.dto.FileDTO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,57 +34,107 @@ public class FileAdminController {
 	@Inject
 	private FileService fileService;
 
-	@RequestMapping(value = "/upload/{service}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	@RequestMapping(value = "/upload/ckeditor/{service}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	public @ResponseBody JsonObject ckeditorImageUpload(@PathVariable String service, MultipartHttpServletRequest multiFile, HttpServletResponse response) throws Exception {
-		logger.info("ckeditorImageUpload start");
-		
 		JsonObject json = new JsonObject();
 		
 		MultipartFile file = multiFile.getFile("upload");
 		
 		if(file == null) {
-			logger.info("ckeditorImageUpload file is null");
 			return null;
 		}
 		
 		if(file.getSize() < 0) {
-			logger.info("ckeditorImageUpload file size 0");
 			return null;
 		}
 
 		String fileName = file.getOriginalFilename();
 		
 		if(StringUtils.isBlank(fileName)) {
-			logger.info("ckeditorImageUpload blank filename");
 			return null;
 		}
 		
 		if(file.getContentType().toLowerCase().startsWith("image/") == false) {
-			logger.info("ckeditorImageUpload file isn't image");
 			return null;
 		}
 
 		String uploadPath = multiFile.getServletContext().getRealPath("/") + "../../files/" + service;
 
-		long fileSize = file.getSize();
+		FileDTO fileDto = new FileDTO();
 
-		int fileNo = fileService.upload(uploadPath, service, file.getBytes(), fileName, fileSize, file.getContentType(), RequestUtil.getRemoteAddr(multiFile));
+		fileDto.setBytes(file.getBytes());
+		fileDto.setFileName(file.getOriginalFilename());
+		fileDto.setSize(file.getSize());
+		fileDto.setContentType(file.getContentType());
 
-		// TODO: DB 연동 후에 변경 할 부분
-        String fileUrl = multiFile.getContextPath() + "/file/viewer/" + service + "/" + fileNo;
+		fileDto = fileService.upload(uploadPath, service, fileDto, RequestUtil.getRemoteAddr(multiFile));
+
+        String fileUrl = multiFile.getContextPath() + "/file/viewer/" + service + "/" + fileDto.getNo();
         
         json.addProperty("uploaded", 1);
-		json.addProperty("fileName", fileName);
-		json.addProperty("fileSize", fileSize);
+		json.addProperty("fileName", fileDto.getFileName());
+		json.addProperty("fileSize", fileDto.getSize());
         json.addProperty("url", fileUrl);
-        json.addProperty("fileNo", fileNo);
-
-		logger.info("ckeditorImageUpload file upload complete");
+        json.addProperty("fileNo", fileDto.getNo());
         
 		return json;
 	}
-	
-	public void fileDownload() {
-		
+
+	@RequestMapping(value = "/upload/{service}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public @ResponseBody JsonObject fileUpload(@PathVariable String service, MultipartHttpServletRequest multiFile) throws IOException, NoSuchAlgorithmException {
+		JsonObject json = new JsonObject();
+
+		List<MultipartFile> files = multiFile.getFiles("uploadFiles");
+		List<FileDTO> fileDtos = new ArrayList<>();
+		JsonArray fileJsonArray = new JsonArray();
+
+		if(files == null) {
+			return null;
+		}
+
+		for(MultipartFile file : files) {
+			if(file == null) {
+				return null;
+			}
+
+			if(file.getSize() < 0) {
+				return null;
+			}
+
+			if(StringUtils.isBlank(file.getOriginalFilename())) {
+				return null;
+			}
+
+			FileDTO fileDto = new FileDTO();
+
+			fileDto.setBytes(file.getBytes());
+			fileDto.setFileName(file.getOriginalFilename());
+			fileDto.setSize(file.getSize());
+			fileDto.setContentType(file.getContentType());
+
+			fileDtos.add(fileDto);
+		}
+
+		String uploadPath = multiFile.getServletContext().getRealPath("/") + "../../files/" + service;
+
+		fileDtos = fileService.upload(uploadPath, service, fileDtos, RequestUtil.getRemoteAddr(multiFile));
+
+		for(FileDTO fileDto : fileDtos) {
+			JsonObject fileJsonObject = new JsonObject();
+
+			String fileUrl = multiFile.getContextPath() + "/file/viewer/" + service + "/" + fileDto.getNo();
+			fileJsonObject.addProperty("fileNo", fileDto.getNo());
+			fileJsonObject.addProperty("fileName", fileDto.getFileName());
+			fileJsonObject.addProperty("fileSize", fileDto.getSize());
+			fileJsonObject.addProperty("url", fileUrl);
+
+			fileJsonArray.add(fileJsonObject);
+		}
+
+		json.addProperty("result", "success");
+		json.add("value", fileJsonArray);
+		json.addProperty("message", "");
+
+		return json;
 	}
 }

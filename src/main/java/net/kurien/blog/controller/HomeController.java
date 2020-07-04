@@ -123,9 +123,7 @@ public class HomeController {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ENGLISH);
 
-		Namespace nsDefault = Namespace.getNamespace("urn:URI");
 		Namespace nsSitemap = Namespace.getNamespace("http://www.sitemaps.org/schemas/sitemap/0.9");
-
 
 		Element root = new Element("urlset", nsSitemap);
 
@@ -149,7 +147,6 @@ public class HomeController {
 			if(sitemapDto.getPriority() != null) {
 				url.addContent(new Element("priority", nsSitemap).setText(sitemapDto.getPriority().toString()));
 			}
-
 
 			root.addContent(url);
 		}

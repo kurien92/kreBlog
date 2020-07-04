@@ -31,8 +31,8 @@
 				<script>
 					$(function() {
 						CKEDITOR.replace("postContent", {
-							filebrowserUploadUrl: '${contextPath}/admin/file/upload/post',
-							uploadUrl: '${contextPath}/admin/file/upload/post?responseType=json',
+							filebrowserUploadUrl: '${contextPath}/admin/file/upload/ckeditor/post',
+							uploadUrl: '${contextPath}/admin/file/upload/ckeditor/post?responseType=json',
 							contentsCss: "${contextPath}/css/plugin/ckeditor.css",
 							height: '500px',
 						    on: {
@@ -55,27 +55,41 @@
 	
 							if(responseData.uploaded !== 1) {
 								// An error occurred during upload.
-								data.message = response[ 1 ];
+								data.message = response[1];
 								evt.cancel();
 							} else {
 								data.url = responseData.url;
 
-								var postFilesListTemplate = '<li>'
-									+ '<a href="${contextPath}' + responseData.url + '" target="_blank">' + responseData.fileName + '</a>'
-									+ '(' + responseData.fileSize + ')'
-									+ '<button type="button" class="deletePostFile kre_btn" data-key="' + responseData.fileNo + '">삭제</button>'
-									+ '</li>';
-
-								$("#admin_post_write_form").prepend($("<input>", {
-									"type": "hidden",
-									"name": "fileNos",
-									"value": responseData.fileNo
-								}));
-
-								$("#postFiles > ul").append(postFilesListTemplate);
+								addFileList(responseData);
 							}
 						});
 					});
+
+					function addFileList(file) {
+						var postFilesListTemplate = '<li>'
+								+ '<a href="${contextPath}' + file.url + '" target="_blank">' + file.fileName + '</a>'
+								+ '(' + file.fileSize + ')'
+								+ '<button type="button" class="deletePostFile kre_btn" data-key="' + file.fileNo + '">삭제</button>'
+								+ '</li>';
+
+						$("#admin_post_write_form").prepend($("<input>", {
+							"type": "hidden",
+							"name": "fileNos",
+							"value": file.fileNo
+						}));
+
+						$("#postFiles > ul").append(postFilesListTemplate);
+					}
+
+					function addFileContent(files) {
+						var fileHtml = '';
+
+						for( var i in files) {
+							fileHtml += '<p><a href="${contextPath}/file/download/post/' + files[i].fileNo + '" class="fileLink">' + files[i].fileName + '</a></p>';
+						}
+
+						CKEDITOR.instances["postContent"].insertHtml(fileHtml, 'unfiltered_html');
+					}
 				</script>
 			</div>
 			
@@ -98,6 +112,40 @@
 					</c:forEach>
 					</if>
 				</ul>
+
+				<div>
+					<input type="file" id="uploadFiles" multiple><button type="button" id="fileUploadBtn" class="kre_btn">전송</button>
+					<script>
+						$("#fileUploadBtn").on("click", function() {
+							var uploadFiles = $("#uploadFiles")[0];
+							var formData = new FormData();
+
+							for(var i = 0; i < uploadFiles.files.length; i++) {
+								formData.append("uploadFiles", uploadFiles.files[i]);
+							}
+
+							$.ajax({
+								url: '/admin/file/upload/post',
+								processData: false,
+								contentType: false,
+								data: formData,
+								type: 'POST'
+							}).done(function(data) {
+								var files = data.value;
+
+								for(var i in files) {
+									addFileList(files[i]);
+								}
+
+								addFileContent(files);
+
+								$("#uploadFiles").val("");
+							}).fail(function() {
+								console.log("error");
+							});
+						});
+					</script>
+				</div>
 			</div>
 
 			<div>

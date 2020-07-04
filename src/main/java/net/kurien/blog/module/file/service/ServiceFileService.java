@@ -20,5 +20,5 @@ public interface ServiceFileService {
 	public void removeFilesByNo(String serviceName, Integer serviceNo, Integer[] fileNos);
 	public void removeFiles(String serviceName, Integer serviceNo);
 	public void removeAll();
-	public void syncFiles(String string, Integer postNo, Set<Integer> useFilesNo, String serviceFileWriteIp);
+	public void syncFiles(String serviceName, Integer postNo, Set<Integer> useFilesNo, String serviceFileWriteIp);
 }

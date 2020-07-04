@@ -40,6 +40,9 @@ a[target='_blank']:before {
 	content: "\e89e";
 }
 
+a.fileLink:before {
+	content: "\e226";
+}
 
 code {
 	font-family: 'Nanum Gothic', sans-serif;

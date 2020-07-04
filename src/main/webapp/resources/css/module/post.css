@@ -130,6 +130,10 @@
     content: "\e89e";
 }
 
+#post_view .kre_article .kre_article_info .kre_post_category.fileLink:before {
+	content: "\e226";
+}
+
 #post_view .kre_article .kre_article_info .kre_btn_list {
 	margin-top: 14px;
 }

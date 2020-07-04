@@ -2,6 +2,7 @@ package net.kurien.blog.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -31,13 +32,24 @@ public class FileController {
 		}
 		
 		String uploadPath = request.getServletContext().getRealPath("/") + "../../files/" + service;
-		
-		// TODO: DB 연동 후에 변경할 부분
-		String filename = uploadPath + java.io.File.separator + file.getFileStoredName();
-		String mimeType = FileUtil.getMimeType(filename);
 
-		response.setContentType(mimeType);
+		String filePath = uploadPath + java.io.File.separator + file.getFileStoredName();
 
-		FileUtil.view(filename, response.getOutputStream());
+		FileUtil.view(filePath, response);
+	}
+
+	@RequestMapping("/download/{service}/{fileNo}")
+	public void fileDownload(@PathVariable String service, @PathVariable int fileNo, HttpServletRequest request, HttpServletResponse response) throws NotFoundDataException, IOException {
+		File file = fileService.get(fileNo);
+
+		if(file == null) {
+			throw new NotFoundDataException("파일이 업로드 되지 않았거나 삭제되었습니다.");
+		}
+
+		String uploadPath = request.getServletContext().getRealPath("/") + "../../files/" + service;
+
+		String filePath = uploadPath + java.io.File.separator + file.getFileStoredName();
+
+		FileUtil.download(filePath, file.getFileName(), request, response);
 	}
 }

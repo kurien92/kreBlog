@@ -4,16 +4,18 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import net.kurien.blog.module.file.dto.FileDTO;
 import net.kurien.blog.module.file.entity.File;
 
 public interface FileService {
-	public int upload(String uploadPath, String serviceName, byte[] fileBytes, String originalFilename, long fileSize, String contentType, String uploadIp) throws NoSuchAlgorithmException, IOException;
-	public java.io.File download(String serviceName, int serviceNo);
-    public List<File> getList(List<Integer> fileNos);
-    public File get(int fileNo);
-    public int getCount(Integer fileNo);
-    public void insert(File file);
-    public void delete(int fileNo) throws Exception;
-    public void deleteList(List<Integer> fileNos);
-    public void deleteAll();
+	FileDTO upload(String uploadPath, String serviceName, FileDTO fileDto, String uploadIp) throws NoSuchAlgorithmException, IOException;
+    List<FileDTO> upload(String uploadPath, String serviceName, List<FileDTO> fileDtos, String remoteAddr) throws IOException, NoSuchAlgorithmException;
+    java.io.File download(String serviceName, int serviceNo);
+    List<File> getList(List<Integer> fileNos);
+    File get(int fileNo);
+    int getCount(Integer fileNo);
+    void insert(File file);
+    void delete(int fileNo) throws Exception;
+    void deleteList(List<Integer> fileNos);
+    void deleteAll();
 }
