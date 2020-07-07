@@ -13,7 +13,7 @@
     		if(isDesktopDevices()) {
    				$("#kre_mobile_menu").show(0);
     		} else {
-    				$("#kre_mobile_menu").hide(0);
+				$("#kre_mobile_menu").hide(0);
     		}
 		}
    	});

@@ -10,7 +10,10 @@ $(window).on("resize orientationchange", function() {
 if(typeof kreGrid !== 'undefined') {
     kreGrid.on('layoutComplete', function() {
         if(isDesktopDevices()) {
-            resetScroll();
+            // 그리드가 전부 렌더링 되기 전에 이벤트가 실행되므로, setTimeout을 통해 동작 순서를 늦춤.
+            setTimeout(function() {
+                resetScroll();
+            }, 0);
         }
     });
 }

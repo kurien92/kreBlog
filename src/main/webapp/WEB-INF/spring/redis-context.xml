@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+    <context:annotation-config/>
+
+    <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"
+        p:maxInactiveIntervalInSeconds="1800"
+        p:configureRedisAction-ref="configureRedisAction"
+    />
+
+    <bean id="lettuceConnectionFactory" class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory">
+        <constructor-arg ref="redisStandaloneConfiguration" />
+    </bean>
+
+    <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration"
+          p:host-name="redis"
+          p:port="6379"
+    />
+
+    <util:constant id="configureRedisAction" static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>
+</beans>

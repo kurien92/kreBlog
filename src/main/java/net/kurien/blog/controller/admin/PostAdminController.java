@@ -297,5 +297,4 @@ public class PostAdminController {
 		
 		serviceShortUrlService.add(serviceShortUrl);
 	}
-
 }

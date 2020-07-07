@@ -29,17 +29,6 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
-	<!-- Spring Security -->
-	<filter>
-	   <filter-name>springSecurityFilterChain</filter-name>
-	   <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	
-	<filter-mapping>
-	   <filter-name>springSecurityFilterChain</filter-name>
-	   <url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -53,10 +42,35 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+	<!-- Redis -->
+	<!-- session이 spring security보다 먼저 호출되어야 한다. -->
+	<filter>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
+	<!-- Spring Security -->
+	<filter>
+	   <filter-name>springSecurityFilterChain</filter-name>
+	   <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
 	
+	<filter-mapping>
+	   <filter-name>springSecurityFilterChain</filter-name>
+	   <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<!-- Session -->
 	<session-config>
-		<session-timeout>180</session-timeout>
+		<session-timeout>30</session-timeout>
 	</session-config>
 	
 	<!-- Error -->
