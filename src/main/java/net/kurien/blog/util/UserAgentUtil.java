@@ -2,14 +2,11 @@ package net.kurien.blog.util;
 
 import java.io.IOException;
 
-import org.springframework.stereotype.Component;
-
 import com.blueconic.browscap.Capabilities;
 import com.blueconic.browscap.ParseException;
 import com.blueconic.browscap.UserAgentParser;
 import com.blueconic.browscap.UserAgentService;
 
-@Component
 public class UserAgentUtil {
 	private static UserAgentParser parser = null;
 	

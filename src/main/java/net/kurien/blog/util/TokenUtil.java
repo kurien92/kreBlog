@@ -3,21 +3,16 @@ package net.kurien.blog.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Component;
-
 import net.kurien.blog.vo.Token;
 
-@Component
 public class TokenUtil {
 	public static String createToken(HttpServletRequest request, String tokenType, int expirationMillisecondTime) throws NoSuchAlgorithmException {
 		Map<String, Token> tokenMap = getTokenMap(request, tokenType);

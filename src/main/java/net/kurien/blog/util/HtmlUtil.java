@@ -4,7 +4,6 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
-@Component
 public class HtmlUtil {
 	/**
 	 * HTML 태그를 제거하고 Text만 남긴 문자열을 리턴한다.

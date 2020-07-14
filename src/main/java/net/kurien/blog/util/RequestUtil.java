@@ -2,9 +2,6 @@ package net.kurien.blog.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class RequestUtil {
 	public static String getRemoteAddr(HttpServletRequest request) {
 		String ip = request.getHeader("X-Real-IP");

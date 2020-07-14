@@ -15,12 +15,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Component
 public class FileUtil {
 	public static void upload(String uploadFile, byte[] fileBytes) throws IOException {
 		OutputStream outputStream = null;
