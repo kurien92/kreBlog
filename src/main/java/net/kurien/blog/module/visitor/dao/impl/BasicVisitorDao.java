@@ -17,7 +17,7 @@ public class BasicVisitorDao implements VisitorDao {
 	@Inject
 	private SqlSession sqlSession;
 	
-	private final static String mapper = "net.kurien.blog.module.visitor.mapper";
+	private final static String mapper = "net.kurien.blog.module.visitor.mapper.VisitorMapper";
 
 	@Override
 	public void insert(Visitor visitor) {

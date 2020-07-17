@@ -1,6 +1,7 @@
 package net.kurien.blog.module.autosave.entity;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -10,7 +11,9 @@ public class ServiceAutosave {
     private Long serviceNo;
     private Long asNo;
     private String serviceAsUsername;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date serviceAsWriteTime;
     private String serviceAsWriteIp;
-    private Date ServiceAsExpireTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date serviceAsExpireTime;
 }

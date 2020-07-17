@@ -12,6 +12,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.inject.Inject;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -34,6 +36,7 @@ public class ServiceAutosaveServiceTest {
 
         serviceAutosave.setServiceName("test");
         serviceAutosave.setServiceNo(1l);
+        serviceAutosave.setAsNo(1l);
         serviceAutosave.setServiceAsUsername("kurien");
         serviceAutosave.setServiceAsExpireTime(TimeUtil.addTime(180));
         serviceAutosave.setServiceAsWriteTime(TimeUtil.currentTime());
@@ -54,6 +57,7 @@ public class ServiceAutosaveServiceTest {
 
         serviceAutosave2.setServiceName("test");
         serviceAutosave2.setServiceNo(1l);
+        serviceAutosave2.setAsNo(2l);
         serviceAutosave2.setServiceAsUsername("kurien");
         serviceAutosave2.setServiceAsExpireTime(TimeUtil.addTime(180));
         serviceAutosave2.setServiceAsWriteTime(TimeUtil.currentTime());
@@ -66,16 +70,16 @@ public class ServiceAutosaveServiceTest {
 
     @Test
     public void get() {
-        ServiceAutosave serviceAutosave2 = serviceAutosaveService.get("test", 1l);
+        List<ServiceAutosave> serviceAutosave2 = serviceAutosaveService.get("test", 1l);
 
-        assertThat(serviceAutosave2, is(serviceAutosave));
+        assertThat(serviceAutosave2.get(0), is(serviceAutosave));
     }
 
     @Test
     public void testGet() {
-        ServiceAutosave serviceAutosave2 = serviceAutosaveService.get(1l);
+        List<ServiceAutosave> serviceAutosave2 = serviceAutosaveService.get(1l);
 
-        assertThat(serviceAutosave2, is(serviceAutosave));
+        assertThat(serviceAutosave2.get(0), is(serviceAutosave));
     }
 
     @Test

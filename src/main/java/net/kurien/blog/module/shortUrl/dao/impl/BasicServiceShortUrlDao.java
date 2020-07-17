@@ -17,7 +17,7 @@ public class BasicServiceShortUrlDao implements ServiceShortUrlDao {
 	@Inject
 	private SqlSession sqlSession;
 	
-	private final static String mapper = "net.kurien.blog.module.serviceShortUrl.mapper";
+	private final static String mapper = "net.kurien.blog.module.shortUrl.mapper.ServiceShortUrl";
 
 	@Override
 	public ServiceShortUrl select(String serviceName, int serviceNo) {

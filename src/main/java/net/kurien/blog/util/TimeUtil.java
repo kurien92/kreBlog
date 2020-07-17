@@ -1,11 +1,15 @@
 package net.kurien.blog.util;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
 public class TimeUtil {
-    public static Date currentTime() {
-        return Calendar.getInstance().getTime();
+    public static Timestamp currentTime() {
+        Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        timestamp.setNanos(0);
+
+        return timestamp;
     }
 
     public static Date addTime(long seconds) {
@@ -16,6 +20,9 @@ public class TimeUtil {
         long originTime = originDate.getTime();
         long changeTime = originTime + (seconds * 1000);
 
-        return new Date(changeTime);
+        Timestamp timestamp = new Timestamp(changeTime);
+        timestamp.setNanos(0);
+
+        return timestamp;
     }
 }

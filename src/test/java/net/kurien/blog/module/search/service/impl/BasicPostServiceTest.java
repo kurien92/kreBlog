@@ -1,4 +1,4 @@
-package net.kurien.blog.module.post.service.impl;
+package net.kurien.blog.module.search.service.impl;
 
 import junit.framework.TestCase;
 import net.kurien.blog.module.file.service.ServiceFileService;

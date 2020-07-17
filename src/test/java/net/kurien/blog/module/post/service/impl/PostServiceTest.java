@@ -1,4 +1,4 @@
-package net.kurien.blog.post;
+package net.kurien.blog.module.post.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -62,6 +62,7 @@ public class PostServiceTest {
 		fileNos[2] = 3;
 		
 		writePost();
+
 		postService.write(post1, fileNos);
 		postService.write(post2, fileNos);
 		postService.write(post3, fileNos);

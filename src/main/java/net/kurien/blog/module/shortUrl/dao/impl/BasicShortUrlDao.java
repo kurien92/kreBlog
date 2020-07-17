@@ -16,7 +16,7 @@ public class BasicShortUrlDao implements ShortUrlDao {
 	@Inject
 	private SqlSession sqlSession;
 	
-	private final static String mapper = "net.kurien.blog.module.shortUrl.mapper";
+	private final static String mapper = "net.kurien.blog.module.shortUrl.mapper.ShortUrlMapper";
 
 	@Override
 	public ShortUrl select(int shortUrlNo) {

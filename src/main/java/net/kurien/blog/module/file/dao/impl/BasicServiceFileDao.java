@@ -17,7 +17,7 @@ public class BasicServiceFileDao implements ServiceFileDao {
 	@Inject
 	private SqlSession sqlSession;
 	
-    private final static String mapper = "net.kurien.blog.module.serviceFile.mapper";
+    private final static String mapper = "net.kurien.blog.module.file.mapper.ServiceFileMapper";
     
 	@Override
 	public ServiceFile selectOne(String serviceName, Integer serviceNo, Integer fileNo) {

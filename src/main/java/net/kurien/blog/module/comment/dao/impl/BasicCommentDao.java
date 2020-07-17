@@ -17,7 +17,7 @@ public class BasicCommentDao implements CommentDao {
 	@Inject
 	private SqlSession sqlSession;
 	
-	private final static String mapper = "net.kurien.blog.module.comment.mapper";
+	private final static String mapper = "net.kurien.blog.module.comment.mapper.CommentMapper";
 
 	@Override
 	public List<Comment> selectList() {

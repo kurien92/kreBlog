@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.kurien.blog.module.autosave.mapper.AutosaveMapper">
+	<resultMap id="resultMap" type="net.kurien.blog.module.autosave.entity.Autosave">
+		<id property="asNo" column="asNo" />
+		<result property="asJsonData" column="asJsonData"/>
+		<result property="asSaveTime" column="asSaveTime"/>
+	</resultMap>
+	
+	<sql id="table">
+		kreAutosave
+	</sql>
+
+	<select id="selectOne" parameterType="Integer" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	asNo = #{asNo}
+        </where>
+	</select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="asNo">
+        INSERT INTO
+        <include refid="table" /> (
+            asNo,
+            asJsonData,
+            asSaveTime
+        )
+        VALUES (
+            #{asNo},
+            #{asJsonData},
+            #{asSaveTime}
+        )
+    </insert>
+    
+    <select id="selectCount" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+    </select>
+
+    <delete id="delete">
+        DELETE FROM <include refid="table" />
+        <where>
+            asNo = #{asNo}
+        </where>
+    </delete>
+
+    <delete id="deleteAll">
+        TRUNCATE <include refid="table" />
+    </delete>
+</mapper>

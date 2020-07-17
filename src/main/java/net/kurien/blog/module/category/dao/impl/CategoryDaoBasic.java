@@ -17,7 +17,7 @@ public class CategoryDaoBasic implements CategoryDao {
 	@Inject
 	private SqlSession sqlSession;
 	
-	private final static String mapper = "net.kurien.blog.module.category.mapper";
+	private final static String mapper = "net.kurien.blog.module.category.mapper.CategoryMapper";
 	
 	@Override
 	public List<Category> selectList() {

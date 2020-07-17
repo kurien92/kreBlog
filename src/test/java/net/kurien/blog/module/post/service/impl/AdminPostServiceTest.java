@@ -1,4 +1,4 @@
-package net.kurien.blog.post;
+package net.kurien.blog.module.post.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

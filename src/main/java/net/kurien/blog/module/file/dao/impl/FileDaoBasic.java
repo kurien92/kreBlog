@@ -15,7 +15,7 @@ public class FileDaoBasic implements FileDao {
 	@Inject
 	private SqlSession sqlSession;
 	
-    private final static String mapper = "net.kurien.blog.module.file.mapper";
+    private final static String mapper = "net.kurien.blog.module.file.mapper.FileMapper";
     
     @Override
     public List<File> selectList(List<Integer> fileNos) {

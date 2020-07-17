@@ -18,7 +18,7 @@ public class BasicPostDao implements PostDao {
 	@Inject
 	private SqlSession sqlSession;
 	
-	private final static String mapper = "net.kurien.blog.module.post.mapper";
+	private final static String mapper = "net.kurien.blog.module.post.mapper.PostMapper";
 	
 	@Override
 	public List<Post> selectList(String manageYn, SearchCriteria criteria) {
