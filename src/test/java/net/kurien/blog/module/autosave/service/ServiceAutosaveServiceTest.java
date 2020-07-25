@@ -35,7 +35,6 @@ public class ServiceAutosaveServiceTest {
         serviceAutosave = new ServiceAutosave();
 
         serviceAutosave.setServiceName("test");
-        serviceAutosave.setServiceNo(1l);
         serviceAutosave.setAsNo(1l);
         serviceAutosave.setServiceAsUsername("kurien");
         serviceAutosave.setServiceAsExpireTime(TimeUtil.addTime(180));
@@ -56,7 +55,6 @@ public class ServiceAutosaveServiceTest {
         ServiceAutosave serviceAutosave2 = new ServiceAutosave();
 
         serviceAutosave2.setServiceName("test");
-        serviceAutosave2.setServiceNo(1l);
         serviceAutosave2.setAsNo(2l);
         serviceAutosave2.setServiceAsUsername("kurien");
         serviceAutosave2.setServiceAsExpireTime(TimeUtil.addTime(180));
@@ -69,22 +67,22 @@ public class ServiceAutosaveServiceTest {
     }
 
     @Test
-    public void get() {
-        List<ServiceAutosave> serviceAutosave2 = serviceAutosaveService.get("test", 1l);
+    public void getList() {
+        List<ServiceAutosave> serviceAutosave2 = serviceAutosaveService.getList("test", "kurien");
 
         assertThat(serviceAutosave2.get(0), is(serviceAutosave));
     }
 
     @Test
     public void testGet() {
-        List<ServiceAutosave> serviceAutosave2 = serviceAutosaveService.get(1l);
+        List<ServiceAutosave> serviceAutosave2 = serviceAutosaveService.getList(1l);
 
         assertThat(serviceAutosave2.get(0), is(serviceAutosave));
     }
 
     @Test
     public void remove() {
-        serviceAutosaveService.remove("test", 1l);
+        serviceAutosaveService.remove("test", "kurien");
         assertThat(serviceAutosaveService.count(), is(0));
     }
 

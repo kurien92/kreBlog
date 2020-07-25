@@ -3,9 +3,11 @@ package net.kurien.blog.module.autosave.service.impl;
 import net.kurien.blog.module.autosave.dao.AutosaveDao;
 import net.kurien.blog.module.autosave.entity.Autosave;
 import net.kurien.blog.module.autosave.service.AutosaveService;
+import net.kurien.blog.util.TimeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Service
 public class BasicAutosaveService implements AutosaveService {
@@ -13,18 +15,25 @@ public class BasicAutosaveService implements AutosaveService {
     private AutosaveDao autosaveDao;
 
     @Override
-    public Autosave get(Long atNo) {
-        return autosaveDao.selectOne(atNo);
+    public Autosave get(Long asNo) {
+        return autosaveDao.selectOne(asNo);
+    }
+
+    @Override
+    public List<Autosave> getList(List<Long> asNos) {
+        return autosaveDao.selectList(asNos);
     }
 
     @Override
     public void save(Autosave autosave) {
+        autosave.setAsSaveTime(TimeUtil.currentTime());
+
         autosaveDao.insert(autosave);
     }
 
     @Override
-    public void remove(Long atNo) {
-        autosaveDao.delete(atNo);
+    public void remove(Long asNo) {
+        autosaveDao.delete(asNo);
     }
 
     @Override

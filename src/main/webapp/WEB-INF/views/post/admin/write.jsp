@@ -21,7 +21,119 @@
 					</c:forEach>
 				</select>
 			</div>
-			
+
+			<div>
+				<button type="button" id="postAutosave" class="kre_btn">임시저장</button>
+				<ul id="postAutosaveList">
+				</ul>
+				<script>
+					$(function() {
+						getAutosaveList("post").then(function(data) {
+							var autosaveList = addAutosaveList(data);
+
+							$("#postAutosaveList").html(autosaveList);
+						});
+
+						autosaveInterval();
+					});
+
+					$("#postAutosave").on("click", writeAutosave);
+
+					function autosaveInterval() {
+						setInterval(writeAutosave, 1000 * 60 * 10);
+					}
+
+					function writeAutosave() {
+						$("#postAutosave").text("저장중...");
+
+						var fileNos = [];
+
+						$(".fileNos").each(function() {
+							fileNos.push($(this).val());
+						});
+
+						var jsonData = {
+							"title": $("#postSubject").val(),
+							"content": CKEDITOR.instances.postContent.getData(),
+							"fileList": fileNos
+						}
+
+						saveAutosave("post", jsonData).then(function(data) {
+							var autosaveListItem = addAutosaveItem(data);
+
+							// 30건 이상이면 29개가 되도록 삭제
+							if($("#postAutosaveList").children("li").length >= 30) {
+								$("#postAutosaveList").children("li").first().remove();
+							}
+
+							$("#postAutosaveList").append(autosaveListItem);
+
+							$("#postAutosave").text("임시저장");
+						});
+					}
+
+					function addAutosaveList(autosaveItems) {
+						var autosaveList = "";
+
+						for(var i = 0; i < autosaveItems.length; i++) {
+							autosaveList += addAutosaveItem(autosaveItems[i]);
+						}
+
+						return autosaveList;
+					}
+
+					function addAutosaveItem(autosaveItem) {
+						var autosave = JSON.parse(autosaveItem.jsonData);
+						var title = autosave.title === "" ? "Untitled" : autosave.title;
+
+						var autosaveListItem = "<li>제목: " + title + " / 시간: " + autosaveItem.time + " </li>";
+
+						return autosaveListItem;
+					}
+
+					function getAutosaveList(serviceName) {
+						return new Promise(function(resolve, reject) {
+							$.ajax({
+								url: '${contextPath}/autosave/list/' + serviceName,
+								type: "post",
+								dataType: "json"
+							}).done(function(data) {
+								if(data.result === "fail") {
+									reject(new Error(data.message));
+									return;
+								}
+
+								resolve(data.value); // true or false
+							}).fail(function(err) {
+								reject(err);
+							});
+						});
+					}
+
+					function saveAutosave(serviceName, jsonData) {
+						return new Promise(function(resolve, reject) {
+							$.ajax({
+								url: '${contextPath}/autosave/save/' + serviceName,
+								type: "post",
+								dataType: "json",
+								data: {
+									jsonData: JSON.stringify(jsonData)
+								}
+							}).done(function(data) {
+								if(data.result === "fail") {
+									reject(new Error(data.message));
+									return;
+								}
+
+								resolve(data.value); // true or false
+							}).fail(function(err) {
+								reject(err);
+							});
+						});
+					}
+				</script>
+			</div>
+
 			<div>
 				<input type="text" id="postSubject" class="kre_inp" name="postSubject" value="${post.postSubject}" placeholder="제목">
 			</div>
@@ -74,6 +186,7 @@
 
 						$("#admin_post_write_form").prepend($("<input>", {
 							"type": "hidden",
+							"class": "fileNos",
 							"name": "fileNos",
 							"value": file.fileNo
 						}));

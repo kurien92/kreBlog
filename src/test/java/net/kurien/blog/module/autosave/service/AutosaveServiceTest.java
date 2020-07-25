@@ -14,6 +14,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.inject.Inject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -61,6 +64,16 @@ public class AutosaveServiceTest {
         Autosave autosave2 = autosaveService.get(1l);
 
         assertThat(autosave2, is(autosave));
+    }
+
+    @Test
+    public void getList() {
+        List<Long> asNos = new ArrayList<>();
+        asNos.add(autosave.getAsNo());
+
+        List<Autosave> autosaves = autosaveService.getList(asNos);
+
+        assertThat(autosaves.get(0), is(autosave));
     }
 
     @Test

@@ -8,7 +8,6 @@ import java.util.Date;
 @Data
 public class ServiceAutosave {
     private String serviceName;
-    private Long serviceNo;
     private Long asNo;
     private String serviceAsUsername;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

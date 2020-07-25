@@ -7,11 +7,11 @@ import java.util.List;
 public interface ServiceAutosaveDao {
     void insert(ServiceAutosave serviceAutosave);
 
-    List<ServiceAutosave> selectByServiceNameAndServiceNo(String serviceName, Long serviceNo);
+    List<ServiceAutosave> selectByServiceNameAndAsUsername(String serviceName, String serviceAsUsername);
 
     List<ServiceAutosave> selectByAsNo(Long asNo);
 
-    void deleteByServiceNameAndServiceNo(String serviceName, Long serviceNo);
+    void deleteByServiceNameAndAsUsername(String serviceName, String serviceAsUsername);
 
     void deleteByAsNo(Long asNo);
 

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Repository
 public class BasicAutosaveDao implements AutosaveDao {
@@ -17,6 +18,11 @@ public class BasicAutosaveDao implements AutosaveDao {
     @Override
     public Autosave selectOne(Long asNo) {
         return sqlSession.selectOne(mapper + ".selectOne", asNo);
+    }
+
+    @Override
+    public List<Autosave> selectList(List<Long> asNos) {
+        return sqlSession.selectList(mapper + ".selectList", asNos);
     }
 
     @Override

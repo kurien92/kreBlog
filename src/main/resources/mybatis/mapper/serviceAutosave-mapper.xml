@@ -3,7 +3,6 @@
 <mapper namespace="net.kurien.blog.module.autosave.mapper.ServiceAutosaveMapper">
 	<resultMap id="resultMap" type="net.kurien.blog.module.autosave.entity.ServiceAutosave">
 		<id property="serviceName" column="serviceName" />
-		<result property="serviceNo" column="serviceNo" />
 		<result property="asNo" column="asNo"/>
 		<result property="serviceAsUsername" column="serviceAsUsername"/>
 		<result property="serviceAsWriteTime" column="serviceAsWriteTime" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler"/>
@@ -19,7 +18,6 @@
 		INSERT INTO
 		<include refid="table" /> (
 			serviceName,
-			serviceNo,
 			asNo,
 			serviceAsUsername,
 			serviceAsWriteTime,
@@ -28,7 +26,6 @@
 		)
 		VALUES (
 			#{serviceName},
-			#{serviceNo},
 			#{asNo},
 			#{serviceAsUsername},
 			#{serviceAsWriteTime},
@@ -37,12 +34,12 @@
 		)
 	</insert>
 
-	<select id="selectByServiceNameAndServiceNo" resultMap="resultMap">
+	<select id="selectByServiceNameAndAsUsername" resultMap="resultMap">
 		SELECT *
 		FROM <include refid="table" />
 		<where>
 			serviceName = #{serviceName}
-			AND serviceNo = #{serviceNo}
+			AND serviceAsUsername = #{serviceAsUsername}
 		</where>
 		ORDER BY
 		asNo ASC
@@ -58,11 +55,11 @@
 		asNo ASC
 	</select>
 
-	<delete id="deleteByServiceNameAndServiceNo">
+	<delete id="deleteByServiceNameAndAsUsername">
 		DELETE FROM <include refid="table" />
 		<where>
 			serviceName = #{serviceName}
-			AND serviceNo = #{serviceNo}
+			AND serviceAsUsername = #{serviceAsUsername}
 		</where>
 	</delete>
 

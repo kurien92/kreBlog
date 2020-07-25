@@ -24,12 +24,12 @@ public class BasicServiceAutosaveDao implements ServiceAutosaveDao {
     }
 
     @Override
-    public List<ServiceAutosave> selectByServiceNameAndServiceNo(String serviceName, Long serviceNo) {
+    public List<ServiceAutosave> selectByServiceNameAndAsUsername(String serviceName, String serviceAsUsername) {
         Map<String, Object> param = new HashMap<>();
         param.put("serviceName", serviceName);
-        param.put("serviceNo", serviceNo);
+        param.put("serviceAsUsername", serviceAsUsername);
 
-        return sqlSession.selectList(mapper + ".selectByServiceNameAndServiceNo", param);
+        return sqlSession.selectList(mapper + ".selectByServiceNameAndAsUsername", param);
     }
 
     @Override
@@ -38,12 +38,12 @@ public class BasicServiceAutosaveDao implements ServiceAutosaveDao {
     }
 
     @Override
-    public void deleteByServiceNameAndServiceNo(String serviceName, Long serviceNo) {
+    public void deleteByServiceNameAndAsUsername(String serviceName, String serviceAsUsername) {
         Map<String, Object> param = new HashMap<>();
         param.put("serviceName", serviceName);
-        param.put("serviceNo", serviceNo);
+        param.put("serviceAsUsername", serviceAsUsername);
 
-        sqlSession.delete(mapper + ".deleteByServiceNameAndServiceNo", param);
+        sqlSession.delete(mapper + ".deleteByServiceNameAndAsUsername", param);
     }
 
     @Override

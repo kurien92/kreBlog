@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ServiceAutosaveService {
     void add(ServiceAutosave serviceAutosave);
-    List<ServiceAutosave> get(String serviceName, Long serviceNo);
-    List<ServiceAutosave> get(Long asNo);
-    void remove(String serviceName, Long serviceNo);
+    List<ServiceAutosave> getList(String serviceName, String serviceAsUsername);
+    List<ServiceAutosave> getList(Long asNo);
+    void remove(String serviceName, String serviceAsUsername);
     void remove(Long asNo);
     int count();
     void removeAll();
