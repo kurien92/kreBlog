@@ -15,5 +15,7 @@ public interface AutosaveDao {
 
     int selectCount();
 
+    int selectCount(Long asNo);
+
     void deleteAll();
 }

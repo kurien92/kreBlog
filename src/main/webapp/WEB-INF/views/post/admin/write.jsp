@@ -15,7 +15,7 @@
 			<div>
 				<select class="kre_inp" name="categoryId">
 					<option value="">Uncategorized</option>
-					
+
 					<c:forEach var="category" items="${categories}">
 						<option value="${category.categoryId}" ${post.categoryId eq category.categoryId ? "selected" : ""}>${category.categoryName}</option>v
 					</c:forEach>
@@ -26,6 +26,7 @@
 				<button type="button" id="postAutosave" class="kre_btn">임시저장</button>
 				<ul id="postAutosaveList">
 				</ul>
+
 				<script>
 					$(function() {
 						getAutosaveList("post").then(function(data) {
@@ -35,6 +36,12 @@
 						});
 
 						autosaveInterval();
+					});
+
+					$("#postAutosaveList").on("click", ".autosaveListItem", function() {
+						var autosaveJson = JSON.parse($(this).attr("data-json"));
+
+						setAutosaveData(autosaveJson);
 					});
 
 					$("#postAutosave").on("click", writeAutosave);
@@ -61,9 +68,10 @@
 						saveAutosave("post", jsonData).then(function(data) {
 							var autosaveListItem = addAutosaveItem(data);
 
-							// 30건 이상이면 29개가 되도록 삭제
-							if($("#postAutosaveList").children("li").length >= 30) {
-								$("#postAutosaveList").children("li").first().remove();
+							// 20건 이상이면 19개가 되도록 삭제
+							if($("#postAutosaveList").children("li").length >= 20) {
+								var asNo = $("#postAutosaveList").children("li").first().children(".autosaveListItem").attr("data-no");
+								removeAutosave(asNo);
 							}
 
 							$("#postAutosaveList").append(autosaveListItem);
@@ -86,9 +94,27 @@
 						var autosave = JSON.parse(autosaveItem.jsonData);
 						var title = autosave.title === "" ? "Untitled" : autosave.title;
 
-						var autosaveListItem = "<li>제목: " + title + " / 시간: " + autosaveItem.time + " </li>";
+						var autosaveListItem = "<li id='autosaveList" + autosaveItem.no + "' data-no='" + autosaveItem.no + "'><button id='autosaveListItem" + autosaveItem.no + "' class='autosaveListItem' type='button' data-no='" + autosaveItem.no + "' data-json='" + autosaveItem.jsonData + "'>제목: " + title + " / 시간: " + autosaveItem.time + "</button></li>";
 
 						return autosaveListItem;
+					}
+
+					function setAutosaveData(autosaveJson) {
+						$("#postSubject").val(autosaveJson.title);
+						CKEDITOR.instances.postContent.setData(autosaveJson.content);
+					}
+
+					function removeAutosave(asNo) {
+						removeAutosaveList('post', asNo).then(function() {
+							$("#autosaveList" + asNo).remove();
+						}).catch(function(err) {
+							if(err.message !== "") {
+								alert(err.message);
+								return;
+							}
+
+							alert("알 수 없는 오류가 발생했습니다.");
+						});
 					}
 
 					function getAutosaveList(serviceName) {
@@ -119,6 +145,25 @@
 								data: {
 									jsonData: JSON.stringify(jsonData)
 								}
+							}).done(function(data) {
+								if(data.result === "fail") {
+									reject(new Error(data.message));
+									return;
+								}
+
+								resolve(data.value); // true or false
+							}).fail(function(err) {
+								reject(err);
+							});
+						});
+					}
+
+					function removeAutosaveList(serviceName, asNo) {
+						return new Promise(function(resolve, reject) {
+							$.ajax({
+								url: '${contextPath}/autosave/remove/' + serviceName + '/' + asNo,
+								type: "post",
+								dataType: "json"
 							}).done(function(data) {
 								if(data.result === "fail") {
 									reject(new Error(data.message));

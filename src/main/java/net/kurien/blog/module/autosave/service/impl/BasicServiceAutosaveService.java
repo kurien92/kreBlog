@@ -22,13 +22,13 @@ public class BasicServiceAutosaveService implements ServiceAutosaveService {
     }
 
     @Override
-    public List<ServiceAutosave> getList(String serviceName, String serviceAsUsername) {
-        return serviceAutosaveDao.selectByServiceNameAndAsUsername(serviceName, serviceAsUsername);
+    public ServiceAutosave get(String serviceName, Long asNo) {
+        return serviceAutosaveDao.selectByAsNo(serviceName, asNo);
     }
 
     @Override
-    public List<ServiceAutosave> getList(Long asNo) {
-        return serviceAutosaveDao.selectByAsNo(asNo);
+    public List<ServiceAutosave> getList(String serviceName, String serviceAsUsername) {
+        return serviceAutosaveDao.selectByServiceNameAndAsUsername(serviceName, serviceAsUsername);
     }
 
     @Override
@@ -49,5 +49,10 @@ public class BasicServiceAutosaveService implements ServiceAutosaveService {
     @Override
     public void removeAll() {
         serviceAutosaveDao.deleteAll();
+    }
+
+    @Override
+    public boolean isExist(Long asNo) {
+        return serviceAutosaveDao.selectCount(asNo) == 0 ? false : true;
     }
 }

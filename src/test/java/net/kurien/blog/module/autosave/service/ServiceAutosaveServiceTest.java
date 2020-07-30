@@ -75,9 +75,9 @@ public class ServiceAutosaveServiceTest {
 
     @Test
     public void testGet() {
-        List<ServiceAutosave> serviceAutosave2 = serviceAutosaveService.getList(1l);
+        ServiceAutosave serviceAutosave2 = serviceAutosaveService.get("post", 1l);
 
-        assertThat(serviceAutosave2.get(0), is(serviceAutosave));
+        assertThat(serviceAutosave2, is(serviceAutosave));
     }
 
     @Test

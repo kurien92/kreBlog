@@ -41,6 +41,11 @@ public class BasicAutosaveDao implements AutosaveDao {
     }
 
     @Override
+    public int selectCount(Long asNo) {
+        return sqlSession.selectOne(mapper + ".selectCount", asNo);
+    }
+
+    @Override
     public void deleteAll() {
         sqlSession.delete(mapper + ".deleteAll");
     }

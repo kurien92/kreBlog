@@ -45,4 +45,9 @@ public class BasicAutosaveService implements AutosaveService {
     public void removeAll() {
         autosaveDao.deleteAll();
     }
+
+    @Override
+    public boolean isExist(Long asNo) {
+        return autosaveDao.selectCount(asNo) == 0 ? false : true;
+    }
 }

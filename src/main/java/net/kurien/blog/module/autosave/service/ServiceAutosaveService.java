@@ -6,10 +6,11 @@ import java.util.List;
 
 public interface ServiceAutosaveService {
     void add(ServiceAutosave serviceAutosave);
+    ServiceAutosave get(String serviceName, Long asNo);
     List<ServiceAutosave> getList(String serviceName, String serviceAsUsername);
-    List<ServiceAutosave> getList(Long asNo);
     void remove(String serviceName, String serviceAsUsername);
     void remove(Long asNo);
     int count();
     void removeAll();
+    boolean isExist(Long asNo);
 }

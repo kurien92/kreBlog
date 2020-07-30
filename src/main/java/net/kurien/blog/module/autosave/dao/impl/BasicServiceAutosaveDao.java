@@ -33,8 +33,12 @@ public class BasicServiceAutosaveDao implements ServiceAutosaveDao {
     }
 
     @Override
-    public List<ServiceAutosave> selectByAsNo(Long asNo) {
-        return sqlSession.selectList(mapper + ".selectByAsNo", asNo);
+    public ServiceAutosave selectByAsNo(String serviceName, Long asNo) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("serviceName", serviceName);
+        param.put("asNo", asNo);
+
+        return sqlSession.selectOne(mapper + ".selectByAsNo", param);
     }
 
     @Override
@@ -54,6 +58,11 @@ public class BasicServiceAutosaveDao implements ServiceAutosaveDao {
     @Override
     public int selectCount() {
         return sqlSession.selectOne(mapper + ".selectCount");
+    }
+
+    @Override
+    public int selectCount(Long asNo) {
+        return sqlSession.selectOne(mapper + ".selectCount", asNo);
     }
 
     @Override

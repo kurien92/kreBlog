@@ -2,6 +2,7 @@ package net.kurien.blog.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.module.autosave.entity.Autosave;
 import net.kurien.blog.module.autosave.entity.ServiceAutosave;
 import net.kurien.blog.module.autosave.service.AutosaveService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.security.Provider;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +106,49 @@ public class AutosaveController {
 
         json.addProperty("result", "success");
         json.add("value", autosaveJsonArray);
+        json.addProperty("message", "");
+
+        return json;
+    }
+
+    @RequestMapping("/remove/{serviceName}/{asNo}")
+    public JsonObject save(@PathVariable String serviceName, @PathVariable Long asNo, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+
+        JsonObject json = new JsonObject();
+
+        ServiceAutosave serviceAutosave = serviceAutosaveService.get(serviceName, asNo);
+
+        if(serviceAutosave == null) {
+            json.addProperty("result", "fail");
+            json.add("value", new JsonObject());
+            json.addProperty("message", "이미 삭제된 자료입니다.");
+
+            return json;
+        }
+
+        if(serviceAutosave.getServiceAsUsername().equals(user.getUsername()) == false) {
+            json.addProperty("result", "fail");
+            json.add("value", new JsonObject());
+            json.addProperty("message", "삭제 권한이 없는 자료입니다.");
+
+            return json;
+        }
+
+
+        if(autosaveService.isExist(asNo) == false) {
+            json.addProperty("result", "fail");
+            json.add("value", new JsonObject());
+            json.addProperty("message", "이미 삭제된 자료입니다.");
+
+            return json;
+        }
+
+        serviceAutosaveService.remove(asNo);
+        autosaveService.remove(asNo);
+
+        json.addProperty("result", "success");
+        json.add("value", new JsonObject());
         json.addProperty("message", "");
 
         return json;

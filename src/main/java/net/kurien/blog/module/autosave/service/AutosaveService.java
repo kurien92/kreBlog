@@ -8,7 +8,8 @@ public interface AutosaveService {
     Autosave get(Long asNo);
     List<Autosave> getList(List<Long> asNos);
     void save(Autosave autosave);
-    void remove(Long atNo);
+    void remove(Long asNo);
     int count();
     void removeAll();
+    boolean isExist(Long asNo);
 }

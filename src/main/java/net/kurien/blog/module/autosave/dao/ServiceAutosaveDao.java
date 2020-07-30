@@ -9,13 +9,15 @@ public interface ServiceAutosaveDao {
 
     List<ServiceAutosave> selectByServiceNameAndAsUsername(String serviceName, String serviceAsUsername);
 
-    List<ServiceAutosave> selectByAsNo(Long asNo);
+    ServiceAutosave selectByAsNo(String serviceName, Long asNo);
 
     void deleteByServiceNameAndAsUsername(String serviceName, String serviceAsUsername);
 
     void deleteByAsNo(Long asNo);
 
     int selectCount();
+
+    int selectCount(Long asNo);
 
     void deleteAll();
 }

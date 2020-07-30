@@ -113,6 +113,11 @@ public class AutosaveServiceTest {
     }
 
     @Test
+    public void isExist() {
+        assertThat(autosaveService.isExist(autosave.getAsNo()), is(true));
+    }
+
+    @Test
     public void removeAll() {
         autosaveService.removeAll();
 
