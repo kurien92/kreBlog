@@ -4,6 +4,7 @@ import net.kurien.blog.module.autosave.dao.AutosaveDao;
 import net.kurien.blog.module.autosave.entity.Autosave;
 import net.kurien.blog.module.autosave.service.AutosaveService;
 import net.kurien.blog.util.TimeUtil;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ public class BasicAutosaveService implements AutosaveService {
 
     @Override
     public void save(Autosave autosave) {
+        autosave.setAsJsonData(JSONObject.escape(autosave.getAsJsonData()));
         autosave.setAsSaveTime(TimeUtil.currentTime());
 
         autosaveDao.insert(autosave);
