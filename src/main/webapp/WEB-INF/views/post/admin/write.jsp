@@ -24,11 +24,17 @@
 
 			<div>
 				<button type="button" id="postAutosave" class="kre_btn">임시저장</button>
-				<ul id="postAutosaveList">
-				</ul>
+				<button type="button" id="postAutosaveListBtn" class="kre_btn">임시저장 목록</button>
+
+				<ol id="postAutosaveList">
+				</ol>
 
 				<script>
 					$(function() {
+						$("#postAutosaveListBtn").on("click", function() {
+							$("#postAutosaveList").toggle(0);
+						});
+
 						getAutosaveList("post").then(function(data) {
 							var autosaveList = addAutosaveList(data);
 
@@ -44,10 +50,21 @@
 						setAutosaveData(autosaveJson);
 					});
 
+					$("#postAutosaveList").on("click", ".autosaveListRemoveBtn", function() {
+						if(!confirm("삭제된 임시저장은 복구할 수 없습니다.\n삭제하시겠습니까?")) {
+							return false;
+						}
+
+						var asNo = $(this).attr("data-no");
+
+						removeAutosave(asNo);
+					});
+
 					$("#postAutosave").on("click", writeAutosave);
 
 					function autosaveInterval() {
-						setInterval(writeAutosave, 1000 * 60 * 10);
+						//5분마다 저장한다.
+						setInterval(writeAutosave, 1000 * 60 * 5);
 					}
 
 					function writeAutosave() {
@@ -94,7 +111,14 @@
 						var autosave = JSON.parse(autosaveItem.jsonData);
 						var title = autosave.title === "" ? "Untitled" : autosave.title;
 
-						var autosaveListItem = "<li id='autosaveList" + autosaveItem.no + "' data-no='" + autosaveItem.no + "'><button id='autosaveListItem" + autosaveItem.no + "' class='autosaveListItem' type='button' data-no='" + autosaveItem.no + "' data-json='" + autosaveItem.jsonData + "'>제목: " + title + " / 시간: " + autosaveItem.time + "</button></li>";
+						var autosaveListItem = "<li id='autosaveList" + autosaveItem.no + "' data-no='" + autosaveItem.no + "'>"
+						 + "<button id='autosaveListItem" + autosaveItem.no + "' class='autosaveListItem kre_btn' type='button' data-no='" + autosaveItem.no + "' data-json='" + autosaveItem.jsonData + "'>"
+						 + "제목: " + title + " / 시간: " + autosaveItem.time + " / 만료시간: " + autosaveItem.expireTime
+						 + "</button>"
+						 + "<button class='autosaveListRemoveBtn kre_btn' type='button' data-no='" + autosaveItem.no + "'>"
+						 + "삭제"
+						 + "</button>"
+						 + "</li>";
 
 						return autosaveListItem;
 					}
@@ -102,6 +126,14 @@
 					function setAutosaveData(autosaveJson) {
 						$("#postSubject").val(autosaveJson.title);
 						CKEDITOR.instances.postContent.setData(autosaveJson.content);
+
+						getFileList(autosaveJson.fileList).then(function(data) {
+							removeFileInput();
+
+							for(var i = 0; i < data.length; i++) {
+								addFileList(data[i]);
+							}
+						});
 					}
 
 					function removeAutosave(asNo) {
@@ -260,7 +292,7 @@
 			
 			<div id="postFiles">
 				<ul>
-					<if test="${files != null}">
+					<c:if test="${files != null}">
 					<c:forEach var="file" items="${files}">
 						<li>
 							<a href="${contextPath}/file/viewer/post/${file.fileNo}" target="_blank">${file.fileName}</a>
@@ -268,7 +300,7 @@
 							<button type="button" class="deletePostFile kre_btn" data-key="${file.fileNo}">삭제</button>
 						</li>
 					</c:forEach>
-					</if>
+					</c:if>
 				</ul>
 
 				<div>
@@ -302,6 +334,33 @@
 								console.log("error");
 							});
 						});
+
+						function getFileList(fileNos) {
+							return new Promise(function(resolve, reject) {
+								$.ajax({
+									url: '${contextPath}/admin/file/list/post',
+									type: "post",
+									dataType: "json",
+									data: {
+										fileNos: fileNos
+									}
+								}).done(function(data) {
+									if(data.result === "fail") {
+										reject(new Error(data.message));
+										return;
+									}
+
+									resolve(data.value); // true or false
+								}).fail(function(err) {
+									reject(err);
+								});
+							});
+						}
+
+						function removeFileInput() {
+							$(".fileNos").remove();
+							$("#postFiles > ul").empty();
+						}
 					</script>
 				</div>
 			</div>

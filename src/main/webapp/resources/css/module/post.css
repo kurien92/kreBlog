@@ -231,6 +231,26 @@
     font-weight: bold;
 }
 
+#admin_post_write #postAutosaveListBtn {
+	margin-left: 6px;
+}
+
+#admin_post_write #postAutosaveList {
+	display: none;
+}
+
+#admin_post_write #postAutosaveList li {
+	margin-top: 6px;
+}
+
+#admin_post_write #postAutosaveList li:first-child {
+	margin-top: 0;
+}
+
+#admin_post_write .autosaveListRemoveBtn {
+	margin-left: 6px;
+}
+
 /* fullImage */
 body.hide {
 	overflow: hidden;

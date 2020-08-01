@@ -1,23 +1,22 @@
 package net.kurien.blog.controller.admin;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.JsonArray;
 import net.kurien.blog.module.file.dto.FileDTO;
+import net.kurien.blog.module.file.entity.File;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -129,6 +128,46 @@ public class FileAdminController {
 			fileJsonObject.addProperty("url", fileUrl);
 
 			fileJsonArray.add(fileJsonObject);
+		}
+
+		json.addProperty("result", "success");
+		json.add("value", fileJsonArray);
+		json.addProperty("message", "");
+
+		return json;
+	}
+
+	@RequestMapping(value = "/list/{serviceName}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public @ResponseBody JsonObject fileList(@PathVariable String serviceName, @RequestParam(value="fileNos[]", required = false) Integer[] fileNos, HttpServletRequest request) {
+		JsonObject json = new JsonObject();
+
+		if(fileNos == null) {
+			json.addProperty("result", "success");
+			json.add("value", new JsonArray());
+			json.addProperty("message", "");
+
+			return json;
+		}
+
+		List<Integer> fileNoList = Arrays.asList(fileNos);
+		List<File> files = fileService.getList(fileNoList);
+
+		JsonArray fileJsonArray = new JsonArray();
+
+		for(int i = 0; i < files.size(); i++) {
+			File file = files.get(i);
+
+			JsonObject fileObject = new JsonObject();
+
+			String fileUrl = request.getContextPath() + "/file/viewer/" + serviceName + "/" + file.getFileNo();
+
+			fileObject.addProperty("fileNo", file.getFileNo());
+			fileObject.addProperty("fileName", file.getFileName());
+			fileObject.addProperty("fileSize", file.getFileSize());
+			fileObject.addProperty("fileNo", file.getFileNo());
+			fileObject.addProperty("url", fileUrl);
+
+			fileJsonArray.add(fileObject);
 		}
 
 		json.addProperty("result", "success");

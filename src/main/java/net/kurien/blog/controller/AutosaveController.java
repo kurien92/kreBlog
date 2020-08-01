@@ -2,7 +2,6 @@ package net.kurien.blog.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.module.autosave.entity.Autosave;
 import net.kurien.blog.module.autosave.entity.ServiceAutosave;
 import net.kurien.blog.module.autosave.service.AutosaveService;
@@ -17,10 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.security.Provider;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/autosave")
@@ -57,6 +54,7 @@ public class AutosaveController {
         autosaveJson.addProperty("no", autosave.getAsNo());
         autosaveJson.addProperty("jsonData", autosave.getAsJsonData());
         autosaveJson.addProperty("time", sdf.format(autosave.getAsSaveTime()));
+        autosaveJson.addProperty("expireTime", sdf.format(serviceAutosave.getServiceAsExpireTime()));
 
         json.addProperty("result", "success");
         json.add("value", autosaveJson);
@@ -92,14 +90,23 @@ public class AutosaveController {
         // 추후에 Join으로 한번에 처리
         List<Autosave> autosaves = autosaveService.getList(asNos);
 
+        Map<Long, ServiceAutosave> serviceAutosaveMap = new HashMap<>();
+
+        for(int i = 0; i < serviceAutosaves.size(); i++) {
+            serviceAutosaveMap.put(serviceAutosaves.get(i).getAsNo(), serviceAutosaves.get(i));
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
         for(Autosave autosave : autosaves) {
             JsonObject autosaveJson = new JsonObject();
 
+            Date expireTime = serviceAutosaveMap.get(autosave.getAsNo()).getServiceAsExpireTime();
+
             autosaveJson.addProperty("no", autosave.getAsNo());
             autosaveJson.addProperty("jsonData", autosave.getAsJsonData());
             autosaveJson.addProperty("time", sdf.format(autosave.getAsSaveTime()));
+            autosaveJson.addProperty("expireTime", sdf.format(expireTime));
 
             autosaveJsonArray.add(autosaveJson);
         }

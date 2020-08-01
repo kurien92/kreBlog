@@ -40,6 +40,7 @@
 		<where>
 			serviceName = #{serviceName}
 			AND serviceAsUsername = #{serviceAsUsername}
+			AND serviceAsExpireTime > now()
 		</where>
 		ORDER BY
 		asNo ASC
