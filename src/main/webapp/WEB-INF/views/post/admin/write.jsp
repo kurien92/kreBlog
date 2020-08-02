@@ -30,6 +30,8 @@
 				</ol>
 
 				<script>
+					var autosaveJsonData = {}
+
 					$(function() {
 						$("#postAutosaveListBtn").on("click", function() {
 							$("#postAutosaveList").toggle(0);
@@ -45,7 +47,7 @@
 					});
 
 					$("#postAutosaveList").on("click", ".autosaveListItem", function() {
-						var autosaveJson = JSON.parse($(this).attr("data-json"));
+						var autosaveJson = autosaveJsonData[$(this).attr("data-no")];
 
 						setAutosaveData(autosaveJson);
 					});
@@ -111,8 +113,10 @@
 						var autosave = JSON.parse(autosaveItem.jsonData);
 						var title = autosave.title === "" ? "Untitled" : autosave.title;
 
+						autosaveJsonData[autosaveItem.no] = autosave;
+
 						var autosaveListItem = "<li id='autosaveList" + autosaveItem.no + "' data-no='" + autosaveItem.no + "'>"
-						 + "<button id='autosaveListItem" + autosaveItem.no + "' class='autosaveListItem kre_btn' type='button' data-no='" + autosaveItem.no + "' data-json='" + autosaveItem.jsonData + "'>"
+						 + "<button id='autosaveListItem" + autosaveItem.no + "' class='autosaveListItem kre_btn' type='button' data-no='" + autosaveItem.no + "'>"
 						 + "제목: " + title + " / 시간: " + autosaveItem.time + " / 만료시간: " + autosaveItem.expireTime
 						 + "</button>"
 						 + "<button class='autosaveListRemoveBtn kre_btn' type='button' data-no='" + autosaveItem.no + "'>"

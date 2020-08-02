@@ -8,7 +8,6 @@ import net.kurien.blog.module.autosave.service.AutosaveService;
 import net.kurien.blog.module.autosave.service.ServiceAutosaveService;
 import net.kurien.blog.util.RequestUtil;
 import net.kurien.blog.util.TimeUtil;
-import org.json.simple.JSONObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PathVariable;

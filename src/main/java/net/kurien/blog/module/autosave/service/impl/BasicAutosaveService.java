@@ -27,7 +27,7 @@ public class BasicAutosaveService implements AutosaveService {
 
     @Override
     public void save(Autosave autosave) {
-        autosave.setAsJsonData(JSONObject.escape(autosave.getAsJsonData()));
+        autosave.setAsJsonData(autosave.getAsJsonData());
         autosave.setAsSaveTime(TimeUtil.currentTime());
 
         autosaveDao.insert(autosave);
