@@ -14,8 +14,8 @@
     <context:annotation-config/>
 
     <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"
-        p:maxInactiveIntervalInSeconds="1800"
-        p:configureRedisAction-ref="configureRedisAction"
+          p:maxInactiveIntervalInSeconds="7200"
+          p:configureRedisAction-ref="configureRedisAction"
     />
 
     <bean id="lettuceConnectionFactory" class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory">
@@ -25,7 +25,12 @@
     <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration"
           p:host-name="redis"
           p:port="6379"
+          p:password-ref="redisPassword"
     />
+
+    <bean id="redisPassword" class="org.springframework.data.redis.connection.RedisPassword">
+        <constructor-arg value="kre1234"/>
+    </bean>
 
     <util:constant id="configureRedisAction" static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>
 </beans>
