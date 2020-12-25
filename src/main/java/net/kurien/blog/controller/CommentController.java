@@ -68,10 +68,11 @@ public class CommentController {
 		try {
 			validInput(commentDto);
 		} catch(InvalidRequestException ire) {
-		    json.addProperty("result", "success");
-		    json.add("value", new JsonObject());
-		    json.addProperty("message", "");
-		    return json;
+			json.addProperty("result", "fail");
+			json.add("value", new JsonObject());
+			json.addProperty("message", ire.getMessage());
+
+			return json;
 		}
 		
 		Comment comment = new Comment();
@@ -98,10 +99,11 @@ public class CommentController {
 		try {
 			validInput(commentDto);
 		} catch(InvalidRequestException ire) {
-		    json.addProperty("result", "fail");
-		    json.add("value", new JsonObject());
-		    json.addProperty("message", ire.getMessage());
-		    return json;
+			json.addProperty("result", "fail");
+			json.add("value", new JsonObject());
+			json.addProperty("message", ire.getMessage());
+
+			return json;
 		}
 		
 		Comment comment = new Comment();
@@ -114,11 +116,11 @@ public class CommentController {
 		try {
 			commentService.reply(no, comment);
 		} catch(InvalidRequestException ire) {
-		    json.addProperty("result", "fail");
-		    json.add("value", new JsonObject());
-		    json.addProperty("message", "잘못된 요청입니다.");
-		    
-		    return json;
+			json.addProperty("result", "fail");
+			json.add("value", new JsonObject());
+			json.addProperty("message", ire.getMessage());
+
+			return json;
 		}
 		
 	    json.addProperty("result", "success");
@@ -136,17 +138,18 @@ public class CommentController {
 		    json.addProperty("result", "fail");
 		    json.add("value", new JsonObject());
 		    json.addProperty("message", "수정 가능한 시간이 만료되었습니다.");
-		    
+
 		    return json;
 	    }
 		
 		try {
 			validInput(commentDto);
 		} catch(InvalidRequestException ire) {
-		    json.addProperty("result", "success");
-		    json.add("value", new JsonObject());
-		    json.addProperty("message", "");
-		    return json;
+			json.addProperty("result", "fail");
+			json.add("value", new JsonObject());
+			json.addProperty("message", ire.getMessage());
+
+			return json;
 		}
 
 		Comment comment = new Comment();
@@ -260,7 +263,7 @@ public class CommentController {
 			throw new InvalidRequestException("댓글을 입력해주세요.");
 		}
 		
-		if(commentDto.getText().length() > 30) {
+		if(commentDto.getText().length() > 10000) {
 			throw new InvalidRequestException("댓글은 10000자 미만으로 입력해주세요.");
 		}
 
