@@ -66,7 +66,7 @@ public class CommentController {
 	    JsonObject json = new JsonObject();
 	    
 		try {
-			validInput(commentDto);
+			validInput(commentDto, true);
 		} catch(InvalidRequestException ire) {
 			json.addProperty("result", "fail");
 			json.add("value", new JsonObject());
@@ -97,7 +97,7 @@ public class CommentController {
 		JsonObject json = new JsonObject();
 		
 		try {
-			validInput(commentDto);
+			validInput(commentDto, true);
 		} catch(InvalidRequestException ire) {
 			json.addProperty("result", "fail");
 			json.add("value", new JsonObject());
@@ -143,7 +143,7 @@ public class CommentController {
 	    }
 		
 		try {
-			validInput(commentDto);
+			validInput(commentDto, false);
 		} catch(InvalidRequestException ire) {
 			json.addProperty("result", "fail");
 			json.add("value", new JsonObject());
@@ -241,7 +241,7 @@ public class CommentController {
 	}
 
 	
-	private boolean validInput(CommentDto commentDto) throws InvalidRequestException {
+	private boolean validInput(CommentDto commentDto, boolean passwordChangeCheck) throws InvalidRequestException {
 		// TODO Auto-generated method stub
 		if(commentDto.getName().length() < 2) {
 			throw new InvalidRequestException("작성자명은 2자 이상으로 입력해주세요.");
@@ -250,9 +250,11 @@ public class CommentController {
 		if(commentDto.getName().length() > 30) {
 			throw new InvalidRequestException("작성자명은 30자 미만으로 입력해주세요.");
 		}
-		
-		if(commentDto.getPassword().length() == 0) {
-			throw new InvalidRequestException("비밀번호를 입력해주세요.");
+
+		if(passwordChangeCheck) {
+			if (commentDto.getPassword().length() == 0) {
+				throw new InvalidRequestException("비밀번호를 입력해주세요.");
+			}
 		}
 		
 		if(commentDto.getPassword().length() > 30) {

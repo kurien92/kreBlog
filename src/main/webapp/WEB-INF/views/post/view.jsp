@@ -130,7 +130,7 @@
         var commentState = "";
         var targetCommentNo = 0;
         var commentToken = "";
-        
+
         $(window).on("load", function() {
         	getCommentList(postNo).then(function(commentList) {
 	        	getCommentListItem(commentList);
@@ -478,7 +478,7 @@
                     type: "post",
                     dataType: "json",
                     data: {
-                        password: $("#comment_reply_password").val()
+                        password: password
                     }
                 }).done(function(data) {
                     if(data.result === "fail") {
