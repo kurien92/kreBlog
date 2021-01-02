@@ -21,7 +21,7 @@ import javax.inject.Inject;
 @Controller
 @RequestMapping(value="/content")
 public class ContentController {
-    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContentController.class);
 
     private Template template;
     private ContentService contentService;
@@ -43,5 +43,10 @@ public class ContentController {
         template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/content.css\">");
 
         return "content/view";
+    }
+
+    @RequestMapping(value = "/search/{contentId}")
+    public String search(@PathVariable String contentId, Model model) {
+        return "redirect: /content/" + contentId;
     }
 }

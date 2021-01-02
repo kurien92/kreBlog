@@ -83,7 +83,7 @@ public class BasicContentService implements ContentService, Searchable {
             searchContents.add(searchContent);
         }
 
-        searchDto.setTitle("POST");
+        searchDto.setTitle("CONTENT");
         searchDto.setContents(searchContents);
 
         return searchDto;
