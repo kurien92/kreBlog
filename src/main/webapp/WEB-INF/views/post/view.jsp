@@ -134,6 +134,8 @@
         $(window).on("load", function() {
         	getCommentList(postNo).then(function(commentList) {
 	        	getCommentListItem(commentList);
+
+				resetScroll();
         	});
         });
         
