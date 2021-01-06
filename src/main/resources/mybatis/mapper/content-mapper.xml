@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.kurien.blog.module.content.mapper.ContentMapper">
 	<resultMap id="resultMap" type="net.kurien.blog.module.content.entity.Content">
-		<id property="contentId" column="contentId" />
+		<id property="contentNo" column="contentNo" />
+		<result property="contentId" column="contentId" />
 		<result property="contentTitle" column="contentTitle" />
 		<result property="content" column="content"/>
 		<result property="contentView" column="contentView" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
@@ -73,9 +74,10 @@
         </where>
     </select>
 		
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="contentNo">
         INSERT INTO
         <include refid="table" /> (
+            contentNo,
         	contentId,
 			contentTitle,
 			content,
@@ -83,6 +85,7 @@
         	contentWriteTime
         )
         VALUES (
+            #{contentNo},
         	#{contentId},
 			#{contentTitle},
 			#{content},
@@ -143,5 +146,15 @@
 		</where>
 		ORDER BY
 		contentId ASC
+	</select>
+
+	<select id="isExist" resultType="Integer">
+		SELECT count(*)
+		FROM <include refid="table" />
+		<where>
+			contentId = #{contentId}
+
+			<include refid="manageYn" />
+		</where>
 	</select>
 </mapper>

@@ -1,6 +1,8 @@
 package net.kurien.blog.module.content.service.impl;
 
 import net.kurien.blog.domain.SearchCriteria;
+import net.kurien.blog.exception.DuplicatedKeyException;
+import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.module.content.entity.Content;
 import net.kurien.blog.module.content.entity.ContentViewStatus;
 import net.kurien.blog.module.content.service.ContentService;
@@ -43,13 +45,13 @@ public class BasicContentServiceTest {
         assertThat(contentService.getCount("N"), is(0));
 
 
-        contentService.create(content1);
+        contentService.create(content1, new Integer[]{});
 
         assertThat(contentService.getCount("N"), is(1));
     }
 
     @Test
-    public void create() {
+    public void create() throws DuplicatedKeyException {
         Content content = new Content();
 
         content.setContentId("contentTest2");
@@ -57,22 +59,22 @@ public class BasicContentServiceTest {
         content.setContent("컨텐츠 내용2");
         content.setContentView(ContentViewStatus.TRUE);
 
-        contentService.create(content);
+        contentService.create(content, new Integer[]{});
         assertThat(contentService.getCount("N"), is(2));
     }
 
     @Test
-    public void update() {
+    public void update() throws NotFoundDataException {
         Content content = new Content();
 
         content.setContentId(content1.getContentId());
         content.setContentTitle("updated Content Title");
         content.setContent("updated Content");
-        content.setContentView(ContentViewStatus.FALSE);
+        content.setContentView(ContentViewStatus.TRUE);
 
-        contentService.update(content);
+        contentService.update(content, new Integer[]{});
 
-        Content content2 = contentService.view(content1.getContentId(), "Y");
+        Content content2 = contentService.get(content1.getContentId(), "Y");
 
         assertThat(content2.getContentId(), is(content1.getContentId()));
         assertThat(content2.getContentTitle(), is(content.getContentTitle()));
@@ -87,8 +89,8 @@ public class BasicContentServiceTest {
     }
 
     @Test
-    public void view() {
-        Content content = contentService.view(content1.getContentId(), "N");
+    public void get() throws NotFoundDataException {
+        Content content = contentService.get(content1.getContentId(), "N");
 
         assertThat(content.toString(), is(content1.toString()));
     }
@@ -99,7 +101,7 @@ public class BasicContentServiceTest {
         searchCriteria.setPage(1);
         searchCriteria.setRowCount(20);
 
-        List<Content> contents = contentService.list("N", searchCriteria);
+        List<Content> contents = contentService.getList("N", searchCriteria);
 
         assertThat(contents.get(0).toString(), is(content1.toString()));
     }

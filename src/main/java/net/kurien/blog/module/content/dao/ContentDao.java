@@ -14,4 +14,5 @@ public interface ContentDao {
     int selectCount(String manageYn);
     void deleteAll();
     List<Content> search(String[] queries);
+    int isExist(String contentId, String manageYn);
 }

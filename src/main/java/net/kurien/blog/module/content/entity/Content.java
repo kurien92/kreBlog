@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data
 public class Content {
+    private Integer contentNo;
     private String contentId;
     private String contentTitle;
     private String content;

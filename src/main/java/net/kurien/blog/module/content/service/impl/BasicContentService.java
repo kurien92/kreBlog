@@ -1,6 +1,8 @@
 package net.kurien.blog.module.content.service.impl;
 
 import net.kurien.blog.domain.SearchCriteria;
+import net.kurien.blog.exception.DuplicatedKeyException;
+import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.module.content.dao.ContentDao;
 import net.kurien.blog.module.content.entity.Content;
 import net.kurien.blog.module.content.service.ContentService;
@@ -11,10 +13,7 @@ import net.kurien.blog.util.TimeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BasicContentService implements ContentService, Searchable {
@@ -26,7 +25,25 @@ public class BasicContentService implements ContentService, Searchable {
     }
 
     @Override
-    public Content create(Content content) {
+    public Content get(String contentId, String manageYn) throws NotFoundDataException {
+        if(!isExist(contentId, manageYn)) {
+            throw new NotFoundDataException(contentId + " 컨텐츠를 찾을 수 없습니다.");
+        }
+
+        return contentDao.selectOne(contentId, manageYn);
+    }
+
+    @Override
+    public List<Content> getList(String manageYn, SearchCriteria searchCriteria) {
+        return contentDao.selectList(manageYn, searchCriteria);
+    }
+
+    @Override
+    public Content create(Content content, Integer[] fileNos) throws DuplicatedKeyException {
+        if(isExist(content.getContentId(), "Y")) {
+            throw new DuplicatedKeyException(content.getContentId() + " 컨텐츠가 이미 존재합니다.");
+        }
+
         content.setContentWriteTime(TimeUtil.currentTime());
         contentDao.insert(content);
 
@@ -34,7 +51,7 @@ public class BasicContentService implements ContentService, Searchable {
     }
 
     @Override
-    public void update(Content content) {
+    public void update(Content content, Integer[] fileNo) {
         content.setContentWriteTime(TimeUtil.currentTime());
 
         contentDao.update(content);
@@ -43,16 +60,6 @@ public class BasicContentService implements ContentService, Searchable {
     @Override
     public void delete(String contentId) {
         contentDao.delete(contentId);
-    }
-
-    @Override
-    public Content view(String contentId, String manageYn) {
-        return contentDao.selectOne(contentId, manageYn);
-    }
-
-    @Override
-    public List<Content> list(String manageYn, SearchCriteria searchCriteria) {
-        return contentDao.selectList(manageYn, searchCriteria);
     }
 
     @Override
@@ -87,5 +94,18 @@ public class BasicContentService implements ContentService, Searchable {
         searchDto.setContents(searchContents);
 
         return searchDto;
+    }
+
+
+    @Override
+    public boolean isExist(String contentId, String manageYn) {
+        // TODO Auto-generated method stub
+        int count = contentDao.isExist(contentId, manageYn);
+
+        if(count < 1) {
+            return false;
+        }
+
+        return true;
     }
 }

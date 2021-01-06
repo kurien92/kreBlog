@@ -1,6 +1,7 @@
 package net.kurien.blog.controller;
 
 import net.kurien.blog.common.template.Template;
+import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.module.category.entity.Category;
 import net.kurien.blog.module.content.entity.Content;
 import net.kurien.blog.module.content.service.ContentService;
@@ -33,8 +34,8 @@ public class ContentController {
     }
 
     @RequestMapping(value="/{contentId}", method=RequestMethod.GET)
-    public String view(@PathVariable String contentId, Model model) {
-        Content content = contentService.view(contentId, "N");
+    public String view(@PathVariable String contentId, Model model) throws NotFoundDataException {
+        Content content = contentService.get(contentId, "N");
 
         model.addAttribute("content", content);
 

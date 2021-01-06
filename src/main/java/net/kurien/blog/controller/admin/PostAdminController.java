@@ -12,7 +12,6 @@ import com.google.gson.JsonObject;
 import net.kurien.blog.domain.PageMaker;
 import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.exception.NotFoundDataException;
-import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -120,7 +119,6 @@ public class PostAdminController {
 	@RequestMapping(value = "/writeUpdate", method = RequestMethod.POST)
 	public String writeUpdate(HttpServletRequest request, Post post, Integer[] fileNos) throws Exception {
 		post.setPostAuthor("Kurien");
-		post.setPostWriteTime(Calendar.getInstance().getTime());
 		post.setPostWriteIp(RequestUtil.getRemoteAddr(request));
 
 		postService.write(post, fileNos);

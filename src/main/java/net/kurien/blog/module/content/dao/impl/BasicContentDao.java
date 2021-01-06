@@ -80,4 +80,14 @@ public class BasicContentDao implements ContentDao {
 
         return sqlSession.selectList(mapper + ".search", param);
     }
+
+    @Override
+    public int isExist(String contentId, String manageYn) {
+        // TODO Auto-generated method stub
+        Map<String, Object> param = new HashMap<>();
+        param.put("contentId", contentId);
+        param.put("manageYn", manageYn);
+
+        return sqlSession.selectOne(mapper + ".isExist", param);
+    }
 }

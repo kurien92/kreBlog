@@ -158,15 +158,11 @@ public class BasicPostService implements PostService, Searchable, SitemapCreatab
 	public boolean isExist(int postNo, String manageYn) throws Exception {
 		// TODO Auto-generated method stub
 		int count = postDao.isExist(postNo, manageYn);
-		
+
 		if(count < 1) {
 			return false;
 		}
-		
-		if(count > 1) {
-			throw new DuplicatedKeyException(postNo + "번의 자료가 " + count + "개 중복 데이터가 존재합니다.");
-		}
-		
+
 		return true;
 	}
 
