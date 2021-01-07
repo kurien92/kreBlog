@@ -109,32 +109,10 @@ public class BasicPostService implements PostService, Searchable, SitemapCreatab
 		addServiceFiles(post, fileNos);
 	}
 
-	private void addServiceFiles(Post post, Integer[] fileNos) {
-		if(fileNos != null) {
-			serviceFileService.addFiles("post", post.getPostNo(), fileNos, post.getPostWriteIp());
-		}
-
-		Set<Integer> useFilesNo = new HashSet<>();
-
-		List<Pattern> patterns = new ArrayList<>();
-
-		patterns.add(Pattern.compile("['|\"]/file/viewer/post/(\\d+?)['|\"]"));
-		patterns.add(Pattern.compile("['|\"]/file/download/post/(\\d+?)['|\"]"));
-
-		for(Pattern pattern : patterns) {
-			Matcher matcher = pattern.matcher(post.getPostContent());
-
-			while(matcher.find()) {
-				useFilesNo.add(Integer.parseInt(matcher.group(1)));
-			}
-		}
-
-		serviceFileService.syncFiles("post", post.getPostNo(), useFilesNo, post.getPostWriteIp());
-	}
-
 	@Override
 	public void delete(int postNo) {
 		// TODO Auto-generated method stub
+		serviceFileService.removeFiles("post", postNo);
 		postDao.delete(postNo);
 	}
 
@@ -158,15 +136,11 @@ public class BasicPostService implements PostService, Searchable, SitemapCreatab
 	public boolean isExist(int postNo, String manageYn) throws Exception {
 		// TODO Auto-generated method stub
 		int count = postDao.isExist(postNo, manageYn);
-		
+
 		if(count < 1) {
 			return false;
 		}
-		
-		if(count > 1) {
-			throw new DuplicatedKeyException(postNo + "번의 자료가 " + count + "개 중복 데이터가 존재합니다.");
-		}
-		
+
 		return true;
 	}
 
@@ -174,6 +148,29 @@ public class BasicPostService implements PostService, Searchable, SitemapCreatab
 	public int removeCategoryId(String categoryId) {
 		// TODO Auto-generated method stub
 		return postDao.removeCategoryId(categoryId);
+	}
+
+	private void addServiceFiles(Post post, Integer[] fileNos) {
+		if(fileNos != null) {
+			serviceFileService.addFiles("post", post.getPostNo(), fileNos, post.getPostWriteIp());
+		}
+
+		Set<Integer> useFilesNo = new HashSet<>();
+
+		List<Pattern> patterns = new ArrayList<>();
+
+		patterns.add(Pattern.compile("['|\"]/file/viewer/post/(\\d+?)['|\"]"));
+		patterns.add(Pattern.compile("['|\"]/file/download/post/(\\d+?)['|\"]"));
+
+		for(Pattern pattern : patterns) {
+			Matcher matcher = pattern.matcher(post.getPostContent());
+
+			while(matcher.find()) {
+				useFilesNo.add(Integer.parseInt(matcher.group(1)));
+			}
+		}
+
+		serviceFileService.syncFiles("post", post.getPostNo(), useFilesNo, post.getPostWriteIp());
 	}
 
 	@Override

@@ -105,7 +105,6 @@ public class PostController {
 		
 		return "post/view";
 	}
-	
 
 	@RequestMapping(value = "/search/{postNo}")
 	public String search(@PathVariable int postNo, Model model) {

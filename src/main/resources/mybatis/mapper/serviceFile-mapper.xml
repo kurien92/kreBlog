@@ -116,12 +116,15 @@
 					AND serviceName = #{serviceName}
 					AND serviceNo = #{serviceNo}
 				</when>
+				<when test="fileNos != null">
+					AND fileNo IN
+					<foreach collection="fileNos" item="fileNo" index="index" open="(" close=")" separator=",">
+						#{fileNo}
+					</foreach>
+				</when>
 				<otherwise>
-					<if test="fileNos != null">
-						AND fileNo IN
-						<foreach collection="fileNos" item="fileNo" index="index" open="(" close=")" separator=",">
-							#{fileNo}
-						</foreach>
+					<if test="serviceName != null">
+						AND serviceName = #{serviceName}
 					</if>
 				</otherwise>
 			</choose>

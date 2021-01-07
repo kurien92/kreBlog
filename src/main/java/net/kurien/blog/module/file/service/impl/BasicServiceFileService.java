@@ -123,6 +123,12 @@ public class BasicServiceFileService implements ServiceFileService {
 	}
 
 	@Override
+	public void removeFiles(String serviceName) {
+		// TODO Auto-generated method stub
+		serviceFileDao.deleteList(serviceName);
+	}
+
+	@Override
 	public void removeFiles(String serviceName, Integer serviceNo) {
 		// TODO Auto-generated method stub
 		serviceFileDao.deleteList(serviceName, serviceNo);

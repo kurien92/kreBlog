@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.kurien.blog.module.content.mapper.ContentMapper">
+	<resultMap id="resultMap" type="net.kurien.blog.module.content.entity.Content">
+		<id property="contentNo" column="contentNo" />
+		<result property="contentId" column="contentId" />
+		<result property="contentTitle" column="contentTitle" />
+		<result property="content" column="content"/>
+		<result property="contentView" column="contentView" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="contentWriteTime" column="contentWriteTime" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler"/>
+	</resultMap>
+	
+	<sql id="table">
+		kreContent
+	</sql>
+
+	<sql id="manageYn">
+		<if test='manageYn != "Y"'>
+		<![CDATA[
+       		AND contentView = 1
+       	]]>
+		</if>
+	</sql>
+	
+	<sql id="criteria">
+		<if test="criteria != null">
+			<if test="criteria.offset != null and criteria.rowCount != null">
+				LIMIT #{criteria.offset}, #{criteria.rowCount}
+			</if>
+		</if>
+	</sql>
+
+	<sql id="search">
+		<if test="criteria != null">
+			<if test="criteria.searchType != null and criteria.keyword != null">
+				<choose>
+					<when test="criteria.searchType eq 'title'">
+						contentTitle like CONCAT('%', #{criteria.keyword}, '%')
+					</when>
+					<when test="criteria.searchType eq 'content'">
+						content like CONCAT('%', #{criteria.keyword}, '%')
+					</when>
+				</choose>
+			</if>
+		</if>
+	</sql>
+    
+    <select id="selectList" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	<include refid="search" />
+			<include refid="manageYn" />
+        </where>
+       	ORDER BY
+       		contentId ASC
+		<include refid="criteria" />
+    </select>
+    
+    <select id="selectCount" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+		<where>
+			<include refid="manageYn" />
+		</where>
+    </select>
+    
+    <select id="selectOne" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	contentId = #{contentId}
+			<include refid="manageYn" />
+        </where>
+    </select>
+		
+    <insert id="insert" useGeneratedKeys="true" keyProperty="contentNo">
+        INSERT INTO
+        <include refid="table" /> (
+            contentNo,
+        	contentId,
+			contentTitle,
+			content,
+			<if test="contentView != null">contentView,</if>
+        	contentWriteTime
+        )
+        VALUES (
+            #{contentNo},
+        	#{contentId},
+			#{contentTitle},
+			#{content},
+        	<if test="contentView != null">#{contentView.value},</if>
+			#{contentWriteTime}
+		)
+    </insert>
+    
+    <update id="update">
+        UPDATE <include refid="table" />
+        <set>
+        	<if test="contentTitle != null">
+	        	contentTitle = #{contentTitle},
+        	</if>
+        	<if test="content != null">
+				content = #{content},
+        	</if>
+        	<if test="contentView != null">
+				contentView = #{contentView.value},
+        	</if>
+        	<if test="contentWriteTime != null">
+	       		<choose>
+	       			<when test="contentWriteTime.time == 0">
+						contentWriteTime = null,
+	       			</when>
+	       			<otherwise>
+						contentWriteTime = #{contentWriteTime},
+	       			</otherwise>
+	       		</choose>
+        	</if>
+       	</set>
+       	<where>
+			contentId = #{contentId}
+       	</where>
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM <include refid="table" />
+        <where>
+			contentId = #{contentId}
+        </where>
+    </delete>
+    
+    <delete id="deleteAll">
+        TRUNCATE <include refid="table" />
+    </delete>
+
+	<select id="search" resultMap="resultMap">
+		SELECT *
+		FROM <include refid="table" />
+		<where>
+			<foreach collection="searchColumns" item="searchColumn" open="(" close=")" separator=" OR ">
+				<foreach collection="searchQueries" item="searchQuery" open="(" close=")" separator=" AND ">
+					${searchColumn} like CONCAT('%', #{searchQuery}, '%')
+				</foreach>
+			</foreach>
+			<include refid="manageYn" />
+		</where>
+		ORDER BY
+		contentId ASC
+	</select>
+
+	<select id="isExist" resultType="Integer">
+		SELECT count(*)
+		FROM <include refid="table" />
+		<where>
+			contentId = #{contentId}
+
+			<include refid="manageYn" />
+		</where>
+	</select>
+</mapper>

@@ -15,33 +15,21 @@ import net.kurien.blog.vo.Token;
 
 public class TokenUtil {
 	public static String createToken(HttpServletRequest request, String tokenType, int expirationMillisecondTime) throws NoSuchAlgorithmException {
-		Map<String, Token> tokenMap = getTokenMap(request, tokenType);
-		
 		String tokenKey = getTokenString();
 		Date tokenExpirationTime = new Date(Calendar.getInstance().getTimeInMillis() + expirationMillisecondTime);
-		
-		Token token = new Token();
-		token.setKey(tokenKey);
-		token.setExpirationTime(tokenExpirationTime);
-		
-		tokenMap.put(tokenKey, token);
-		
+
+		setTokenMap(request, tokenType, tokenKey, tokenExpirationTime);
+
 		return tokenKey;
 	}
 	
 	public static boolean checkToken(HttpServletRequest request, String tokenType, String tokenKey) {
-		Map<String, Token> tokenMap = getTokenMap(request, tokenType);
-		
-		Token token = tokenMap.get(tokenKey);
-		
+		Token token = getTokenMap(request, tokenType, tokenKey);
+
 		if(token == null) {
 			return false;
 		}
-		
-		if(Calendar.getInstance().getTimeInMillis() > token.getExpirationTime().getTime()) {
-			return false;
-		}
-		
+
 		return true;
 	}
 	
@@ -61,22 +49,51 @@ public class TokenUtil {
 		
 		return sb.toString();
 	}
-	
-	private static Map<String, Token> getTokenMap(HttpServletRequest request, String tokenType) {
+
+	private static void setTokenMap(HttpServletRequest request, String tokenType, String tokenKey, Date tokenExpirationTime) {
 		tokenType = "token_" + tokenType;
-		
-		Map<String, Token> tokenMap = null;
-		
+
+		Map<String, Token> tokenMap = new HashMap<>();
+
 		HttpSession session = request.getSession();
 		Object tokenSession = session.getAttribute(tokenType);
-		
-		if(tokenSession == null) {
-			tokenMap = new HashMap<>();
-			session.setAttribute(tokenType, tokenMap);
-		} else {
-			tokenMap = (Map<String, Token>)tokenSession;
+
+		if(tokenSession != null) {
+			tokenMap = (Map) tokenSession;
 		}
-		
-		return tokenMap;
+
+		Token token = new Token();
+		token.setKey(tokenKey);
+		token.setExpirationTime(tokenExpirationTime);
+
+		tokenMap.put(tokenKey, token);
+
+		session.setAttribute(tokenType, tokenMap);
+	}
+	
+	private static Token getTokenMap(HttpServletRequest request, String tokenType, String tokenKey) {
+		tokenType = "token_" + tokenType;
+
+		Map<String, Token> tokenMap = null;
+
+		HttpSession session = request.getSession();
+		Object tokenSession = session.getAttribute(tokenType);
+
+		if(tokenSession == null) {
+			return null;
+		}
+
+		tokenMap = (Map<String, Token>)tokenSession;
+		Token token = tokenMap.get(tokenKey);
+
+		if(token == null) {
+			return null;
+		}
+
+		if(Calendar.getInstance().getTimeInMillis() > token.getExpirationTime().getTime()) {
+			return null;
+		}
+
+		return token;
 	}
 }

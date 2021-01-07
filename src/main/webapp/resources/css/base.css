@@ -128,6 +128,10 @@ ul.kre_btn_list_right > li:first-child {
 	font-size: 14px;
 }
 
+.kre_inp:read-only {
+	background-color: #ddd;
+}
+
 .kre_text {
 	width: 100%;
 	height: 130px;

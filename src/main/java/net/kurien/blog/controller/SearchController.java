@@ -2,6 +2,7 @@ package net.kurien.blog.controller;
 
 import net.kurien.blog.common.template.Template;
 import net.kurien.blog.exception.InvalidRequestException;
+import net.kurien.blog.module.content.service.ContentService;
 import net.kurien.blog.module.search.dto.SearchDTO;
 import net.kurien.blog.module.comment.service.CommentService;
 import net.kurien.blog.module.file.service.FileService;
@@ -24,6 +25,9 @@ import java.util.Map;
 @RequestMapping("/search")
 public class SearchController {
     @Inject
+    private ContentService contentService;
+
+    @Inject
     private PostService postService;
 
     @Inject
@@ -34,6 +38,7 @@ public class SearchController {
 
     /**
      * 블로그 내 컨텐츠를 검색한다.
+     *  - 컨텐츠(제목, 내용)
      *  - 포스트(제목, 내용)
      *  - 코멘트(작성자, 내용)
      *  - 파일(파일명, 파일설명)
@@ -53,10 +58,10 @@ public class SearchController {
         List<Searchable> searcher = new ArrayList<>();
         Map<String, SearchDTO> searchDtos = new HashMap<>();
 
+        searcher.add((Searchable)contentService);
         searcher.add((Searchable)postService);
         searcher.add((Searchable)commentService);
 //        searcher.add((Searchable)fileService);
-
 
         for(int i = 0; i < searcher.size(); i++) {
             SearchDTO searchDto = searcher.get(i).search(queries);

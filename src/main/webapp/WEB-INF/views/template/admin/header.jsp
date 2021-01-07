@@ -24,12 +24,21 @@
 							<li>
 								<a href="/admin"><span class="material-icons">arrow_right</span>Admin Home</a>
 							</li>
-							
+
 							<li>
 								<a href="/admin/post/list"><span class="material-icons">arrow_right</span>Post</a>
 								<ul>
-									<li> 
+									<li>
 										<a href="/admin/post/write"><span class="material-icons">arrow_right</span>Write</a>
+									</li>
+								</ul>
+							</li>
+
+							<li>
+								<a href="/admin/content/list"><span class="material-icons">arrow_right</span>Content</a>
+								<ul>
+									<li>
+										<a href="/admin/content/write"><span class="material-icons">arrow_right</span>Write</a>
 									</li>
 								</ul>
 							</li>

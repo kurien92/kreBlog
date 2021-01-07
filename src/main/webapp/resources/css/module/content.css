@@ -1,0 +1,185 @@
+@charset "UTF-8";
+
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query since this is the default in Bootstrap */
+#content_view .kre_content .kre_content_title {
+    margin: 0;
+    padding: 0 0 10px 0;
+	color: #033e6a;
+	font-size: 28px;
+	line-height: 1.3em;
+}
+
+#content_view .kre_content .kre_content_info {
+	font-size: 18px;
+	padding: 20px 10px;
+	line-height: 1.3em;
+}
+
+#content_view .kre_content .kre_content_info > ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#content_view .kre_content .kre_content_info > ul > li {
+	margin-top: 6px;
+}
+
+#content_view .kre_content .kre_content_info > ul > li:first-child {
+	margin-top: 0;
+}
+
+#content_view .kre_content .kre_content_info .kre_btn_list {
+	margin-top: 14px;
+}
+
+#content_view .kre_content .kre_content_body {
+	min-height: 200px;
+    padding: 20px 10px;
+	box-sizing: border-box;
+	border-top: 2px solid #033e6a;
+	border-bottom: 2px solid #033e6a;
+	line-height: 1.8em;
+	word-break: break-all;
+	font-size: 18px;
+}
+
+#content_view .kre_content .kre_content_body p {
+	margin: 24px 0;
+}
+
+#content_view .kre_content .kre_content_body img {
+	max-width: 100%;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+#content_view .kre_content .kre_content_body a {
+	font-weight: bold;
+}
+
+#content_view .kre_content .kre_content_body a:before {
+    font-family: "Material Icons";
+	content: "\e157";
+	margin-right: 2px;
+	vertical-align: bottom;
+}
+
+#content_view .kre_content .kre_content_body a[target='_blank']:before {
+	content: "\e89e";
+}
+
+#content_view .kre_content .kre_content_body code {
+	font-family: 'Nanum Gothic', sans-serif;
+	display: block;
+	padding: 10px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+#content_view .kre_content .kre_content_body #kre_content_ad1 {
+    margin-bottom: 20px;
+	background-color: transparent!important;
+}
+
+#content_view .kre_content .kre_content_footer {
+	padding: 20px 0;
+}
+
+#admin_content_list .content_item .contentViewLink {
+	font-weight: bold;
+}
+
+#admin_content_list .content_item {
+	margin-top: 20px;
+}
+
+#admin_content_list .content_item:first-child {
+	margin-top: 0;
+}
+
+#admin_content_list .content_item > div {
+	margin-top: 6px;
+}
+
+#admin_content_list .content_item > div:first-child {
+	margin-top: 0;
+}
+
+#admin_content_write .kre_writing > div {
+	margin-top: 10px;
+}
+
+#admin_content_write .kre_btn_list {
+	margin-top: 10px;
+}
+
+#admin_content_write .kre_writing #contentTitle {
+	width: 100%;
+	height: auto;
+	border: none;
+	border-bottom: 2px solid #033e6a;
+	color: #033e6a;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+#admin_content_write #contentAutosaveListBtn {
+	margin-left: 6px;
+}
+
+#admin_content_write #contentAutosaveList {
+	display: none;
+}
+
+#admin_content_write #contentAutosaveList li {
+	margin-top: 6px;
+}
+
+#admin_content_write #contentAutosaveList li:first-child {
+	margin-top: 0;
+}
+
+#admin_content_write .autosaveListRemoveBtn {
+	margin-left: 6px;
+}
+
+/* fullImage */
+body.hide {
+	overflow: hidden;
+}
+
+.fullImageWrap {
+	display: block;
+	cursor: pointer;
+}
+
+.fullImageWrap.fullImageWrapActive {
+	z-index: 9001;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+.fullImageWrap img {
+	vertical-align: middle;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}
