@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.kurien.blog.module.category.service.CategoryService;
+import net.kurien.blog.module.content.service.ContentService;
 import net.kurien.blog.module.sitemap.SitemapCreatable;
 import net.kurien.blog.module.sitemap.SitemapDTO;
 import org.jdom2.*;
@@ -34,7 +35,10 @@ import net.kurien.blog.module.post.service.PostService;
 public class HomeController {
 	@Inject
 	private Template template;
-	
+
+	@Inject
+	private ContentService contentService;
+
 	@Inject
 	private PostService postService;
 
@@ -118,8 +122,9 @@ public class HomeController {
 
 		String siteUrl = "https://www.kurien.net";
 
-		sitemapCreatables.add((SitemapCreatable)postService);
-		sitemapCreatables.add((SitemapCreatable)categoryService);
+		sitemapCreatables.add((SitemapCreatable) contentService);
+		sitemapCreatables.add((SitemapCreatable) postService);
+		sitemapCreatables.add((SitemapCreatable) categoryService);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ENGLISH);
 

@@ -98,13 +98,22 @@ public class BasicServiceFileDao implements ServiceFileDao {
 
 		sqlSession.delete(mapper + ".deleteList", param);
 	}
-	
+
 	@Override
 	public void deleteList(String serviceName, Integer serviceNo) {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<>();
 		param.put("serviceName", serviceName);
 		param.put("serviceNo", serviceNo);
+
+		sqlSession.delete(mapper + ".deleteList", param);
+	}
+
+	@Override
+	public void deleteList(String serviceName) {
+		// TODO Auto-generated method stub
+		Map<String, Object> param = new HashMap<>();
+		param.put("serviceName", serviceName);
 
 		sqlSession.delete(mapper + ".deleteList", param);
 	}
