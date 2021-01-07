@@ -258,7 +258,7 @@ public class ContentAdminController {
 		shortUrlService.set(shortUrl);
 
 		ServiceShortUrl serviceShortUrl = new ServiceShortUrl();
-		serviceShortUrl.setServiceName("post");
+		serviceShortUrl.setServiceName("content");
 		serviceShortUrl.setServiceNo(content.getContentNo());
 		serviceShortUrl.setShortUrlNo(shortUrl.getShortUrlNo());
 		serviceShortUrl.setCreateIp(RequestUtil.getRemoteAddr(request));
