@@ -53,9 +53,6 @@ public class AdminPostServiceTest {
 		
 		assertThat(postService.getCount("N"), is(0));
 
-		Timestamp today = new Timestamp(Calendar.getInstance().getTimeInMillis());
-		today.setNanos(0);
-
 		hidePost = new Post();
 		
 		hidePost.setPostNo(null);
@@ -68,7 +65,6 @@ public class AdminPostServiceTest {
 		hidePost.setPostView(PostViewStatus.FALSE);
 		hidePost.setPostPublish(PostPublishStatus.FALSE);
 		hidePost.setPostWriteIp("106.249.238.106");
-		hidePost.setPostWriteTime(today);
 		
 		showPost = new Post();
 		
@@ -82,7 +78,6 @@ public class AdminPostServiceTest {
 		showPost.setPostView(PostViewStatus.TRUE);
 		showPost.setPostPublish(PostPublishStatus.FALSE);
 		showPost.setPostWriteIp("106.249.238.106");
-		showPost.setPostWriteTime(today);
 
 
 		Calendar reservationCalendar = Calendar.getInstance();
@@ -103,7 +98,6 @@ public class AdminPostServiceTest {
 		reservePastPost.setPostView(PostViewStatus.TRUE);
 		reservePastPost.setPostPublish(PostPublishStatus.TRUE);
 		reservePastPost.setPostWriteIp("106.249.238.106");
-		reservePastPost.setPostWriteTime(today);
 		
 		
 		reservationCalendar = Calendar.getInstance();
@@ -125,7 +119,6 @@ public class AdminPostServiceTest {
 		reserveFuturePost.setPostView(PostViewStatus.TRUE);
 		reserveFuturePost.setPostPublish(PostPublishStatus.TRUE);
 		reserveFuturePost.setPostWriteIp("106.249.238.106");
-		reserveFuturePost.setPostWriteTime(today);
 		
 		reserveWithoutReserveTimePost = new Post();
 		
@@ -139,7 +132,6 @@ public class AdminPostServiceTest {
 		reserveWithoutReserveTimePost.setPostView(PostViewStatus.TRUE);
 		reserveWithoutReserveTimePost.setPostPublish(PostPublishStatus.TRUE);
 		reserveWithoutReserveTimePost.setPostWriteIp("106.249.238.106");
-		reserveWithoutReserveTimePost.setPostWriteTime(today);
 
 		serviceFileService.removeAll();
 		

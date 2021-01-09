@@ -66,6 +66,7 @@ public class BasicContentDaoTest {
     public void update() {
         Content content = new Content();
 
+        content.setContentNo(content1.getContentNo());
         content.setContentId(content1.getContentId());
         content.setContentTitle("contentDaoTitle");
         content.setContent("contentDaoContent");

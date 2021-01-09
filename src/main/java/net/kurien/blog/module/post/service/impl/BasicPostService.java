@@ -11,6 +11,7 @@ import net.kurien.blog.module.search.dto.SearchDTO;
 import net.kurien.blog.module.search.dto.Searchable;
 import net.kurien.blog.module.sitemap.SitemapCreatable;
 import net.kurien.blog.module.sitemap.SitemapDTO;
+import net.kurien.blog.util.TimeUtil;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.exception.DuplicatedKeyException;
@@ -87,7 +88,9 @@ public class BasicPostService implements PostService, Searchable, SitemapCreatab
 				throw new DuplicatedKeyException(post.getPostNo() + "번 포스트가 이미 존재합니다.");
 			}
 		}
-		
+
+		post.setPostWriteTime(TimeUtil.currentTime());
+
 		postDao.insert(post);
 
 		addServiceFiles(post, fileNos);

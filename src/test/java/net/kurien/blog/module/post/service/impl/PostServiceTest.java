@@ -179,9 +179,6 @@ public class PostServiceTest {
 	}
 	
 	public void writePost() {
-		Timestamp today = new Timestamp(Calendar.getInstance().getTimeInMillis());
-		today.setNanos(0);
-		
 		post1 = new Post();
 		
 		post1.setPostNo(null);
@@ -193,7 +190,6 @@ public class PostServiceTest {
 		post1.setPostView(PostViewStatus.TRUE);
 		post1.setPostPublish(PostPublishStatus.FALSE);
 		post1.setPostWriteIp("192.168.0.1");
-		post1.setPostWriteTime(today);
 		
 		post2 = new Post();
 		
@@ -206,7 +202,6 @@ public class PostServiceTest {
 		post2.setPostView(PostViewStatus.TRUE);
 		post2.setPostPublish(PostPublishStatus.FALSE);
 		post2.setPostWriteIp("192.168.0.1");
-		post2.setPostWriteTime(today);
 		
 		post3 = new Post();
 		
@@ -219,6 +214,5 @@ public class PostServiceTest {
 		post3.setPostView(PostViewStatus.TRUE);
 		post3.setPostPublish(PostPublishStatus.FALSE);
 		post3.setPostWriteIp("192.168.0.1");
-		post3.setPostWriteTime(today);
 	}
 }

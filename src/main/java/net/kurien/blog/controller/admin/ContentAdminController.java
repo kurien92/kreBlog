@@ -249,7 +249,7 @@ public class ContentAdminController {
 
 	private void createShortUrl(HttpServletRequest request, Content content) {
 		// TODO Auto-generated method stub
-		String url = "https://" + request.getServerName() + request.getContextPath() + "/content/view/" + content.getContentNo();
+		String url = "https://" + request.getServerName() + request.getContextPath() + "/content/" + content.getContentId();
 
 		ShortUrl shortUrl = new ShortUrl();
 		shortUrl.setRealUrl(url);
