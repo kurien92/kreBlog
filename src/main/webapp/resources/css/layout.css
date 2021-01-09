@@ -180,6 +180,29 @@
 	background-color: #999!important;
 }
 
+.kre_footer_btn {
+	margin-top: 10px;
+	font-size: 16px;
+}
+#kre_footer {
+	background-color: #033e6a;
+	word-break: break-all;
+}
+
+#kre_footer_mobile {
+	padding: 14px;
+	background-color: #033e6a;
+	word-break: break-all;
+}
+
+#kre_footer_mobile .copyright {
+	color: #fff;
+}
+#kre_footer .kre_footer_btn a,
+#kre_footer_mobile .kre_footer_btn a {
+	color: #ffc46c;
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
 	
@@ -303,6 +326,10 @@
 	#kre_footer {
 		display: block;
 		padding: 10px;
+	}
+
+	#kre_footer_mobile {
+		display: none;
 	}
 }
 

@@ -1,9 +1,12 @@
 @charset "UTF-8";
 
-@import url('font.css');
-
 * {
 	outline-color: #f90;
+}
+
+body {
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size: 18px;
 }
 
 ::selection {
@@ -39,6 +42,21 @@ input[type="checkbox"] {
 
 ins {
 	vertical-align: middle;
+}
+
+.material-icons {
+	vertical-align: middle;
+
+	/* Support for all WebKit browsers. */
+	-webkit-font-smoothing: antialiased;
+	/* Support for Safari and Chrome. */
+	text-rendering: optimizeLegibility;
+
+	/* Support for Firefox. */
+	-moz-osx-font-smoothing: grayscale;
+
+	/* Support for IE. */
+	font-feature-settings: 'liga';
 }
 
 .hidden {

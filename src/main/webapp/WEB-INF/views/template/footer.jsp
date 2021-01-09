@@ -1,9 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 		</div>
 	</div><!-- #kre_content -->
 </main><!-- #kre_main -->
+
+<footer id="kre_footer_mobile">
+	<div class="copyright">Copyright&copy; 2020 Kurien All rights reserved.</div>
+	<div class="kre_footer_btn">
+		<a href="${contextPath}/content/privacyPolicy">Privacy Policy</a>
+	</div>
+</footer>
 
 <script src="${contextPath}/js/kreMainScroll.js"></script>
 

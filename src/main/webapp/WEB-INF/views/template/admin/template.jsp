@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="request"/>
@@ -36,6 +36,15 @@
 	<link rel="stylesheet" href="${contextPath}/css/layout.css">
 	<link rel="stylesheet" href="${contextPath}/css/plugin/slimscroll.css" />
 	${template.css}
+
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+	<script>
+		WebFont.load({
+			google: {
+				families: ['Nanum Gothic', 'Material Icons'] // Material Icons 폰트 로드
+			}
+		});
+	</script>
 
 	<!--[if lt IE 9]>
 	<script src="${contextPath}/js/plugin/html5shiv.min.js"></script>

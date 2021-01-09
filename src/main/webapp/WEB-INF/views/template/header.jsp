@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <aside id="kre_aside" class="kre_scrollbar">
@@ -97,9 +97,12 @@ search
 					</ul>
 				</div>
 			</div>
-			
+
 			<footer id="kre_footer" class="aside_item">
-				Copyright&copy; 2020 Kurien All rights reserved.
+				<div class="copyright">Copyright&copy; 2020 Kurien All rights reserved.</div>
+				<div class="kre_footer_btn">
+					<a href="${contextPath}/content/privacyPolicy">Privacy Policy</a>
+				</div>
 			</footer>
 		</div>
 	</div>
