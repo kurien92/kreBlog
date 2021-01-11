@@ -7,5 +7,4 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<context:property-placeholder location="classpath:/properties/*.properties" />
-
 </beans>

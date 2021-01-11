@@ -3,4 +3,4 @@ Disallow: /admin
 Disallow: /auth
 Disallow: /s
 Disallow: /search
-Allow:/
+Allow: /

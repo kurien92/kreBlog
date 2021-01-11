@@ -16,11 +16,9 @@
 	<resources mapping="/css/**" location="/resources/css/" cache-period="300" />
 	<resources mapping="/js/**" location="/resources/js/" cache-period="300" />
 	<resources mapping="/img/**" location="/resources/img/" cache-period="1800" />
-	<resources mapping="/font/**" location="/resources/font/" cache-period="1296000" />
-	<resources mapping="/.well-known/**" location="/resources/checkFiles/" />
 	<resources mapping="/robots.txt" location="/resources/main/robots.txt" />
 	<resources mapping="/ads.txt" location="/resources/main/ads.txt" />
-	
+
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -28,7 +26,7 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="net.kurien.blog" />
-	
+
     <!-- 인터셉터 객체 생성 -->
 	<beans:bean id="TemplateInterceptor" class="net.kurien.blog.interceptor.TemplateInterceptor" />
 	
@@ -40,6 +38,7 @@
 			<exclude-mapping path="/visitor/**" />
 			<exclude-mapping path="/autosave/**" />
 			<exclude-mapping path="/admin/post/deleteFile/*" />
+			<exclude-mapping path="/admin/content/deleteFile/*" />
 			<exclude-mapping path="/rss" />
 			<exclude-mapping path="/sitemap" />
 
