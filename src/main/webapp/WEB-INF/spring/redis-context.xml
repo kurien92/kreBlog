@@ -23,13 +23,13 @@
     </bean>
 
     <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration"
-          p:host-name="redis"
-          p:port="6379"
+          p:host-name="${redis.hostName}"
+          p:port="${redis.port}"
           p:password-ref="redisPassword"
     />
 
     <bean id="redisPassword" class="org.springframework.data.redis.connection.RedisPassword">
-        <constructor-arg value="kre1234"/>
+        <constructor-arg value="${redis.password}"/>
     </bean>
 
     <util:constant id="configureRedisAction" static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>
