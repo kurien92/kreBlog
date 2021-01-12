@@ -73,6 +73,13 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.jasypt/jasypt -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring4</artifactId>
+			<version>1.9.3</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/com.blueconic/browscap-java -->
 		<dependency>
 			<groupId>com.blueconic</groupId>

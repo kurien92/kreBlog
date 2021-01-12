@@ -27,7 +27,12 @@ public class StartupApplicationListener implements ApplicationListener<ContextRe
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// TODO Auto-generated method stub
-		
+		// 환경변수 확인
+		if(System.getenv("KRE_ENC_KEY") == null) {
+			logger.error("환경변수 'KRE_ENC_KEY'가 존재하지 않습니다.");
+			throw new RuntimeException("Application start exception");
+		}
+
 		// 서버 시간은 한국 시간으로 설정한다.
 		// 도커에서 Tomcat을 돌리는 경우 실제서버 설정과 관계 없이 UTC 표준시간으로 설정됨.
 		logger.info("user Timezone setup - Asia/Seoul");
@@ -54,16 +59,12 @@ public class StartupApplicationListener implements ApplicationListener<ContextRe
 			iPAddressValidation.checkIPv4Setup();
 		} catch (NotSetupIPv4Exception e) {
 			// TODO Auto-generated catch block
-			logger.error("" + e.getMessage());
+			logger.error(e.getMessage().toString());
+			throw new RuntimeException("Application start exception");
 		} catch (NotUseIPv4Exception e) {
 			// TODO Auto-generated catch block
-			logger.error("" + e.getMessage());
-			try {
-				throw new Exception(e.getMessage());
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			logger.error(e.getMessage().toString());
+			throw new RuntimeException("Application start exception");
 		}
 
 		logger.info("Check setup done");
