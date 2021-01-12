@@ -4,10 +4,9 @@ import java.util.*;
 
 import javax.inject.Inject;
 
-import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.search.dto.SearchDTO;
 import net.kurien.blog.module.search.dto.Searchable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import net.kurien.blog.util.EncryptionUtil;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.exception.InvalidRequestException;
@@ -112,11 +111,9 @@ public class BasicCommentService implements CommentService, Searchable {
 	 * @return
 	 */
 	public boolean checkPassword(int commentNo, String password) {
-		BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder();
-
 		Comment comment = commentDao.selectOne(commentNo);
 
-		return bcryptPasswordEncoder.matches(password, comment.getPassword());
+		return EncryptionUtil.checkPassword(password, comment.getPassword());
 	}
 	
 	/**
@@ -126,10 +123,7 @@ public class BasicCommentService implements CommentService, Searchable {
 	 * @return
 	 */
 	private String hashPassword(String password) {
-		BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder();
-		String encodedPassword = bcryptPasswordEncoder.encode(password);
-		
-		return encodedPassword;
+		return EncryptionUtil.hashPassword(password);
 	}
 	
 	private int getLastOrder(int parentCommentNo, int commentDepth) {

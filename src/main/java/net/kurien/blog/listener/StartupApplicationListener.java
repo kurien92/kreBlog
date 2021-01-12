@@ -1,9 +1,7 @@
 package net.kurien.blog.listener;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 
 import javax.inject.Inject;
 
@@ -27,10 +25,19 @@ public class StartupApplicationListener implements ApplicationListener<ContextRe
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// TODO Auto-generated method stub
+
+		List<String> envKeyList = new ArrayList<>();
+
+		envKeyList.add("KRE_ENC_KEY");
+		envKeyList.add("KRE_AES_KEY");
+		envKeyList.add("KRE_AES_IV");
+
 		// 환경변수 확인
-		if(System.getenv("KRE_ENC_KEY") == null) {
-			logger.error("환경변수 'KRE_ENC_KEY'가 존재하지 않습니다.");
-			throw new RuntimeException("Application start exception");
+		for(String envKey : envKeyList) {
+			if(System.getenv(envKey) == null) {
+				logger.error("환경변수 '" + envKey + "'가 존재하지 않습니다.");
+				throw new RuntimeException("Application start exception");
+			}
 		}
 
 		// 서버 시간은 한국 시간으로 설정한다.
