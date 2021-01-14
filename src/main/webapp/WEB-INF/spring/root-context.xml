@@ -5,15 +5,17 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="encryptorConfig" class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
-		<property name="algorithm" value="PBEWithMD5AndDES" />
-    <!-- jasypt의 encrypt.bat 혹은 encrypt.sh에 입력한 password 값을 입력한다.-->
-    <!-- <property name="password" value="encKey"/>-->
-    <!-- 혹은 환경변수에 해당 password 값을 등록하고, 환경변수명을 value에 추가한다. -->
+		<property name="algorithm" value="PBEWithHmacSHA512AndAES_256" />
+		<!-- jasypt의 encrypt.bat 혹은 encrypt.sh에 입력한 password 값을 입력한다.-->
+		<!-- <property name="password" value="customPassword"/>-->
+		<!-- 혹은 환경변수에 해당 password 값을 등록하고, 환경변수명을 value에 추가한다. -->
 		<property name="passwordEnvName" value="KRE_ENC_KEY" />
+		<property name="ivGeneratorClassName" value="org.jasypt.iv.RandomIvGenerator" />
+		<property name="keyObtentionIterations" value="2000000" />
 	</bean>
 
 	<bean id="encryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
-		<property name="config" ref="encryptorConfig"></property>
+		<property name="config" ref="encryptorConfig" />
 	</bean>
 
 	<bean id="propertyConfigurer" class="org.jasypt.spring4.properties.EncryptablePropertyPlaceholderConfigurer">
