@@ -6,23 +6,23 @@ import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.module.post.entity.Post;
 
 public interface PostService {
-	public List<Post> getList(String manageYn);
-	public List<Post> getList(String manageYn, SearchCriteria criteria);
+	List<Post> getList(String manageYn);
+	List<Post> getList(String manageYn, SearchCriteria criteria);
 	
-	public Post get(int postNo, String manageYn) throws Exception;
+	Post get(int postNo, String manageYn) throws Exception;
 	
-	public List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria);
+	List<Post> getListByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria);
 	
-	public int getCount(String manageYn);
-	public int getCountByCategoryId(String categoryId, String manageYn);
-	public int getCountByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria);
+	int getCount(String manageYn);
+	int getCountByCategoryId(String categoryId, String manageYn);
+	int getCountByCategoryIds(List<String> categoryIds, String manageYn, SearchCriteria criteria);
 
-	public void write(Post post, Integer[] fileNos) throws Exception;
-	public void modify(Post post, Integer[] fileNos) throws Exception;
-	public void delete(int postNo);
-	public void deleteList(List<Integer> postNos) throws Exception;
-	public void deleteAll();
-	public int removeCategoryId(String categoryId) throws Exception;
+	void write(Post post, Integer[] fileNos) throws Exception;
+	void modify(Post post, Integer[] fileNos) throws Exception;
+	void delete(int postNo);
+	void deleteList(List<Integer> postNos) throws Exception;
+	void deleteAll();
+	int removeCategoryId(String categoryId) throws Exception;
 	
-	public boolean isExist(int postNo, String manageYn) throws Exception;
+	boolean isExist(int postNo, String manageYn) throws Exception;
 }

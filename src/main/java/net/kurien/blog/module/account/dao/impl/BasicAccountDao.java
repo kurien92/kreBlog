@@ -1,0 +1,68 @@
+package net.kurien.blog.module.account.dao.impl;
+
+import net.kurien.blog.domain.SearchCriteria;
+import net.kurien.blog.module.account.dao.AccountDao;
+import net.kurien.blog.module.account.entity.Account;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public class BasicAccountDao implements AccountDao {
+    @Inject
+    private SqlSession sqlSession;
+
+    private final static String mapper = "net.kurien.blog.module.account.mapper.AccountMapper";
+
+    @Override
+    public List<Account> selectList(SearchCriteria criteria) {
+        return sqlSession.selectList(mapper + ".selectList", criteria);
+    }
+
+    @Override
+    public Account select(String accountId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("accountId", accountId);
+        return sqlSession.selectOne(mapper + ".selectOne", param);
+    }
+
+    @Override
+    public Account select(Integer accountNo) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("accountNo", accountNo);
+        return sqlSession.selectOne(mapper + ".selectOne", param);
+    }
+
+    @Override
+    public void insert(Account account) {
+        sqlSession.insert(mapper + ".insert", account);
+    }
+
+    @Override
+    public void update(Account account) {
+        sqlSession.update(mapper + ".update", account);
+    }
+
+    @Override
+    public void delete(String accountId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("accountId", accountId);
+        sqlSession.delete(mapper + ".delete", param);
+    }
+
+    @Override
+    public void delete(Integer accountNo) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("accountNo", accountNo);
+        sqlSession.delete(mapper + ".delete", param);
+    }
+
+    @Override
+    public void deleteAll() {
+        sqlSession.insert(mapper + ".deleteAll");
+    }
+}

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.kurien.blog.module.account.mapper.AccountMapper">
+	<resultMap id="resultMap" type="net.kurien.blog.module.account.entity.Account">
+		<id property="accountNo" column="accountNo" />
+		<result property="accountId" column="accountId" />
+		<result property="accountPassword" column="accountPassword" />
+		<result property="accountEmail" column="accountEmail" />
+		<result property="accountNick" column="accountNick" />
+		<result property="accountBlock" column="accountBlock" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="accountSignUpDate" column="accountSignUpDate" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler" />
+		<result property="accountSignUpIp" column="accountSignUpIp" />
+		<result property="accountCertYn" column="accountCertYn" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="accountCertDate" column="accountCertDate" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler" />
+		<result property="accountCertKey" column="accountCertKey" />
+	</resultMap>
+	
+	<sql id="table">
+		kreAccount
+	</sql>
+	
+	<sql id="criteria">
+		<if test="criteria != null">
+			<if test="criteria.offset != null and criteria.rowCount != null">
+				LIMIT #{criteria.offset}, #{criteria.rowCount}
+			</if>
+		</if>
+	</sql>
+
+	<sql id="search">
+		<if test="criteria != null">
+			<if test="criteria.searchType != null and criteria.keyword != null">
+				<choose>
+					<when test="criteria.searchType eq 'accountId'">
+						accountId like CONCAT('%', #{criteria.keyword}, '%')
+					</when>
+					<when test="criteria.searchType eq 'accountNick'">
+						accountNick like CONCAT('%', #{criteria.keyword}, '%')
+					</when>
+					<when test="criteria.searchType eq 'accountEmail'">
+						accountEmail like CONCAT('%', #{criteria.keyword}, '%')
+					</when>
+				</choose>
+			</if>
+		</if>
+	</sql>
+    
+    <select id="selectList" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+        	<include refid="search" />
+        </where>
+       	ORDER BY
+       		accountNo DESC
+			<include refid="criteria" />
+    </select>
+    
+    <select id="selectCount" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+    </select>
+
+    <select id="selectOne" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+			<choose>
+				<when test="accountNo != null">
+					AND accountNo = #{accountNo}
+				</when>
+				<otherwise>
+					AND accountId = #{accountId}
+				</otherwise>
+			</choose>
+        </where>
+    </select>
+		
+    <insert id="insert" useGeneratedKeys="true" keyProperty="accountNo">
+        INSERT INTO
+        <include refid="table" /> (
+			accountNo,
+        	accountId,
+			accountPassword,
+			accountEmail,
+			accountNick,
+			<if test="accountBlock != null">accountBlock,</if>
+			accountSignUpDate,
+			accountSignUpIp,
+			<if test="accountCertYn != null">accountCertYn,</if>
+			accountCertDate,
+			accountCertKey
+        )
+        VALUES (
+        	#{accountNo},
+        	#{accountId},
+        	#{accountPassword},
+			#{accountEmail},
+			#{accountNick},
+        	<if test="accountBlock != null">#{accountBlock.value},</if>
+			#{accountSignUpDate},
+			#{accountSignUpIp},
+        	<if test="accountCertYn != null">#{accountCertYn.value},</if>
+			#{accountCertDate},
+			#{accountCertKey}
+		)
+    </insert>
+    
+    <update id="update">
+        UPDATE <include refid="table" />
+        <set>
+        	<if test="accountPassword != null">
+				accountPassword = #{accountPassword},
+        	</if>
+        	<if test="accountEmail != null">
+				accountEmail = #{accountEmail},
+        	</if>
+        	<if test="accountNick != null">
+				accountNick = #{accountNick},
+        	</if>
+        	<if test="accountBlock != null">
+				accountBlock = #{accountBlock.value},
+        	</if>
+        	<if test="accountSignUpDate != null">
+				accountSignUpDate = #{accountSignUpDate},
+        	</if>
+			<if test="accountSignUpDate != null">
+				<choose>
+					<when test="accountSignUpDate.time == 0">
+						accountSignUpDate = null,
+					</when>
+					<otherwise>
+						accountSignUpDate = #{accountSignUpDate},
+					</otherwise>
+				</choose>
+			</if>
+        	<if test="accountSignUpIp != null">
+				accountSignUpIp = #{accountSignUpIp},
+        	</if>
+			<if test="accountCertYn != null">
+				accountCertYn = #{accountCertYn.value},
+			</if>
+			<if test="accountCertDate != null">
+				<choose>
+					<when test="accountCertDate.time == 0">
+						accountCertDate = null,
+					</when>
+					<otherwise>
+						accountCertDate = #{accountCertDate},
+					</otherwise>
+				</choose>
+			</if>
+			<if test="accountCertKey != null">
+				accountCertKey = #{accountCertKey},
+			</if>
+       	</set>
+       	
+       	<where>
+			<choose>
+				<when test="accountNo != null">
+					AND accountNo = #{accountNo}
+				</when>
+				<otherwise>
+					AND accountId = #{accountId}
+				</otherwise>
+			</choose>
+       	</where>
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM <include refid="table" />
+        <where>
+			<choose>
+				<when test="accountNo != null">
+					AND accountNo = #{accountNo}
+				</when>
+				<otherwise>
+					AND accountId = #{accountId}
+				</otherwise>
+			</choose>
+        </where>
+    </delete>
+    
+    <delete id="deleteAll">
+        TRUNCATE <include refid="table" />
+    </delete>
+    
+    <select id="isExist" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+        <where>
+			<choose>
+				<when test="accountNo != null">
+					AND accountNo = #{accountNo}
+				</when>
+				<otherwise>
+					AND accountId = #{accountId}
+				</otherwise>
+			</choose>
+        </where>
+    </select>
+
+	<select id="search" resultMap="resultMap">
+		SELECT *
+		FROM <include refid="table" />
+		<where>
+			<foreach collection="searchColumns" item="searchColumn" open="(" close=")" separator=" OR ">
+				<foreach collection="searchQueries" item="searchQuery" open="(" close=")" separator=" AND ">
+					${searchColumn} like CONCAT('%', #{searchQuery}, '%')
+				</foreach>
+			</foreach>
+		</where>
+		ORDER BY
+		accountNo DESC
+	</select>
+</mapper>
