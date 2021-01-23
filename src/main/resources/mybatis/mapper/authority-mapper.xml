@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.kurien.blog.module.authority.mapper.AuthorityMapper">
+	<resultMap id="resultMap" type="net.kurien.blog.module.authority.entity.Authority">
+		<id property="accountId" column="accountId" />
+		<id property="authorityName" column="authorityName" />
+	</resultMap>
+	
+	<sql id="table">
+		kreAuthority
+	</sql>
+    
+    <select id="selectCount" resultType="Integer">
+        SELECT count(*)
+        FROM <include refid="table" />
+    </select>
+
+    <select id="selectList" resultMap="resultMap">
+        SELECT *
+        FROM <include refid="table" />
+        <where>
+             accountId = #{accountId}
+        </where>
+    </select>
+		
+    <insert id="insert" useGeneratedKeys="true" keyProperty="accountNo">
+        INSERT INTO
+        <include refid="table" /> (
+        	accountId,
+			authorityName
+        )
+        VALUES (
+        	#{accountId},
+        	#{authorityName}
+		)
+    </insert>
+    
+    <delete id="delete">
+        DELETE FROM <include refid="table" />
+        <where>
+			AND accountId = #{accountId}
+			AND authorityName = #{authorityName}
+        </where>
+    </delete>
+    
+    <delete id="deleteAll">
+        TRUNCATE <include refid="table" />
+    </delete>
+</mapper>
