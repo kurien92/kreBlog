@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class SearchDTO {
+public class SearchDto {
     private String title;
     private List<Map<String, Object>> contents;
 }

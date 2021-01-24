@@ -2,8 +2,7 @@ package net.kurien.blog.controller.admin;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +15,12 @@ import net.kurien.blog.module.comment.service.CommentService;
 @Controller 
 @RequestMapping("/admin/comment")
 public class CommentAdminController {
-	@Inject
-	private CommentService commentService;
+	private final CommentService commentService;
+
+	@Autowired
+	public CommentAdminController(CommentService commentService) {
+		this.commentService = commentService;
+	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model) {

@@ -3,11 +3,9 @@ package net.kurien.blog.module.category.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.sitemap.SitemapCreatable;
-import net.kurien.blog.module.sitemap.SitemapDTO;
+import net.kurien.blog.module.sitemap.SitemapDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.module.category.dao.CategoryDao;
@@ -17,11 +15,14 @@ import net.kurien.blog.module.post.service.PostService;
 
 @Service
 public class CategoryServiceBasic implements CategoryService, SitemapCreatable {
-	@Inject
-	private CategoryDao categoryDao;
+	private final CategoryDao categoryDao;
+	private final PostService postService;
 
-	@Inject
-	private PostService postService;
+	@Autowired
+	public CategoryServiceBasic(CategoryDao categoryDao, PostService postService) {
+		this.categoryDao = categoryDao;
+		this.postService = postService;
+	}
 
 	public List<Category> getList() {
 		return categoryDao.selectList();
@@ -140,13 +141,13 @@ public class CategoryServiceBasic implements CategoryService, SitemapCreatable {
 	}
 
 	@Override
-	public List<SitemapDTO> sitemap(String siteUrl) {
-		List<SitemapDTO> sitemapDtos = new ArrayList<>();
+	public List<SitemapDto> sitemap(String siteUrl) {
+		List<SitemapDto> sitemapDtos = new ArrayList<>();
 
 		List<Category> categories = categoryDao.selectList();
 
 		for(Category category : categories) {
-			SitemapDTO sitemapDto = new SitemapDTO();
+			SitemapDto sitemapDto = new SitemapDto();
 
 			sitemapDto.setLoc(siteUrl + "/category/" + category.getCategoryId());
 			sitemapDto.setLastmod(null);

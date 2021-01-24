@@ -1,11 +1,11 @@
 package net.kurien.blog.controller;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +20,12 @@ import net.kurien.blog.exception.handler.BasicExceptionHandler;
 public class ErrorController {
 	Logger logger = LoggerFactory.getLogger(BasicExceptionHandler.class);
 
-	@Inject
-	private Template template;
+	private final Template template;
+
+	@Autowired
+	public ErrorController(Template template) {
+		this.template = template;
+	}
 
 	@RequestMapping
 	public String defaultError() {

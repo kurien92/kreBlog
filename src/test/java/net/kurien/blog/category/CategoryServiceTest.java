@@ -31,8 +31,7 @@ public class CategoryServiceTest {
 	
 	@Inject
 	private CategoryDaoBasic categoryDao;
-	
-	
+
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 	

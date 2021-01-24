@@ -4,15 +4,19 @@ import net.kurien.blog.module.autosave.dao.AutosaveDao;
 import net.kurien.blog.module.autosave.entity.Autosave;
 import net.kurien.blog.module.autosave.service.AutosaveService;
 import net.kurien.blog.util.TimeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.List;
 
 @Service
 public class BasicAutosaveService implements AutosaveService {
-    @Inject
-    private AutosaveDao autosaveDao;
+    private final AutosaveDao autosaveDao;
+
+    @Autowired
+    public BasicAutosaveService(AutosaveDao autosaveDao) {
+        this.autosaveDao = autosaveDao;
+    }
 
     @Override
     public Autosave get(Long asNo) {

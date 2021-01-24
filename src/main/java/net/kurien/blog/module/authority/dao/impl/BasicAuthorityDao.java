@@ -3,19 +3,22 @@ package net.kurien.blog.module.authority.dao.impl;
 import net.kurien.blog.module.authority.dao.AuthorityDao;
 import net.kurien.blog.module.authority.entity.Authority;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 public class BasicAuthorityDao implements AuthorityDao {
-    @Inject
-    private SqlSession sqlSession;
-
+    private final SqlSession sqlSession;
     private final static String mapper = "net.kurien.blog.module.authority.mapper.AuthorityMapper";
+
+    @Autowired
+    public BasicAuthorityDao(SqlSession sqlSession) {
+        this.sqlSession = sqlSession;
+    }
 
     @Override
     public List<Authority> selectList(String accountId) {

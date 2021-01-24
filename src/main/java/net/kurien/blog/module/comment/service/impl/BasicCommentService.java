@@ -2,11 +2,10 @@ package net.kurien.blog.module.comment.service.impl;
 
 import java.util.*;
 
-import javax.inject.Inject;
-
-import net.kurien.blog.module.search.dto.SearchDTO;
+import net.kurien.blog.module.search.dto.SearchDto;
 import net.kurien.blog.module.search.dto.Searchable;
 import net.kurien.blog.util.EncryptionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.exception.InvalidRequestException;
@@ -16,8 +15,12 @@ import net.kurien.blog.module.comment.service.CommentService;
 
 @Service
 public class BasicCommentService implements CommentService, Searchable {
-	@Inject
-	private CommentDao commentDao;
+	private final CommentDao commentDao;
+
+	@Autowired
+	public BasicCommentService(CommentDao commentDao) {
+		this.commentDao = commentDao;
+	}
 
 	@Override
 	public List<Comment> getList() {
@@ -137,9 +140,9 @@ public class BasicCommentService implements CommentService, Searchable {
 	}
 
 	@Override
-	public SearchDTO search(String[] queries) {
+	public SearchDto search(String[] queries) {
 		List<Map<String, Object>> contents = new ArrayList<>();
-		SearchDTO searchDto = new SearchDTO();
+		SearchDto searchDto = new SearchDto();
 
 		List<Comment> comments = commentDao.search(queries);
 

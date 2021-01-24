@@ -5,7 +5,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +14,7 @@ import net.kurien.blog.module.file.entity.File;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,9 +29,13 @@ import net.kurien.blog.util.RequestUtil;
 @RequestMapping("/admin/file")
 public class FileAdminController {
 	private static final Logger logger = LoggerFactory.getLogger(FileAdminController.class);
-	
-	@Inject
-	private FileService fileService;
+
+	private final FileService fileService;
+
+	@Autowired
+	public FileAdminController(FileService fileService) {
+		this.fileService = fileService;
+	}
 
 	@RequestMapping(value = "/upload/ckeditor/{service}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	public @ResponseBody JsonObject ckeditorImageUpload(@PathVariable String service, MultipartHttpServletRequest multiFile, HttpServletResponse response) throws Exception {

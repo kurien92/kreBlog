@@ -7,14 +7,14 @@ import net.kurien.blog.module.content.dao.ContentDao;
 import net.kurien.blog.module.content.entity.Content;
 import net.kurien.blog.module.content.service.ContentService;
 import net.kurien.blog.module.file.service.ServiceFileService;
-import net.kurien.blog.module.search.dto.SearchDTO;
+import net.kurien.blog.module.search.dto.SearchDto;
 import net.kurien.blog.module.search.dto.Searchable;
 import net.kurien.blog.module.sitemap.SitemapCreatable;
-import net.kurien.blog.module.sitemap.SitemapDTO;
+import net.kurien.blog.module.sitemap.SitemapDto;
 import net.kurien.blog.util.TimeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,13 +22,12 @@ import java.util.regex.Pattern;
 @Service
 public class BasicContentService implements ContentService, Searchable, SitemapCreatable {
     private final ContentDao contentDao;
+    private final ServiceFileService serviceFileService;
 
-    @Inject
-    private ServiceFileService serviceFileService;
-
-    @Inject
-    public BasicContentService(ContentDao contentDao) {
+    @Autowired
+    public BasicContentService(ContentDao contentDao, ServiceFileService serviceFileService) {
         this.contentDao = contentDao;
+        this.serviceFileService = serviceFileService;
     }
 
     @Override
@@ -125,9 +124,9 @@ public class BasicContentService implements ContentService, Searchable, SitemapC
     }
 
     @Override
-    public SearchDTO search(String[] queries) {
+    public SearchDto search(String[] queries) {
         List<Map<String, Object>> searchContents = new ArrayList<>();
-        SearchDTO searchDto = new SearchDTO();
+        SearchDto searchDto = new SearchDto();
 
         List<Content> contents = contentDao.search(queries);
 
@@ -149,13 +148,13 @@ public class BasicContentService implements ContentService, Searchable, SitemapC
     }
 
     @Override
-    public List<SitemapDTO> sitemap(String siteUrl) {
-        List<SitemapDTO> sitemapDtos = new ArrayList<>();
+    public List<SitemapDto> sitemap(String siteUrl) {
+        List<SitemapDto> sitemapDtos = new ArrayList<>();
 
         List<Content> contents = contentDao.selectList("N", null);
 
         for(Content content : contents) {
-            SitemapDTO sitemapDto = new SitemapDTO();
+            SitemapDto sitemapDto = new SitemapDto();
 
             sitemapDto.setLoc(siteUrl + "/content/" + content.getContentId());
             sitemapDto.setLastmod(content.getContentWriteTime());

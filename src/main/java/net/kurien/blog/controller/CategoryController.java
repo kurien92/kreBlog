@@ -3,13 +3,12 @@ package net.kurien.blog.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,14 +28,16 @@ import net.kurien.blog.module.post.service.PostService;
 public class CategoryController {
 	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
-	@Inject
-	private Template template;
-	
-	@Inject
-	private PostService postService;
-	
-	@Inject
-	private CategoryService categoryService;
+	private final Template template;
+	private final PostService postService;
+	private final CategoryService categoryService;
+
+	@Autowired
+	public CategoryController(Template template, PostService postService, CategoryService categoryService) {
+		this.template = template;
+		this.postService = postService;
+		this.categoryService = categoryService;
+	}
 	
 	@RequestMapping("/{categoryId}")
 	public String list(@PathVariable String categoryId, SearchCriteria criteria, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {

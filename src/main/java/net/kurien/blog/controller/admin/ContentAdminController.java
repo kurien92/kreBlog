@@ -20,6 +20,7 @@ import net.kurien.blog.util.HtmlUtil;
 import net.kurien.blog.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -38,23 +38,22 @@ import java.util.List;
 public class ContentAdminController {
 	private static final Logger logger = LoggerFactory.getLogger(ContentAdminController.class);
 
-	@Inject
-	private ContentService contentService;
+	private final Template template;
+	private final ContentService contentService;
+	private final ShortUrlService shortUrlService;
+	private final ServiceShortUrlService serviceShortUrlService;
+	private final FileService fileService;
+	private final ServiceFileService serviceFileService;
 
-	@Inject
-	private ShortUrlService shortUrlService;
-	
-	@Inject
-	private ServiceShortUrlService serviceShortUrlService;
-	
-	@Inject
-	private ServiceFileService serviceFileService;
-
-	@Inject
-	private FileService fileService;
-	
-	@Inject
-	private Template template;
+	@Autowired
+	public ContentAdminController(Template template, ContentService contentService, ShortUrlService shortUrlService, ServiceShortUrlService serviceShortUrlService, FileService fileService, ServiceFileService serviceFileService) {
+		this.template = template;
+		this.contentService = contentService;
+		this.shortUrlService = shortUrlService;
+		this.serviceShortUrlService = serviceShortUrlService;
+		this.serviceFileService = serviceFileService;
+		this.fileService = fileService;
+	}
 
 	/**
 	 * 관리자가 목록 화면에 접속한다.

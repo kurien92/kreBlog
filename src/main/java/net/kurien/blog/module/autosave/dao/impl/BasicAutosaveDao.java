@@ -3,17 +3,20 @@ package net.kurien.blog.module.autosave.dao.impl;
 import net.kurien.blog.module.autosave.dao.AutosaveDao;
 import net.kurien.blog.module.autosave.entity.Autosave;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.List;
 
 @Repository
 public class BasicAutosaveDao implements AutosaveDao {
-    @Inject
-    private SqlSession sqlSession;
+    private final SqlSession sqlSession;
+    private final String mapper = "net.kurien.blog.module.autosave.mapper.AutosaveMapper";
 
-    private String mapper = "net.kurien.blog.module.autosave.mapper.AutosaveMapper";
+    @Autowired
+    public BasicAutosaveDao(SqlSession sqlSession) {
+        this.sqlSession = sqlSession;
+    }
 
     @Override
     public Autosave selectOne(Long asNo) {

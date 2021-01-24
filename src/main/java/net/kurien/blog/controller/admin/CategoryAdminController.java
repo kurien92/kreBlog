@@ -2,11 +2,11 @@ package net.kurien.blog.controller.admin;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,19 +16,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import net.kurien.blog.common.template.Template;
 import net.kurien.blog.module.category.entity.Category;
 import net.kurien.blog.module.category.service.CategoryService;
-import net.kurien.blog.module.post.service.PostService;
 
 @Controller
 @RequestMapping("/admin/category")
 public class CategoryAdminController {
 	private static final Logger logger = LoggerFactory.getLogger(CategoryAdminController.class);
-	
-	@Inject
-	private CategoryService categoryService;
-	
-	@Inject
-	private Template template;
-	
+
+	private final Template template;
+	private final CategoryService categoryService;
+
+	@Autowired
+	public CategoryAdminController(Template template, CategoryService categoryService) {
+		this.template = template;
+		this.categoryService = categoryService;
+	}
+
 	/**
 	 * 관리자가 목록 화면에 접속한다.
 	 * 포스트 전체를 보여준다.

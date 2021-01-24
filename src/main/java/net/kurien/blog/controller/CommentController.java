@@ -3,7 +3,6 @@ package net.kurien.blog.controller;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +19,7 @@ import net.kurien.blog.util.TokenUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,9 +31,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/comment")
 public class CommentController {
 	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
-	
-	@Inject
-	private CommentService commentService;
+
+	private final CommentService commentService;
+
+	@Autowired
+	public CommentController(CommentService commentService) {
+		this.commentService = commentService;
+	}
 
 	@RequestMapping(value = "/search/{commentNo}")
 	public String search(@PathVariable int commentNo, Model model) {

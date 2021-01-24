@@ -1,7 +1,6 @@
 package net.kurien.blog.controller;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +13,13 @@ import net.kurien.blog.module.shortUrl.service.ShortUrlService;
 @Controller
 @RequestMapping("/s")
 public class ShortUrlController {
-	@Inject
-	private ShortUrlService shortUrlService;
-	
+	private final ShortUrlService shortUrlService;
+
+	@Autowired
+	public ShortUrlController(ShortUrlService shortUrlService) {
+		this.shortUrlService = shortUrlService;
+	}
+
 	@RequestMapping("/{encodedUrl}")
 	@ResponseStatus(value=HttpStatus.TEMPORARY_REDIRECT)
 	public String shortUrl(@PathVariable String encodedUrl, Model model) throws Exception {

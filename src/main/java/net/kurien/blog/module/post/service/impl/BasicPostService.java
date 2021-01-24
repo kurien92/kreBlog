@@ -4,14 +4,13 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.inject.Inject;
-
 import net.kurien.blog.domain.SearchCriteria;
-import net.kurien.blog.module.search.dto.SearchDTO;
+import net.kurien.blog.module.search.dto.SearchDto;
 import net.kurien.blog.module.search.dto.Searchable;
 import net.kurien.blog.module.sitemap.SitemapCreatable;
-import net.kurien.blog.module.sitemap.SitemapDTO;
+import net.kurien.blog.module.sitemap.SitemapDto;
 import net.kurien.blog.util.TimeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.exception.DuplicatedKeyException;
@@ -25,12 +24,15 @@ import net.kurien.blog.module.post.service.PostService;
 
 @Service
 public class BasicPostService implements PostService, Searchable, SitemapCreatable {
-	@Inject
-	private PostDao postDao;
-	
-	@Inject
-	private ServiceFileService serviceFileService;
-	
+	private final PostDao postDao;
+	private final ServiceFileService serviceFileService;
+
+	@Autowired
+	public BasicPostService(PostDao postDao, ServiceFileService serviceFileService) {
+		this.postDao = postDao;
+		this.serviceFileService = serviceFileService;
+	}
+
 	@Override
 	public List<Post> getList(String manageYn) {
 		// TODO Auto-generated method stub
@@ -177,9 +179,9 @@ public class BasicPostService implements PostService, Searchable, SitemapCreatab
 	}
 
 	@Override
-	public SearchDTO search(String[] queries) {
+	public SearchDto search(String[] queries) {
 		List<Map<String, Object>> contents = new ArrayList<>();
-		SearchDTO searchDto = new SearchDTO();
+		SearchDto searchDto = new SearchDto();
 
 		List<Post> posts = postDao.search(queries);
 
@@ -201,13 +203,13 @@ public class BasicPostService implements PostService, Searchable, SitemapCreatab
 	}
 
 	@Override
-	public List<SitemapDTO> sitemap(String siteUrl) {
-		List<SitemapDTO> sitemapDtos = new ArrayList<>();
+	public List<SitemapDto> sitemap(String siteUrl) {
+		List<SitemapDto> sitemapDtos = new ArrayList<>();
 
 		List<Post> posts = postDao.selectList("N");
 
 		for(Post post : posts) {
-			SitemapDTO sitemapDto = new SitemapDTO();
+			SitemapDto sitemapDto = new SitemapDto();
 
 			sitemapDto.setLoc(siteUrl + "/post/view/" + post.getPostNo());
 			sitemapDto.setLastmod(post.getPostWriteTime());

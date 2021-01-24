@@ -2,13 +2,12 @@ package net.kurien.blog.controller;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.kurien.blog.module.comment.entity.Comment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,21 +32,21 @@ import net.kurien.blog.util.HtmlUtil;
 public class PostController {
 	private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
-	@Inject
-	private Template template;
+	private final Template template;
+	private final PostService postService;
+	private final CategoryService categoryService;
+	private final ShortUrlService shortUrlService;
+	private final ServiceShortUrlService serviceShortUrlService;
 
-	@Inject
-	private PostService postService;
-	
-	@Inject
-	private CategoryService categoryService;
-	
-	@Inject
-	private ShortUrlService shortUrlService;
-	
-	@Inject
-	private ServiceShortUrlService serviceShortUrlService;
-	
+	@Autowired
+	public PostController(Template template, PostService postService, CategoryService categoryService, ShortUrlService shortUrlService, ServiceShortUrlService serviceShortUrlService) {
+		this.template = template;
+		this.postService = postService;
+		this.categoryService = categoryService;
+		this.shortUrlService = shortUrlService;
+		this.serviceShortUrlService = serviceShortUrlService;
+	}
+
 	/**
 	 * 사용자가 목록 화면에 접속한다.
 	 * 포스트 전체를 보여준다.

@@ -6,14 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.blueconic.browscap.BrowsCapField;
 import com.blueconic.browscap.Capabilities;
 import com.blueconic.browscap.ParseException;
 
@@ -27,12 +25,15 @@ import net.kurien.blog.util.UserAgentUtil;
 @Controller
 @RequestMapping("/admin/visitor")
 public class VisitorAdminController {
-	@Inject
-	private VisitorService visitorService;
-	
-	@Inject
-	private Template template;
-	
+	private final Template template;
+	private final VisitorService visitorService;
+
+	@Autowired
+	public VisitorAdminController(Template template, VisitorService visitorService) {
+		this.template = template;
+		this.visitorService = visitorService;
+	}
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(SearchCriteria criteria, Model model) throws IOException, ParseException {
 		PageMaker pageMaker = new PageMaker();

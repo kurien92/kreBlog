@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.module.category.dao.CategoryDao;
@@ -14,11 +13,14 @@ import net.kurien.blog.module.category.entity.Category;
 
 @Repository
 public class CategoryDaoBasic implements CategoryDao {
-	@Inject
-	private SqlSession sqlSession;
-	
+	private final SqlSession sqlSession;
 	private final static String mapper = "net.kurien.blog.module.category.mapper.CategoryMapper";
-	
+
+	@Autowired
+	public CategoryDaoBasic(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
+
 	@Override
 	public List<Category> selectList() {
 		// TODO Auto-generated method stub

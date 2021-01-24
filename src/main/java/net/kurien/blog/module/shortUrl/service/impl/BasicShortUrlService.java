@@ -2,8 +2,7 @@ package net.kurien.blog.module.shortUrl.service.impl;
 
 import java.util.Calendar;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.module.shortUrl.dao.ShortUrlDao;
@@ -13,8 +12,12 @@ import net.kurien.blog.util.Base62Util;
 
 @Service
 public class BasicShortUrlService implements ShortUrlService {
-	@Inject
-	private ShortUrlDao shortUrlDao;
+	private final ShortUrlDao shortUrlDao;
+
+	@Autowired
+	public BasicShortUrlService(ShortUrlDao shortUrlDao) {
+		this.shortUrlDao = shortUrlDao;
+	}
 	
 	@Override
 	public ShortUrl get(int shortUrlNo) {

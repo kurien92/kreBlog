@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import net.kurien.blog.domain.SearchCriteria;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.module.post.dao.PostDao;
@@ -15,10 +14,13 @@ import net.kurien.blog.module.post.entity.Post;
 
 @Repository
 public class BasicPostDao implements PostDao {
-	@Inject
-	private SqlSession sqlSession;
-	
+	private final SqlSession sqlSession;
 	private final static String mapper = "net.kurien.blog.module.post.mapper.PostMapper";
+
+	@Autowired
+	public BasicPostDao(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
 	
 	@Override
 	public List<Post> selectList(String manageYn, SearchCriteria criteria) {

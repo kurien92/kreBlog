@@ -6,9 +6,8 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import net.kurien.blog.module.file.dto.FileDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.kurien.blog.module.file.dao.FileDao;
@@ -18,9 +17,13 @@ import net.kurien.blog.util.FileUtil;
 
 @Service
 public class BasicFileService implements FileService {
-	@Inject
-	private FileDao fileDao;
-	
+	private final FileDao fileDao;
+
+	@Autowired
+	public BasicFileService(FileDao fileDao) {
+		this.fileDao = fileDao;
+	}
+
 	@Override
 	public FileDTO upload(String uploadPath, String serviceName, FileDTO fileDto, String uploadIp) throws NoSuchAlgorithmException, IOException {
 		// TODO Auto-generated method stub

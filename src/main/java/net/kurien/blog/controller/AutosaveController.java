@@ -8,13 +8,13 @@ import net.kurien.blog.module.autosave.service.AutosaveService;
 import net.kurien.blog.module.autosave.service.ServiceAutosaveService;
 import net.kurien.blog.util.RequestUtil;
 import net.kurien.blog.util.TimeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,11 +22,14 @@ import java.util.*;
 @RestController
 @RequestMapping("/autosave")
 public class AutosaveController {
-    @Inject
-    private AutosaveService autosaveService;
+    private final AutosaveService autosaveService;
+    private final ServiceAutosaveService serviceAutosaveService;
 
-    @Inject
-    private ServiceAutosaveService serviceAutosaveService;
+    @Autowired
+    public AutosaveController(AutosaveService autosaveService, ServiceAutosaveService serviceAutosaveService) {
+        this.autosaveService = autosaveService;
+        this.serviceAutosaveService = serviceAutosaveService;
+    }
 
     @RequestMapping("/save/{serviceName}")
     public JsonObject save(@PathVariable String serviceName, String jsonData, Authentication authentication, HttpServletRequest request) {

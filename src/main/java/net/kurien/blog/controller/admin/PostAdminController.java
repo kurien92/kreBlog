@@ -1,10 +1,8 @@
 package net.kurien.blog.controller.admin;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +12,7 @@ import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.exception.NotFoundDataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,27 +43,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PostAdminController {
 	private static final Logger logger = LoggerFactory.getLogger(PostAdminController.class);
 
-	@Inject
-	private PostService postService;
-	
-	@Inject
-	private CategoryService categoryService;
-	
-	@Inject
-	private ShortUrlService shortUrlService;
-	
-	@Inject
-	private ServiceShortUrlService serviceShortUrlService;
-	
-	@Inject
-	private ServiceFileService serviceFileService;
+	private final Template template;
+	private final PostService postService;
+	private final CategoryService categoryService;
+	private final ShortUrlService shortUrlService;
+	private final ServiceShortUrlService serviceShortUrlService;
+	private final FileService fileService;
+	private final ServiceFileService serviceFileService;
 
-	@Inject
-	private FileService fileService;
-	
-	@Inject
-	private Template template;
-	
+	@Autowired
+	public PostAdminController(Template template, PostService postService, CategoryService categoryService, ShortUrlService shortUrlService, ServiceShortUrlService serviceShortUrlService, FileService fileService, ServiceFileService serviceFileService) {
+		this.template = template;
+		this.postService = postService;
+		this.categoryService = categoryService;
+		this.shortUrlService = shortUrlService;
+		this.serviceShortUrlService = serviceShortUrlService;
+		this.fileService = fileService;
+		this.serviceFileService = serviceFileService;
+	}
+
 	/**
 	 * 관리자가 목록 화면에 접속한다.
 	 * 포스트 전체를 보여준다.

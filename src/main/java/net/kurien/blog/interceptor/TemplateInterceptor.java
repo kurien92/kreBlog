@@ -1,9 +1,9 @@
 package net.kurien.blog.interceptor;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -15,12 +15,15 @@ import net.kurien.blog.module.category.service.CategoryService;
 import net.kurien.blog.util.HtmlUtil;
 
 public class TemplateInterceptor extends HandlerInterceptorAdapter {
-	@Inject
-	private Template template;
-	
-	@Inject
-	CategoryService categoryService;
-	
+	private final Template template;
+	private final CategoryService categoryService;
+
+	@Autowired
+	public TemplateInterceptor(Template template, CategoryService categoryService) {
+		this.template = template;
+		this.categoryService = categoryService;
+	}
+
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String contextPath = request.getContextPath();
 		

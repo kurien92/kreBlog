@@ -3,10 +3,9 @@ package net.kurien.blog.listener;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -18,14 +17,17 @@ import net.kurien.blog.module.iPAddress.validation.IPAddressValidation;
 @Component
 public class StartupApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
 	private static final Logger logger = LoggerFactory.getLogger(StartupApplicationListener.class);
-	
-	@Inject
-	private IPAddressValidation iPAddressValidation; 
-	
+
+	private final IPAddressValidation iPAddressValidation;
+
+	@Autowired
+	public StartupApplicationListener(IPAddressValidation iPAddressValidation) {
+		this.iPAddressValidation = iPAddressValidation;
+	}
+
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// TODO Auto-generated method stub
-
 		List<String> envKeyList = new ArrayList<>();
 
 		envKeyList.add("KRE_ENC_KEY");

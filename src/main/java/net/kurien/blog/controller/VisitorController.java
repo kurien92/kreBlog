@@ -2,7 +2,6 @@ package net.kurien.blog.controller;
 
 import java.security.NoSuchAlgorithmException;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.JsonObject;
@@ -14,6 +13,7 @@ import net.kurien.blog.util.TokenUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/visitor")
 public class VisitorController {
 	private static final Logger logger = LoggerFactory.getLogger(VisitorController.class);
-	
-	@Inject
-	private VisitorService visitorService;
+
+	private final VisitorService visitorService;
+
+	@Autowired
+	public VisitorController(VisitorService visitorService) {
+		this.visitorService = visitorService;
+	}
 
 	@RequestMapping(value = "/collect", method = RequestMethod.POST)
 	public JsonObject list(Visitor visitor, HttpServletRequest request) {

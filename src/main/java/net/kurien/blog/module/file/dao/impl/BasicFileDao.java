@@ -2,21 +2,23 @@ package net.kurien.blog.module.file.dao.impl;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.module.file.dao.FileDao;
 import net.kurien.blog.module.file.entity.File;
 
 @Repository
-public class FileDaoBasic implements FileDao {
-	@Inject
-	private SqlSession sqlSession;
-	
+public class BasicFileDao implements FileDao {
+	private final SqlSession sqlSession;
     private final static String mapper = "net.kurien.blog.module.file.mapper.FileMapper";
-    
+
+    @Autowired
+    public BasicFileDao(SqlSession sqlSession) {
+        this.sqlSession = sqlSession;
+    }
+
     @Override
     public List<File> selectList(List<Integer> fileNos) {
         // TODO Auto-generated method stub

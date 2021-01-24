@@ -1,13 +1,11 @@
 package net.kurien.blog.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URLEncoder;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +18,13 @@ import net.kurien.blog.util.FileUtil;
 @Controller
 @RequestMapping("/file")
 public class FileController {
-	@Inject
-	private FileService fileService;
-	
+	private final FileService fileService;
+
+	@Autowired
+	public FileController(FileService fileService) {
+		this.fileService = fileService;
+	}
+
 	@RequestMapping("/viewer/{service}/{fileNo}")
 	public void imageFileView(@PathVariable String service, @PathVariable int fileNo, HttpServletRequest request, HttpServletResponse response) throws NotFoundDataException, IOException {
 		File file = fileService.get(fileNo);

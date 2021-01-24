@@ -4,19 +4,22 @@ import net.kurien.blog.domain.SearchCriteria;
 import net.kurien.blog.module.account.dao.AccountDao;
 import net.kurien.blog.module.account.entity.Account;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 public class BasicAccountDao implements AccountDao {
-    @Inject
-    private SqlSession sqlSession;
-
+    private final SqlSession sqlSession;
     private final static String mapper = "net.kurien.blog.module.account.mapper.AccountMapper";
+
+    @Autowired
+    public BasicAccountDao(SqlSession sqlSession) {
+        this.sqlSession = sqlSession;
+    }
 
     @Override
     public List<Account> selectList(SearchCriteria criteria) {

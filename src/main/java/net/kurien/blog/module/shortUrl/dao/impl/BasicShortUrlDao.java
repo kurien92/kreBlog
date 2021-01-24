@@ -3,9 +3,8 @@ package net.kurien.blog.module.shortUrl.dao.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import net.kurien.blog.module.shortUrl.dao.ShortUrlDao;
@@ -13,10 +12,13 @@ import net.kurien.blog.module.shortUrl.entity.ShortUrl;
 
 @Repository
 public class BasicShortUrlDao implements ShortUrlDao {
-	@Inject
-	private SqlSession sqlSession;
-	
+	private final SqlSession sqlSession;
 	private final static String mapper = "net.kurien.blog.module.shortUrl.mapper.ShortUrlMapper";
+
+	@Autowired
+	public BasicShortUrlDao(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
 
 	@Override
 	public ShortUrl select(int shortUrlNo) {

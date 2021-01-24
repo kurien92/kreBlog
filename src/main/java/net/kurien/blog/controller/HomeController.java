@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.kurien.blog.module.category.service.CategoryService;
 import net.kurien.blog.module.content.service.ContentService;
 import net.kurien.blog.module.sitemap.SitemapCreatable;
-import net.kurien.blog.module.sitemap.SitemapDTO;
+import net.kurien.blog.module.sitemap.SitemapDto;
 import org.jdom2.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,17 +33,18 @@ import net.kurien.blog.module.post.service.PostService;
  */
 @Controller
 public class HomeController {
-	@Inject
-	private Template template;
+	private final Template template;
+	private final ContentService contentService;
+	private final PostService postService;
+	private final CategoryService categoryService;
 
-	@Inject
-	private ContentService contentService;
-
-	@Inject
-	private PostService postService;
-
-	@Inject
-	private CategoryService categoryService;
+	@Autowired
+	public HomeController(Template template, ContentService contentService, PostService postService, CategoryService categoryService) {
+		this.template = template;
+		this.contentService = contentService;
+		this.postService = postService;
+		this.categoryService = categoryService;
+	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(SearchCriteria criteria, HttpServletRequest request, Locale locale, Model model) {
@@ -118,7 +119,7 @@ public class HomeController {
 	@RequestMapping(value = "/sitemap", method = RequestMethod.GET, produces="application/xml;charset=utf-8")
 	public @ResponseBody String sitemap(HttpServletRequest request, HttpServletResponse response, Model model) {
 		List<SitemapCreatable> sitemapCreatables = new ArrayList<>();
-		List<SitemapDTO> sitemapDtos = new ArrayList<>();
+		List<SitemapDto> sitemapDtos = new ArrayList<>();
 
 		String siteUrl = "https://www.kurien.net";
 
@@ -136,7 +137,7 @@ public class HomeController {
 			sitemapDtos.addAll(sitemapCreatable.sitemap(siteUrl));
 		}
 
-		for(SitemapDTO sitemapDto : sitemapDtos) {
+		for(SitemapDto sitemapDto : sitemapDtos) {
 			Element url = new Element("url", nsSitemap);
 
 			url.addContent(new Element("loc", nsSitemap).addContent(sitemapDto.getLoc()));

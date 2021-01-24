@@ -6,9 +6,7 @@ import net.kurien.blog.module.post.entity.Post;
 import net.kurien.blog.module.post.entity.PostPublishStatus;
 import net.kurien.blog.module.post.entity.PostViewStatus;
 import net.kurien.blog.module.post.service.PostService;
-import net.kurien.blog.module.search.dto.SearchDTO;
 import net.kurien.blog.module.search.dto.Searchable;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.inject.Inject;
-
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;

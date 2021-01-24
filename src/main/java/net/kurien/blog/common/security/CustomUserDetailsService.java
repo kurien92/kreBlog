@@ -4,22 +4,25 @@ import net.kurien.blog.module.account.entity.Account;
 import net.kurien.blog.module.account.service.AccountService;
 import net.kurien.blog.module.authority.entity.Authority;
 import net.kurien.blog.module.authority.service.AuthorityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
-    @Inject
-    private AccountService accountService;
+    private final AccountService accountService;
+    private final AuthorityService authorityService;
 
-    @Inject
-    private AuthorityService authorityService;
+    @Autowired
+    private CustomUserDetailsService(AccountService accountService, AuthorityService authorityService) {
+        this.accountService = accountService;
+        this.authorityService = authorityService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
