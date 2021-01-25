@@ -3,7 +3,7 @@
 <mapper namespace="net.kurien.blog.module.authority.mapper.AuthorityMapper">
 	<resultMap id="resultMap" type="net.kurien.blog.module.authority.entity.Authority">
 		<id property="accountId" column="accountId" />
-		<id property="authorityName" column="authorityName" />
+		<id property="authority" column="authority" />
 	</resultMap>
 	
 	<sql id="table">
@@ -27,11 +27,11 @@
         INSERT INTO
         <include refid="table" /> (
         	accountId,
-			authorityName
+			authority
         )
         VALUES (
         	#{accountId},
-        	#{authorityName}
+        	#{authority}
 		)
     </insert>
     
@@ -39,7 +39,7 @@
         DELETE FROM <include refid="table" />
         <where>
 			AND accountId = #{accountId}
-			AND authorityName = #{authorityName}
+			AND authority = #{authority}
         </where>
     </delete>
     

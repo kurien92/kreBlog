@@ -41,6 +41,8 @@
     <select id="selectList" resultMap="resultMap">
         SELECT *
         FROM <include refid="table" />
+		ORDER BY
+		commentNo DESC
     </select>
     
     <select id="selectListByPostNo" resultMap="resultMap">
@@ -49,10 +51,10 @@
 		<where>
 			postNo = #{postNo}
 		</where>
-		order by 
-			parentCommentNo ASC,
-			commentDepth ASC,
-			commentOrder ASC
+		ORDER BY
+		parentCommentNo ASC,
+		commentDepth ASC,
+		commentOrder ASC
     </select>
     
     <select id="selectOne" resultMap="resultMap">

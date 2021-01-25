@@ -6,22 +6,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import net.kurien.blog.common.template.Template;
 import net.kurien.blog.common.template.metadata.TemplateCss;
 import net.kurien.blog.common.template.metadata.TemplateJs;
 import net.kurien.blog.common.template.metadata.TemplateMeta;
-import net.kurien.blog.exception.DuplicatedKeyException;
 import net.kurien.blog.exception.InvalidRequestException;
 import net.kurien.blog.exception.NotFoundDataException;
 import net.kurien.blog.module.category.service.CategoryService;
-import net.kurien.blog.util.HtmlUtil;
 
 import java.io.FileNotFoundException;
 
@@ -29,11 +27,14 @@ import java.io.FileNotFoundException;
 public class BasicExceptionHandler {
 	Logger logger = LoggerFactory.getLogger(BasicExceptionHandler.class);
 
-	@Inject
-	private Template template;
-	
-	@Inject
-	CategoryService categoryService;
+	private final Template template;
+	private final CategoryService categoryService;
+
+	@Autowired
+	public BasicExceptionHandler(Template template, CategoryService categoryService) {
+		this.template = template;
+		this.categoryService = categoryService;
+	}
 
 	@ExceptionHandler({NotFoundDataException.class})
 	@ResponseStatus(value=HttpStatus.NOT_FOUND)

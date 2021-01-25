@@ -7,6 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
-        CustomUserDetails user = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
+        UserDetails user = userDetailsService.loadUserByUsername(username);
 
         if(EncryptionUtil.checkPassword(password, user.getPassword()) == false) {
             throw new BadCredentialsException(username);
@@ -34,7 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException(username);
         }
 
-        return new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
     }
 
     @Override

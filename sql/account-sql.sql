@@ -4,7 +4,7 @@ CREATE TABLE `kreAccount` (
     `accountPassword` varchar(200) NOT NULL,
     `accountEmail` varchar(200) NOT NULL,
     `accountNick` varchar(200) NOT NULL,
-    `accountBlock` tinyint(1) NOT NULL DEFAULT 1,
+    `accountBlock` tinyint(1) NOT NULL DEFAULT 0,
     `accountSignUpDate` datetime NOT NULL DEFAULT now(),
     `accountSignUpIp` varchar(15),
     `accountCertYn` tinyint(1) NOT NULL DEFAULT 0,

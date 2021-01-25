@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Authority {
     private String accountId;
-    private String authorityName;
+    private String authority;
 }

@@ -15,13 +15,13 @@ public class CustomUserDetails implements UserDetails {
     private List<GrantedAuthority> authorities;
     private boolean block;
 
-    public void setAuthorities(List<String> authorities) {
+    public void setAuthorities(Collection<String> authorities) {
         if(authorities == null) {
-            authorities.add("ANONYMOUS");
+            authorities.add("USER");
         }
 
         if(authorities.size() == 0) {
-            authorities.add("ANONYMOUS");
+            authorities.add("USER");
         }
 
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
