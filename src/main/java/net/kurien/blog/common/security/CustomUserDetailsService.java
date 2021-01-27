@@ -1,11 +1,14 @@
 package net.kurien.blog.common.security;
 
+import net.kurien.blog.common.type.TrueFalseType;
 import net.kurien.blog.module.account.entity.Account;
 import net.kurien.blog.module.account.service.AccountService;
 import net.kurien.blog.module.authority.entity.Authority;
 import net.kurien.blog.module.authority.entity.GroupAuthority;
 import net.kurien.blog.module.authority.service.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +24,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private boolean enableAuthorities = true;
     private boolean enableGroups = true;
 
+    private String PREFIX = "ROLE_";
+
     @Autowired
     private CustomUserDetailsService(AccountService accountService, AuthorityService authorityService) {
         this.accountService = accountService;
@@ -35,14 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("아이디 또는 비밀번호가 잘못 입력되었습니다.");
         }
 
-        CustomUserDetails userDetails = new CustomUserDetails();
-
-        userDetails.setUsername(account.getAccountId());
-        userDetails.setPassword(account.getAccountPassword());
-        userDetails.setNick(account.getAccountNick());
-        userDetails.setBlock(account.getAccountBlock().getValue() == 1);
-
-        Set<String> authoritiesSet = new HashSet<>();
+        Set<GrantedAuthority> authoritiesSet = new HashSet<>();
 
         if(this.enableAuthorities) {
             authoritiesSet.addAll(loadUserAuthorities(username));
@@ -52,30 +50,34 @@ public class CustomUserDetailsService implements UserDetailsService {
             authoritiesSet.addAll(loadGroupAuthorities(username));
         }
 
-        userDetails.setAuthorities(authoritiesSet);
+        User user = new User(account.getAccountId(),
+                account.getAccountPassword(),
+                account.getAccountNick(),
+                account.getAccountBlock() == TrueFalseType.TRUE,
+                authoritiesSet);
 
-        return userDetails;
+        return user;
     }
 
-    private Collection<String> loadUserAuthorities(String username) {
+    private Collection<GrantedAuthority> loadUserAuthorities(String username) {
         List<Authority> authorities = authorityService.getList(username);
 
-        Collection<String> authSet = new HashSet<>();
+        Collection<GrantedAuthority> authSet = new HashSet<>();
 
         for(Authority authority : authorities) {
-            authSet.add(authority.getAuthority());
+            authSet.add(new SimpleGrantedAuthority(PREFIX + authority.getAuthority()));
         }
 
         return authSet;
     }
 
-    private Collection<String> loadGroupAuthorities(String username) {
+    private Collection<GrantedAuthority> loadGroupAuthorities(String username) {
         List<GroupAuthority> groupAuthorities = authorityService.getGroupList(username);
 
-        Collection<String> authSet = new HashSet<>();
+        Collection<GrantedAuthority> authSet = new HashSet<>();
 
         for(GroupAuthority groupAuthority : groupAuthorities) {
-            authSet.add(groupAuthority.getGroupAuthority());
+            authSet.add(new SimpleGrantedAuthority(PREFIX + groupAuthority.getGroupAuthority()));
         }
 
         return authSet;
