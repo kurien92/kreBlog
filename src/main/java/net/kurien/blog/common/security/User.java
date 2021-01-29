@@ -9,18 +9,24 @@ import java.util.*;
 public class User implements UserDetails, CredentialsContainer {
     private static final long serialVersionUID = 1L;
 
+    private Integer no;
     private String id;
     private String password;
     private String nick;
     private boolean block;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public User(String id, String password, String nick, boolean block, Collection<? extends GrantedAuthority> authorities) {
+    public User(Integer no, String id, String password, String nick, boolean block, Collection<? extends GrantedAuthority> authorities) {
+        this.no = no;
         this.id = id;
         this.password = password;
         this.nick = nick;
         this.block = block;
         this.authorities = authorities;
+    }
+
+    public Integer getNo() {
+        return this.no;
     }
 
     public String getUsername() {

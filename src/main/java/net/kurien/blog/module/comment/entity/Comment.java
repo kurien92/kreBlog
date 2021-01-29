@@ -13,6 +13,7 @@ public class Comment {
     private Integer parentCommentNo;
     private Integer commentOrder;
     private Integer commentDepth;
+    private Integer accountNo;
     private String author;
     private String password;
     private String comment;

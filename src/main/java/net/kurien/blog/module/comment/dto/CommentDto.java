@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CommentDto {
+	private Integer no;
 	private String name;
 	private String password;
 	private String text;

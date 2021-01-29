@@ -7,6 +7,7 @@
 		<result property="parentCommentNo" column="parentCommentNo"/>
 		<result property="commentOrder" column="commentOrder"/>
 		<result property="commentDepth" column="commentDepth"/>
+		<result property="accountNo" column="accountNo"/>
 		<result property="author" column="author"/>
 		<result property="password" column="password"/>
 		<result property="comment" column="comment"/>
@@ -14,9 +15,32 @@
 		<result property="writeIp" column="writeIp"/>
 		<result property="deleteYn" column="deleteYn"/>
 	</resultMap>
-	
+
 	<sql id="table">
 		kreComment
+	</sql>
+
+	<sql id="tablePost">
+		krePost
+	</sql>
+
+	<sql id="tableAccount">
+		kreAccount
+	</sql>
+
+	<sql id="selectQuery">
+		C.commentNo AS commentNo,
+		C.postNo AS postNo,
+		C.parentCommentNo AS parentCommentNo,
+		C.commentOrder AS commentOrder,
+		C.commentDepth AS commentDepth,
+		C.accountNo AS accountNo,
+		COALESCE(C.author, A.accountNick) AS author,
+		COALESCE(C.password, A.accountPassword) AS password,
+		C.comment AS COMMENT,
+		C.writeTime AS writeTime,
+		C.writeIp as writeIp,
+		C.deleteYn as deleteYn
 	</sql>
 
 	<sql id="manageYn">
@@ -39,15 +63,21 @@
 	</sql>
 
     <select id="selectList" resultMap="resultMap">
-        SELECT *
-        FROM <include refid="table" />
+		SELECT
+			<include refid="selectQuery" />
+		FROM <include refid="table" /> C
+		LEFT JOIN <include refid="tableAccount" /> A
+			ON C.accountNo = A.accountNo
 		ORDER BY
-		commentNo DESC
+			commentNo DESC
     </select>
     
     <select id="selectListByPostNo" resultMap="resultMap">
-        SELECT *
-        FROM <include refid="table" />
+        SELECT
+			<include refid="selectQuery" />
+		FROM <include refid="table" /> C
+		LEFT JOIN <include refid="tableAccount" /> A
+			ON C.accountNo = A.accountNo
 		<where>
 			postNo = #{postNo}
 		</where>
@@ -58,8 +88,11 @@
     </select>
     
     <select id="selectOne" resultMap="resultMap">
-        SELECT *
-        FROM <include refid="table" />
+        SELECT
+			<include refid="selectQuery" />
+		FROM <include refid="table" /> C
+		LEFT JOIN <include refid="tableAccount" /> A
+			ON C.accountNo = A.accountNo
         <where>
         	commentNo = #{commentNo}
         </where>
@@ -84,6 +117,7 @@
 			parentCommentNo,
 			commentOrder,
 			commentDepth,
+            accountNo,
 			author,
 			password,
 			comment,
@@ -97,6 +131,7 @@
 			#{parentCommentNo},
 			#{commentOrder},
 			#{commentDepth},
+            #{accountNo},
 			#{author},
 			#{password},
 			#{comment},
@@ -112,8 +147,12 @@
         	<if test="parentCommentNo != null">
 				parentCommentNo = #{parentCommentNo},
 			</if>
-			
-        	<if test="author != null">
+
+			<if test="accountNo != null">
+				accountNo = #{accountNo},
+			</if>
+
+			<if test="author != null">
 				author = #{author},
 			</if>
 			
@@ -158,20 +197,23 @@
 
 
 	<select id="search" resultMap="resultMap">
-		SELECT C.*
+		SELECT
+			<include refid="selectQuery" />
 		FROM
-			<include refid="table" /> C,
-			krePost P
+			<include refid="table" /> C
+			LEFT JOIN <include refid="tablePost" /> P
+			    ON C.postNo = P.postNo
+			LEFT JOIN <include refid="tableAccount" /> A
+				ON C.accountNo = A.accountNo
 		<where>
 			<foreach collection="searchColumns" item="searchColumn" open="(" close=")" separator=" OR ">
 				<foreach collection="searchQueries" item="searchQuery" open="(" close=")" separator=" AND ">
-					C.${searchColumn} like CONCAT('%', #{searchQuery}, '%')
+					BINARY ${searchColumn} like CONCAT('%', #{searchQuery}, '%')
 				</foreach>
 			</foreach>
-			AND C.postNo = P.postNo
 			<include refid="manageYn"/>
 		</where>
 		ORDER BY
-		C.postNo, C.commentNo DESC
+			postNo, commentNo DESC
 	</select>
 </mapper>

@@ -47,8 +47,11 @@ public class BasicCommentService implements CommentService, Searchable {
 		comment.setCommentDepth(1);
 		comment.setDeleteYn("N");
 		comment.setWriteTime(Calendar.getInstance().getTime());
-		comment.setPassword(hashPassword(comment.getPassword()));
-		
+
+		if(comment.getPassword() != null) {
+			comment.setPassword(hashPassword(comment.getPassword()));
+		}
+
 		commentDao.insert(comment);
 		
 		Comment updateComment = new Comment();
@@ -76,16 +79,21 @@ public class BasicCommentService implements CommentService, Searchable {
 		comment.setCommentDepth(commentDepth);
 		comment.setDeleteYn("N");
 		comment.setWriteTime(Calendar.getInstance().getTime());
-		comment.setPassword(hashPassword(comment.getPassword()));
-		
+
+		if(comment.getPassword() != null) {
+			comment.setPassword(hashPassword(comment.getPassword()));
+		}
+
 		commentDao.insert(comment);
 	}
 
 	@Override
 	public void modify(Comment comment) {
 		// TODO Auto-generated method stub
-		comment.setPassword(hashPassword(comment.getPassword()));			
-		
+		if(comment.getPassword() != null) {
+			comment.setPassword(hashPassword(comment.getPassword()));
+		}
+
 		commentDao.update(comment);
 	}
 
@@ -118,7 +126,13 @@ public class BasicCommentService implements CommentService, Searchable {
 
 		return EncryptionUtil.checkPassword(password, comment.getPassword());
 	}
-	
+
+	@Override
+	public boolean checkUser(int commentNo, int accountNo) {
+		Comment comment = commentDao.selectOne(commentNo);
+		return comment.getAccountNo() == accountNo;
+	}
+
 	/**
 	 * 비밀번호를 hash화 한다.
 	 * 

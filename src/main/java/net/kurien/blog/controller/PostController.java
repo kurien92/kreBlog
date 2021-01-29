@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.kurien.blog.common.security.CurrentUser;
+import net.kurien.blog.common.security.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +83,7 @@ public class PostController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/view/{postNo}", method = RequestMethod.GET)
-	public String view(@PathVariable int postNo, Model model) throws Exception {
+	public String view(@PathVariable int postNo, Model model, @CurrentUser User user) throws Exception {
 		Post post = postService.get(postNo, "N");
 		Category category = categoryService.get(post.getCategoryId());
 
@@ -95,6 +97,7 @@ public class PostController {
 		model.addAttribute("post", post);
 		model.addAttribute("category", category);
 		model.addAttribute("shortUrl", shortUrl);
+		model.addAttribute("user", user);
 
 		template.setSubTitle(post.getPostSubject());
 		template.setDescription(HtmlUtil.stripHtml(post.getPostContent()));

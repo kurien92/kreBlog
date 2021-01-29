@@ -50,7 +50,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             authoritiesSet.addAll(loadGroupAuthorities(username));
         }
 
-        User user = new User(account.getAccountId(),
+        User user = new User(account.getAccountNo(),
+                account.getAccountId(),
                 account.getAccountPassword(),
                 account.getAccountNick(),
                 account.getAccountBlock() == TrueFalseType.TRUE,

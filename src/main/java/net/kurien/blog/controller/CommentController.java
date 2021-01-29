@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import net.kurien.blog.common.security.CurrentUser;
+import net.kurien.blog.common.security.User;
 import net.kurien.blog.exception.InvalidRequestException;
 import net.kurien.blog.module.comment.dto.CommentDto;
 import net.kurien.blog.module.comment.entity.Comment;
@@ -64,13 +66,18 @@ public class CommentController {
 		
 		return json;
 	}
-	
+
 	@RequestMapping(value = "/write/{postNo}", method = RequestMethod.POST)
-	public @ResponseBody JsonObject write(@PathVariable int postNo, CommentDto commentDto, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-	    JsonObject json = new JsonObject();
-	    
+	public @ResponseBody JsonObject write(@PathVariable int postNo,
+										  CommentDto commentDto,
+										  HttpServletRequest request,
+										  HttpServletResponse response,
+										  Model model,
+										  @CurrentUser User user) throws Exception {
+		JsonObject json = new JsonObject();
+
 		try {
-			validInput(commentDto, true);
+			validInput(commentDto, true, user);
 		} catch(InvalidRequestException ire) {
 			json.addProperty("result", "fail");
 			json.add("value", new JsonObject());
@@ -78,30 +85,46 @@ public class CommentController {
 
 			return json;
 		}
-		
+
 		Comment comment = new Comment();
-		
+
 		comment.setPostNo(postNo);
-		comment.setAuthor(HtmlUtil.escapeHtml(commentDto.getName()));
-		comment.setPassword(commentDto.getPassword());
+
+		if(user == null) {
+			comment.setAuthor(HtmlUtil.escapeHtml(commentDto.getName()));
+			comment.setPassword(commentDto.getPassword());
+		} else {
+			comment.setAccountNo(user.getNo());
+		}
+
 		comment.setComment(HtmlUtil.escapeHtml(commentDto.getText()));
 		comment.setWriteIp(RequestUtil.getRemoteAddr(request));
-		
+
 		commentService.write(comment);
-	    
-	    json.addProperty("result", "success");
-	    json.add("value", getJsonFromComment(comment));
-	    json.addProperty("message", "");
-        
-	    return json;
+
+		// 로그인된 유저가 댓글을 작성한 경우 작성자를 로그인된 유저의 닉네임으로 표시한다.
+		if(user != null) {
+			comment.setAuthor(user.getNick());
+		}
+
+		json.addProperty("result", "success");
+		json.add("value", getJsonFromComment(comment));
+		json.addProperty("message", "");
+
+		return json;
 	}
 
 	@RequestMapping(value = "/reply/{no}", method = RequestMethod.POST)
-	public @ResponseBody JsonObject reply(@PathVariable int no, CommentDto commentDto, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public @ResponseBody JsonObject reply(@PathVariable int no,
+										  CommentDto commentDto,
+										  HttpServletRequest request,
+										  HttpServletResponse response,
+										  Model model,
+										  @CurrentUser User user) throws Exception {
 		JsonObject json = new JsonObject();
-		
+
 		try {
-			validInput(commentDto, true);
+			validInput(commentDto, true, user);
 		} catch(InvalidRequestException ire) {
 			json.addProperty("result", "fail");
 			json.add("value", new JsonObject());
@@ -109,11 +132,16 @@ public class CommentController {
 
 			return json;
 		}
-		
+
 		Comment comment = new Comment();
-		
-		comment.setAuthor(HtmlUtil.escapeHtml(commentDto.getName()));
-		comment.setPassword(commentDto.getPassword());
+
+		if(user == null) {
+			comment.setAuthor(HtmlUtil.escapeHtml(commentDto.getName()));
+			comment.setPassword(commentDto.getPassword());
+		} else {
+			comment.setAccountNo(user.getNo());
+		}
+
 		comment.setComment(HtmlUtil.escapeHtml(commentDto.getText()));
 		comment.setWriteIp(RequestUtil.getRemoteAddr(request));
 
@@ -126,28 +154,39 @@ public class CommentController {
 
 			return json;
 		}
-		
-	    json.addProperty("result", "success");
-	    json.add("value", getJsonFromComment(comment));
-	    json.addProperty("message", "");
-        
-	    return json;
-    }
-    
-	@RequestMapping(value = "/modify/{no}", method = RequestMethod.POST)
-	public @ResponseBody JsonObject modify(@PathVariable int no, CommentDto commentDto, String token, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-		JsonObject json = new JsonObject();
-		
-	    if(TokenUtil.checkToken(request, "comment", token) == false) {
-		    json.addProperty("result", "fail");
-		    json.add("value", new JsonObject());
-		    json.addProperty("message", "수정 가능한 시간이 만료되었습니다.");
 
-		    return json;
-	    }
-		
+		// 로그인된 유저가 댓글을 작성한 경우 작성자를 로그인된 유저의 닉네임으로 표시한다.
+		if(user != null) {
+			comment.setAuthor(user.getNick());
+		}
+
+		json.addProperty("result", "success");
+		json.add("value", getJsonFromComment(comment));
+		json.addProperty("message", "");
+
+		return json;
+	}
+
+	@RequestMapping(value = "/modify/{no}", method = RequestMethod.POST)
+	public @ResponseBody JsonObject modify(@PathVariable int no,
+										   CommentDto commentDto,
+										   String token,
+										   HttpServletRequest request,
+										   HttpServletResponse response,
+										   Model model,
+										   @CurrentUser User user) throws Exception {
+		JsonObject json = new JsonObject();
+
+		if(TokenUtil.checkToken(request, "comment", token) == false) {
+			json.addProperty("result", "fail");
+			json.add("value", new JsonObject());
+			json.addProperty("message", "수정 가능한 시간이 만료되었습니다.");
+
+			return json;
+		}
+
 		try {
-			validInput(commentDto, false);
+			validInput(commentDto, false, user);
 		} catch(InvalidRequestException ire) {
 			json.addProperty("result", "fail");
 			json.add("value", new JsonObject());
@@ -157,24 +196,30 @@ public class CommentController {
 		}
 
 		Comment comment = new Comment();
-		
+
 		comment.setCommentNo(no);
-		comment.setAuthor(HtmlUtil.escapeHtml(commentDto.getName()));
-		comment.setPassword(commentDto.getPassword());
+
+		if(user == null) {
+			comment.setAuthor(HtmlUtil.escapeHtml(commentDto.getName()));
+			comment.setPassword(commentDto.getPassword());
+		} else {
+			comment.setAccountNo(user.getNo());
+		}
+
 		comment.setComment(HtmlUtil.escapeHtml(commentDto.getText()));
 		comment.setWriteIp(RequestUtil.getRemoteAddr(request));
-	    
-	    commentService.modify(comment);
-	    
-	    comment = commentService.get(no);
-	    
-	    json.addProperty("result", "success");
-	    json.add("value", getJsonFromComment(comment));
-	    json.addProperty("message", "");
-        
-	    return json;
-    }
-    
+
+		commentService.modify(comment);
+
+		comment = commentService.get(no);
+
+		json.addProperty("result", "success");
+		json.add("value", getJsonFromComment(comment));
+		json.addProperty("message", "");
+
+		return json;
+	}
+
 	@RequestMapping(value = "/delete/{no}", method = RequestMethod.POST)
 	public @ResponseBody JsonObject delete(@PathVariable int no, String token, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 	    JsonObject json = new JsonObject();
@@ -183,45 +228,59 @@ public class CommentController {
 		    json.addProperty("result", "fail");
 		    json.add("value", new JsonObject());
 		    json.addProperty("message", "삭제 가능한 시간이 만료되었습니다.");
-		    
+
 		    return json;
 	    }
-	    
+
 	    commentService.delete(no);
-	    
+
 	    json.addProperty("result", "success");
 	    json.addProperty("value", "");
 	    json.addProperty("message", "");
-        
+
 	    return json;
     }
-    
-	@RequestMapping(value = "/passwordCheck/{no}", method = RequestMethod.POST)
-	public @ResponseBody JsonObject passwordCheck(@PathVariable int no, String password, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-		boolean checkedPassword = commentService.checkPassword(no, password);
-		
-		JsonObject json = new JsonObject();
-		
-		if(checkedPassword == false) {
-		    json.addProperty("result", "fail");
-		    json.add("value", new JsonObject());
-		    json.addProperty("message", "비밀번호가 일치하지 않습니다.");
-		    
-		    return json;
+
+	@RequestMapping(value = "/userCheck/{no}", method = RequestMethod.POST)
+	public @ResponseBody JsonObject userCheck(@PathVariable int no,
+												  String password,
+												  HttpServletRequest request,
+												  HttpServletResponse response,
+												  Model model,
+												  @CurrentUser User user) throws Exception {
+		boolean checkedUser = false;
+		String failMsg = "";
+
+		if(password != null) {
+			failMsg = "비밀번호가 일치하지 않습니다.";
+			checkedUser = commentService.checkPassword(no, password);
+		} else {
+			failMsg = "댓글 삭제 권한이 없습니다.";
+			checkedUser = commentService.checkUser(no, user.getNo());
 		}
-		
+
+		JsonObject json = new JsonObject();
+
+		if(checkedUser == false) {
+			json.addProperty("result", "fail");
+			json.add("value", new JsonObject());
+			json.addProperty("message", failMsg);
+
+			return json;
+		}
+
 		Comment comment = commentService.get(no);
-		
+
 		JsonObject valueObject = getJsonFromComment(comment);
 
-	    valueObject.addProperty("token", TokenUtil.createToken(request, "comment", 21600000));
+		valueObject.addProperty("token", TokenUtil.createToken(request, "comment", 21600000));
 
-	    json.addProperty("result", "success");
-	    json.add("value", valueObject);
-	    json.addProperty("message", "");
+		json.addProperty("result", "success");
+		json.add("value", valueObject);
+		json.addProperty("message", "");
 
-	    return json;
-    }
+		return json;
+	}
 
 	private JsonObject getJsonFromComment(Comment comment) {
         JsonObject commentJson = new JsonObject();
@@ -245,26 +304,28 @@ public class CommentController {
 	}
 
 	
-	private boolean validInput(CommentDto commentDto, boolean passwordChangeCheck) throws InvalidRequestException {
+	private boolean validInput(CommentDto commentDto, boolean passwordChangeCheck, User user) throws InvalidRequestException {
 		// TODO Auto-generated method stub
-		if(commentDto.getName().length() < 2) {
-			throw new InvalidRequestException("작성자명은 2자 이상으로 입력해주세요.");
-		}
-		
-		if(commentDto.getName().length() > 30) {
-			throw new InvalidRequestException("작성자명은 30자 미만으로 입력해주세요.");
-		}
+		if(user == null) {
+			if (commentDto.getName().length() < 2) {
+				throw new InvalidRequestException("작성자명은 2자 이상으로 입력해주세요.");
+			}
 
-		if(passwordChangeCheck) {
-			if (commentDto.getPassword().length() == 0) {
-				throw new InvalidRequestException("비밀번호를 입력해주세요.");
+			if (commentDto.getName().length() > 30) {
+				throw new InvalidRequestException("작성자명은 30자 미만으로 입력해주세요.");
+			}
+
+			if (passwordChangeCheck) {
+				if (commentDto.getPassword().length() == 0) {
+					throw new InvalidRequestException("비밀번호를 입력해주세요.");
+				}
+			}
+
+			if (commentDto.getPassword().length() > 30) {
+				throw new InvalidRequestException("비밀번호는 30자 미만으로 입력해주세요.");
 			}
 		}
-		
-		if(commentDto.getPassword().length() > 30) {
-			throw new InvalidRequestException("비밀번호는 30자 미만으로 입력해주세요.");
-		}
-		
+
 		if(commentDto.getText().length() == 0) {
 			throw new InvalidRequestException("댓글을 입력해주세요.");
 		}
