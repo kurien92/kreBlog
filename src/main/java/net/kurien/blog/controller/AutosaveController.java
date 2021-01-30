@@ -2,6 +2,8 @@ package net.kurien.blog.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.kurien.blog.common.security.CurrentUser;
+import net.kurien.blog.common.security.User;
 import net.kurien.blog.module.autosave.entity.Autosave;
 import net.kurien.blog.module.autosave.entity.ServiceAutosave;
 import net.kurien.blog.module.autosave.service.AutosaveService;
@@ -10,7 +12,6 @@ import net.kurien.blog.util.RequestUtil;
 import net.kurien.blog.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,8 +33,12 @@ public class AutosaveController {
     }
 
     @RequestMapping("/save/{serviceName}")
-    public JsonObject save(@PathVariable String serviceName, String jsonData, Authentication authentication, HttpServletRequest request) {
-        User user = (User) authentication.getPrincipal();
+    public JsonObject save(@PathVariable String serviceName,
+                           String jsonData,
+                           Authentication authentication,
+                           HttpServletRequest request,
+                           @CurrentUser User user) {
+
 
         Autosave autosave = new Autosave();
         autosave.setAsJsonData(jsonData);
@@ -43,7 +48,7 @@ public class AutosaveController {
         ServiceAutosave serviceAutosave = new ServiceAutosave();
         serviceAutosave.setServiceName(serviceName);
         serviceAutosave.setAsNo(autosave.getAsNo());
-        serviceAutosave.setServiceAsUsername(user.getUsername());
+        serviceAutosave.setServiceAsUsername(user.getId());
         serviceAutosave.setServiceAsWriteIp(RequestUtil.getRemoteAddr(request));
         serviceAutosave.setServiceAsExpireTime(TimeUtil.addTime(60 * 60 * 24 * 30));
 
@@ -67,10 +72,10 @@ public class AutosaveController {
 
 
     @RequestMapping("/list/{serviceName}")
-    public JsonObject list(@PathVariable String serviceName, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-
-        List<ServiceAutosave> serviceAutosaves = serviceAutosaveService.getList(serviceName, user.getUsername());
+    public JsonObject list(@PathVariable String serviceName,
+                           Authentication authentication,
+                           @CurrentUser User user) {
+        List<ServiceAutosave> serviceAutosaves = serviceAutosaveService.getList(serviceName, user.getId());
 
         JsonObject json = new JsonObject();
         JsonArray autosaveJsonArray = new JsonArray();
@@ -121,9 +126,7 @@ public class AutosaveController {
     }
 
     @RequestMapping("/remove/{serviceName}/{asNo}")
-    public JsonObject save(@PathVariable String serviceName, @PathVariable Long asNo, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-
+    public JsonObject save(@PathVariable String serviceName, @PathVariable Long asNo, @CurrentUser User user) {
         JsonObject json = new JsonObject();
 
         ServiceAutosave serviceAutosave = serviceAutosaveService.get(serviceName, asNo);
@@ -136,7 +139,7 @@ public class AutosaveController {
             return json;
         }
 
-        if(serviceAutosave.getServiceAsUsername().equals(user.getUsername()) == false) {
+        if(serviceAutosave.getServiceAsUsername().equals(user.getId()) == false) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
             json.addProperty("message", "삭제 권한이 없는 자료입니다.");
