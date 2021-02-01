@@ -255,8 +255,13 @@ public class CommentController {
 			failMsg = "비밀번호가 일치하지 않습니다.";
 			checkedUser = commentService.checkPassword(no, password);
 		} else {
-			failMsg = "댓글 삭제 권한이 없습니다.";
-			checkedUser = commentService.checkUser(no, user.getNo());
+			failMsg = "댓글을 수정/삭제할 권한이 없습니다.";
+
+			try {
+				checkedUser = commentService.checkUser(no, user.getNo());
+			} catch(NullPointerException e) {
+				failMsg = e.getMessage();
+			}
 		}
 
 		JsonObject json = new JsonObject();

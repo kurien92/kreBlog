@@ -325,20 +325,21 @@ var kreComment = function(customOptions) {
                     break;
             }
         }).catch(function(err) {
+            // 이미 버튼을 누른상태라면 취소한 뒤 실행한다.
+            var activeReplyBtn = $(".comment_btn_active");
+
+            if(activeReplyBtn.length > 0) {
+                activeReplyBtn.filter(options.ui.replyWriteIconBtns).children(".comment_btn_text").text('답글');
+                activeReplyBtn.filter(options.ui.replyModifyIconBtns).children(".comment_btn_text").text('수정');
+                activeReplyBtn.filter(options.ui.replyDeleteIconBtns).children(".comment_btn_text").text('삭제');
+                activeReplyBtn.removeClass("comment_btn_active");
+
+                $("#comment_reply_input").remove();
+
+                privateOptions.state = "";
+            }
+
             if(err.message === "doNotDelete") {
-                // 이미 버튼을 누른상태라면 취소한 뒤 실행한다.
-                var activeReplyBtn = $(".comment_btn_active");
-
-                if(activeReplyBtn.length > 0) {
-                    activeReplyBtn.filter(options.ui.replyWriteIconBtns).children(".comment_btn_text").text('답글');
-                    activeReplyBtn.filter(options.ui.replyModifyIconBtns).children(".comment_btn_text").text('수정');
-                    activeReplyBtn.filter(options.ui.replyDeleteIconBtns).children(".comment_btn_text").text('삭제');
-                    activeReplyBtn.removeClass("comment_btn_active");
-
-                    $("#comment_reply_input").remove();
-
-                    privateOptions.state = "";
-                }
                 return;
             } else if(err.message === "failedDelete") {
                 return;
@@ -500,6 +501,7 @@ var kreComment = function(customOptions) {
         parentComment.after(commentUserCheckInput);
 
         if(options.userNo !== "") {
+            $("#comment_reply_input").hide(0);
             userCheck(privateOptions.targetCommentNo);
             return;
         }
@@ -536,6 +538,7 @@ var kreComment = function(customOptions) {
         replyBtn.children(".comment_btn_text").text('취소');
 
         if(options.userNo !== "") {
+            $("#comment_reply_input").hide(0);
             userCheck(privateOptions.targetCommentNo);
             return;
         }

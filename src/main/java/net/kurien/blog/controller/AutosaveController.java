@@ -11,7 +11,6 @@ import net.kurien.blog.module.autosave.service.ServiceAutosaveService;
 import net.kurien.blog.util.RequestUtil;
 import net.kurien.blog.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +34,6 @@ public class AutosaveController {
     @RequestMapping("/save/{serviceName}")
     public JsonObject save(@PathVariable String serviceName,
                            String jsonData,
-                           Authentication authentication,
                            HttpServletRequest request,
                            @CurrentUser User user) {
 
@@ -73,7 +71,6 @@ public class AutosaveController {
 
     @RequestMapping("/list/{serviceName}")
     public JsonObject list(@PathVariable String serviceName,
-                           Authentication authentication,
                            @CurrentUser User user) {
         List<ServiceAutosave> serviceAutosaves = serviceAutosaveService.getList(serviceName, user.getId());
 

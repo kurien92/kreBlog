@@ -130,6 +130,11 @@ public class BasicCommentService implements CommentService, Searchable {
 	@Override
 	public boolean checkUser(int commentNo, int accountNo) {
 		Comment comment = commentDao.selectOne(commentNo);
+
+		if(comment.getAccountNo() == null) {
+			throw new NullPointerException("익명으로 작성된 댓글은 로그인된 사용자가 수정/삭제할 수 없습니다.");
+		}
+
 		return comment.getAccountNo() == accountNo;
 	}
 
