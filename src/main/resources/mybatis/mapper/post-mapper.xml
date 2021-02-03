@@ -75,7 +75,8 @@
         	<include refid="manageYn" />
         </where>
        	ORDER BY
-       		postNo DESC
+			postWriteTime DESC,
+			postNo DESC
 		<include refid="criteria" />
     </select>
   
@@ -91,7 +92,8 @@
         	<include refid="manageYn" />
         </where>
        	ORDER BY
-       		postNo DESC
+			postWriteTime DESC,
+			postNo DESC
 		<include refid="criteria" />
     </select>
     
@@ -268,6 +270,7 @@
 			<include refid="manageYn" />
 		</where>
 		ORDER BY
-		postNo DESC
+			postWriteTime DESC,
+			postNo DESC
 	</select>
 </mapper>
