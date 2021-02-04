@@ -235,7 +235,7 @@ public class CommentController {
 	    commentService.delete(no);
 
 	    json.addProperty("result", "success");
-	    json.addProperty("value", "");
+	    json.add("value", new JsonObject());
 	    json.addProperty("message", "");
 
 	    return json;
