@@ -6,7 +6,7 @@
 		<result property="accountId" column="accountId" />
 		<result property="accountPassword" column="accountPassword" />
 		<result property="accountEmail" column="accountEmail" />
-		<result property="accountNick" column="accountNick" />
+		<result property="accountNickname" column="accountNickname" />
 		<result property="accountBlock" column="accountBlock" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
 		<result property="accountSignUpDate" column="accountSignUpDate" typeHandler="org.apache.ibatis.type.SqlTimestampTypeHandler" />
 		<result property="accountSignUpIp" column="accountSignUpIp" />
@@ -34,8 +34,8 @@
 					<when test="criteria.searchType eq 'accountId'">
 						accountId like CONCAT('%', #{criteria.keyword}, '%')
 					</when>
-					<when test="criteria.searchType eq 'accountNick'">
-						accountNick like CONCAT('%', #{criteria.keyword}, '%')
+					<when test="criteria.searchType eq 'accountNickname'">
+						accountNickname like CONCAT('%', #{criteria.keyword}, '%')
 					</when>
 					<when test="criteria.searchType eq 'accountEmail'">
 						accountEmail like CONCAT('%', #{criteria.keyword}, '%')
@@ -83,7 +83,7 @@
         	accountId,
 			accountPassword,
 			accountEmail,
-			accountNick,
+			accountNickname,
 			<if test="accountBlock != null">accountBlock,</if>
 			accountSignUpDate,
 			accountSignUpIp,
@@ -96,7 +96,7 @@
         	#{accountId},
         	#{accountPassword},
 			#{accountEmail},
-			#{accountNick},
+			#{accountNickname},
         	<if test="accountBlock != null">#{accountBlock.value},</if>
 			#{accountSignUpDate},
 			#{accountSignUpIp},
@@ -115,8 +115,8 @@
         	<if test="accountEmail != null">
 				accountEmail = #{accountEmail},
         	</if>
-        	<if test="accountNick != null">
-				accountNick = #{accountNick},
+        	<if test="accountNickname != null">
+				accountNickname = #{accountNickname},
         	</if>
         	<if test="accountBlock != null">
 				accountBlock = #{accountBlock.value},
@@ -184,21 +184,30 @@
     <delete id="deleteAll">
         TRUNCATE <include refid="table" />
     </delete>
-    
-    <select id="isExist" resultType="Integer">
-        SELECT count(*)
-        FROM <include refid="table" />
-        <where>
-			<choose>
-				<when test="accountNo != null">
-					AND accountNo = #{accountNo}
-				</when>
-				<otherwise>
-					AND accountId = #{accountId}
-				</otherwise>
-			</choose>
-        </where>
-    </select>
+
+	<select id="isExistById" resultType="Integer">
+		SELECT count(*)
+		FROM <include refid="table" />
+		<where>
+			accountId = #{accountId}
+		</where>
+	</select>
+
+	<select id="isExistByEmail" resultType="Integer">
+		SELECT count(*)
+		FROM <include refid="table" />
+		<where>
+			accountEmail = #{accountEmail}
+		</where>
+	</select>
+
+	<select id="isExistByNickname" resultType="Integer">
+		SELECT count(*)
+		FROM <include refid="table" />
+		<where>
+			accountNickname = #{accountNickname}
+		</where>
+	</select>
 
 	<select id="search" resultMap="resultMap">
 		SELECT *

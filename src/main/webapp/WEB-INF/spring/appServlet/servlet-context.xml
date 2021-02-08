@@ -32,7 +32,7 @@
 	<context:component-scan base-package="net.kurien.blog" />
 
     <!-- 인터셉터 객체 생성 -->
-	<beans:bean id="TemplateInterceptor" class="net.kurien.blog.interceptor.TemplateInterceptor" />
+	<beans:bean id="templateInterceptor" class="net.kurien.blog.interceptor.TemplateInterceptor" />
 	
 	<!-- Interceptor 설정 -->
 	<interceptors>
@@ -43,6 +43,13 @@
 			<exclude-mapping path="/autosave/**" />
 			<exclude-mapping path="/admin/post/deleteFile/*" />
 			<exclude-mapping path="/admin/content/deleteFile/*" />
+			<exclude-mapping path="/account/sendCertKey" />
+			<exclude-mapping path="/account/checkCertKey" />
+			<exclude-mapping path="/account/signupCheck" />
+			<exclude-mapping path="/account/checkId" />
+			<exclude-mapping path="/account/checkEmail" />
+			<exclude-mapping path="/account/checkNickname" />
+
 			<exclude-mapping path="/rss" />
 			<exclude-mapping path="/sitemap" />
 
@@ -56,7 +63,7 @@
 	        <exclude-mapping path="/robots.txt"/>
 	        <exclude-mapping path="/ads.txt"/>
 	        
-	        <beans:ref bean="TemplateInterceptor"/>
+	        <beans:ref bean="templateInterceptor"/>
 	    </interceptor>
 	</interceptors>
 </beans:beans>

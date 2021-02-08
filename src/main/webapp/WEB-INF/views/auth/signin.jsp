@@ -33,7 +33,7 @@
 		
 		<div id="auth_btn" class="kre_btn_list">
 			<ul class="kre_btn_list_left">
-				<li><a href="${contextPath}/account/signup" class="kre_btn kre_unimplemented">Sign up</a></li>
+				<li><a href="${contextPath}/account/signup" class="kre_btn">Sign up</a></li>
 				<li><a href="${contextPath}/account/find" class="kre_btn kre_unimplemented">Find my account</a></li>
 			</ul>
 		</div>

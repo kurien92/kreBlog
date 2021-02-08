@@ -104,7 +104,7 @@ public class CommentController {
 
 		// 로그인된 유저가 댓글을 작성한 경우 작성자를 로그인된 유저의 닉네임으로 표시한다.
 		if(user != null) {
-			comment.setAuthor(user.getNick());
+			comment.setAuthor(user.getNickname());
 		}
 
 		json.addProperty("result", "success");
@@ -157,7 +157,7 @@ public class CommentController {
 
 		// 로그인된 유저가 댓글을 작성한 경우 작성자를 로그인된 유저의 닉네임으로 표시한다.
 		if(user != null) {
-			comment.setAuthor(user.getNick());
+			comment.setAuthor(user.getNickname());
 		}
 
 		json.addProperty("result", "success");

@@ -53,7 +53,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = new User(account.getAccountNo(),
                 account.getAccountId(),
                 account.getAccountPassword(),
-                account.getAccountNick(),
+                account.getAccountNickname(),
                 account.getAccountBlock() == TrueFalseType.TRUE,
                 authoritiesSet);
 

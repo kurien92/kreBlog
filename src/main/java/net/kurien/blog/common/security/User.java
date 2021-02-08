@@ -12,15 +12,15 @@ public class User implements UserDetails, CredentialsContainer {
     private Integer no;
     private String id;
     private String password;
-    private String nick;
+    private String nickname;
     private boolean block;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public User(Integer no, String id, String password, String nick, boolean block, Collection<? extends GrantedAuthority> authorities) {
+    public User(Integer no, String id, String password, String nickname, boolean block, Collection<? extends GrantedAuthority> authorities) {
         this.no = no;
         this.id = id;
         this.password = password;
-        this.nick = nick;
+        this.nickname = nickname;
         this.block = block;
         this.authorities = authorities;
     }
@@ -45,8 +45,8 @@ public class User implements UserDetails, CredentialsContainer {
         return this.authorities;
     }
 
-    public String getNick() {
-        return this.nick;
+    public String getNickname() {
+        return this.nickname;
     }
 
     public boolean getBlock() {

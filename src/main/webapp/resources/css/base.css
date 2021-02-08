@@ -94,7 +94,7 @@ ul.kre_btn_list_right {
 	margin: 0;
 	padding: 0;
 }
-	
+
 ul.kre_btn_list_left > li,
 ul.kre_btn_list_right > li {
 	float: left;
@@ -148,6 +148,13 @@ ul.kre_btn_list_right > li:first-child {
 
 .kre_inp[readonly] {
 	background-color: #ddd;
+}
+
+.kre_inp[disabled],
+.kre_inp[disabled]:hover {
+	border-color: #999 !important;
+	background-color: #999 !important;
+	color: #333 !important;
 }
 
 .kre_text {
@@ -288,7 +295,7 @@ a.pagination_item:hover {
 		margin-top: 0;
 		margin-left: 20px;
 	}
-	
+
 	.content_box .kre_btn:first-child {
 		margin-left: 0;
 	}

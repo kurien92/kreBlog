@@ -14,4 +14,8 @@ public interface AccountDao {
     void delete(String accountId);
     void delete(Integer accountNo);
     void deleteAll();
+    int isExistById(String accountId);
+        int isExistByEmail(String accountEmail);
+    int isExistByNickname(String accountNickname);
+
 }

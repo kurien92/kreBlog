@@ -68,4 +68,19 @@ public class BasicAccountDao implements AccountDao {
     public void deleteAll() {
         sqlSession.insert(mapper + ".deleteAll");
     }
+
+    @Override
+    public int isExistById(String accountId) {
+        return sqlSession.selectOne(mapper + ".isExistById", accountId);
+    }
+
+    @Override
+    public int isExistByEmail(String accountEmail) {
+        return sqlSession.selectOne(mapper + ".isExistByEmail", accountEmail);
+    }
+
+    @Override
+    public int isExistByNickname(String accountNickname) {
+        return sqlSession.selectOne(mapper + ".isExistByNickname", accountNickname);
+    }
 }

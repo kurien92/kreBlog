@@ -36,7 +36,7 @@ public class BasicAccountDaoTest {
         account1.setAccountId("kurien");
         account1.setAccountPassword(EncryptionUtil.hashPassword("test"));
         account1.setAccountEmail("kurien92@gmail.com");
-        account1.setAccountNick("Kurien");
+        account1.setAccountNickname("Kurien");
         account1.setAccountBlock(TrueFalseType.FALSE);
         account1.setAccountSignUpDate(TimeUtil.currentTime());
         account1.setAccountSignUpIp("127.0.0.1");
@@ -69,7 +69,7 @@ public class BasicAccountDaoTest {
         account2.setAccountId("kre29");
         account2.setAccountPassword(EncryptionUtil.hashPassword("test"));
         account2.setAccountEmail("kurien@naver.com");
-        account2.setAccountNick("KRE");
+        account2.setAccountNickname("KRE");
         account2.setAccountBlock(TrueFalseType.FALSE);
         account2.setAccountSignUpDate(TimeUtil.currentTime());
         account2.setAccountSignUpIp("127.0.0.1");
