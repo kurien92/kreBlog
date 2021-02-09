@@ -44,33 +44,10 @@ public class BasicAccountService implements AccountService {
 
     @Override
     public void signUp(Account account) throws InvalidRequestException {
-        if(ValidationUtil.length(account.getAccountId(), 4, 30) == false) {
-            throw new InvalidRequestException("아이디의 길이를 확인하여주시기 바랍니다.");
-        }
-
-        if(ValidationUtil.password(account.getAccountPassword()) == false) {
-            throw new InvalidRequestException("비밀번호 형식이 아닙니다. 확인 후 다시시도하여주시기 바랍니다.");
-        }
-
-        if(ValidationUtil.email(account.getAccountEmail()) == false) {
-            throw new InvalidRequestException("이메일 형식이 아닙니다. 확인 후 다시시도하여주시기 바랍니다.");
-        }
-
-        if(ValidationUtil.length(account.getAccountNickname(), 3, 20) == false) {
-            throw new InvalidRequestException("닉네임의 길이를 확인하여주시기 바랍니다.");
-        }
-
-        if(isExistById(account.getAccountId())) {
-            throw new InvalidRequestException("중복된 아이디가 있습니다. 다른 아이디을 입력해주세요.");
-        }
-
-        if(isExistByEmail(account.getAccountEmail())) {
-            throw new InvalidRequestException("중복된 이메일이 있습니다. 다른 이메일을 입력해주세요.");
-        }
-
-        if(isExistByNickname(account.getAccountNickname())) {
-            throw new InvalidRequestException("중복된 닉네임이 있습니다. 다른 닉네임을 입력해주세요.");
-        }
+        checkId(account.getAccountId());
+        checkPassword(account.getAccountPassword());
+        checkEmail(account.getAccountEmail());
+        checkNickname(account.getAccountNickname());
 
         account.setAccountPassword(EncryptionUtil.hashPassword(account.getAccountPassword()));
         account.setAccountBlock(TrueFalseType.FALSE);
@@ -104,7 +81,44 @@ public class BasicAccountService implements AccountService {
         accountDao.delete(accountNo);
     }
 
-    public boolean isExistById(String accountId) {
+    public void checkId(String accountId) throws InvalidRequestException {
+        if (ValidationUtil.length(accountId, 4, 30) == false) {
+            throw new InvalidRequestException("아이디의 길이를 확인하여주시기 바랍니다.");
+        }
+
+        if (isExistById(accountId)) {
+            throw new InvalidRequestException("중복된 아이디가 있습니다. 다른 아이디을 입력해주세요.");
+        }
+    }
+
+    public void checkPassword(String accountPassword) throws InvalidRequestException {
+        if(ValidationUtil.password(accountPassword) == false) {
+            throw new InvalidRequestException("비밀번호 형식이 아닙니다. 확인 후 다시시도하여주시기 바랍니다.");
+        }
+    }
+
+    public void checkEmail(String accountEmail) throws InvalidRequestException {
+        if (ValidationUtil.email(accountEmail) == false) {
+            throw new InvalidRequestException("이메일 형식이 아닙니다. 확인 후 다시시도하여주시기 바랍니다.");
+        }
+
+        if (isExistByEmail(accountEmail)) {
+            throw new InvalidRequestException("중복된 이메일이 있습니다. 다른 이메일을 입력해주세요.");
+        }
+    }
+
+    public void checkNickname(String accountNickname) throws InvalidRequestException {
+        if(ValidationUtil.length(accountNickname, 3, 20) == false) {
+            throw new InvalidRequestException("닉네임의 길이를 확인하여주시기 바랍니다.");
+        }
+
+
+        if(isExistByNickname(accountNickname)) {
+            throw new InvalidRequestException("중복된 닉네임이 있습니다. 다른 닉네임을 입력해주세요.");
+        }
+    }
+
+    private boolean isExistById(String accountId) {
         if(accountDao.isExistById(accountId) == 0) {
             return false;
         }
@@ -112,7 +126,7 @@ public class BasicAccountService implements AccountService {
         return true;
     }
 
-    public boolean isExistByEmail(String accountEmail) {
+    private boolean isExistByEmail(String accountEmail) {
         if(accountDao.isExistByEmail(accountEmail) == 0) {
             return false;
         }
@@ -120,7 +134,7 @@ public class BasicAccountService implements AccountService {
         return true;
     }
 
-    public boolean isExistByNickname(String accountNickname) {
+    private boolean isExistByNickname(String accountNickname) {
         if(accountDao.isExistByNickname(accountNickname) == 0) {
             return false;
         }

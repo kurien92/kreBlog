@@ -35,7 +35,7 @@
 		C.commentOrder AS commentOrder,
 		C.commentDepth AS commentDepth,
 		C.accountNo AS accountNo,
-		COALESCE(C.author, A.accountNick) AS author,
+		COALESCE(C.author, A.accountNickname) AS author,
 		COALESCE(C.password, A.accountPassword) AS password,
 		C.comment AS COMMENT,
 		C.writeTime AS writeTime,

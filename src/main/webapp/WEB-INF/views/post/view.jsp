@@ -12,7 +12,7 @@
 			<div class="kre_article_info">
 				<ul>
 					<li><strong>Author</strong> ${post.postAuthor}</li>
-					<c:if test="${post.categoryId != ''}">
+					<c:if test="${post.categoryId != null}">
 						<li>
 							<strong>Category</strong>
 							<a href="${contextPath}/category/${post.categoryId}" class="kre_post_category">${category.categoryName}</a>
@@ -74,7 +74,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="kre_row">
-							<input type="text" class="kre_inp" placeholder="Name" readonly value="${user.nick}">
+							<input type="text" class="kre_inp" placeholder="Name" readonly value="${user.nickname}">
 						</div>
 					</c:otherwise>
 				</c:choose>

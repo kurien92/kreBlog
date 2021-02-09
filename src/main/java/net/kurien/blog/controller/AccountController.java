@@ -1,12 +1,10 @@
 package net.kurien.blog.controller;
 
 import com.google.gson.JsonObject;
-import net.kurien.blog.common.security.User;
 import net.kurien.blog.common.template.Template;
 import net.kurien.blog.exception.InvalidRequestException;
 import net.kurien.blog.module.account.entity.Account;
 import net.kurien.blog.module.account.service.AccountService;
-import net.kurien.blog.module.comment.dto.CommentDto;
 import net.kurien.blog.util.CertificationUtil;
 import net.kurien.blog.util.RequestUtil;
 import net.kurien.blog.util.TokenUtil;
@@ -67,11 +65,9 @@ public class AccountController {
             return json;
         }
 
-
         String certKey = CertificationUtil.createCertKey(request, "signup", accountEmail, 5,  3 * 60 * 1000);
 
         accountService.sendCertKey(accountEmail, certKey);
-
 
         json.addProperty("result", "success");
         json.add("value", new JsonObject());
@@ -145,10 +141,12 @@ public class AccountController {
     public JsonObject checkId(String accountId) {
         JsonObject json = new JsonObject();
 
-        if(accountService.isExistById(accountId)) {
+        try {
+            accountService.checkId(accountId);
+        } catch(InvalidRequestException e) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
-            json.addProperty("message", "중복된 아이디가 있습니다. 다른 아이디을 입력해주세요.");
+            json.addProperty("message", e.getMessage());
 
             return json;
         }
@@ -165,10 +163,12 @@ public class AccountController {
     public JsonObject checkEmail(String accountEmail) {
         JsonObject json = new JsonObject();
 
-        if(accountService.isExistByEmail(accountEmail)) {
+        try {
+            accountService.checkEmail(accountEmail);
+        } catch(InvalidRequestException e) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
-            json.addProperty("message", "중복된 이메일이 있습니다. 다른 이메일을 입력해주세요.");
+            json.addProperty("message", e.getMessage());
 
             return json;
         }
@@ -185,10 +185,12 @@ public class AccountController {
     public JsonObject checkNickname(String accountNickname) {
         JsonObject json = new JsonObject();
 
-        if(accountService.isExistByNickname(accountNickname)) {
+        try {
+            accountService.checkNickname(accountNickname);
+        } catch(InvalidRequestException e) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
-            json.addProperty("message", "중복된 닉네임이가 있습니다. 다른 닉네임을 입력해주세요.");
+            json.addProperty("message", e.getMessage());
 
             return json;
         }

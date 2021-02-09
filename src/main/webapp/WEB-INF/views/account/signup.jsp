@@ -14,9 +14,13 @@
                     <label for="accountId" class="row_column">ID</label><input type="text" id="accountId" name="accountId" class="kre_inp" placeholder="ID">
                 </div>
 
+                <div id="accountIdAlert" class="kre_row kre_row_alert"></div>
+
                 <div class="kre_row">
                     <label for="accountPassword" class="row_column">PW</label><input type="password" id="accountPassword" name="accountPassword" class="kre_inp" placeholder="Password">
                 </div>
+
+                <div id="accountPasswordAlert" class="kre_row kre_row_alert"></div>
 
                 <div class="kre_row">
                     <label for="viewPassword" class="row_column">View PW</label><button type="button" id="viewPassword" class="kre_inp kre_btn reverse_btn">View</button>
@@ -25,6 +29,8 @@
                 <div class="kre_row">
                     <label for="accountEmail" class="row_column">Email</label><input type="text" id="accountEmail" name="accountEmail" class="kre_inp" placeholder="Email">
                 </div>
+
+                <div id="accountEmailAlert" class="kre_row kre_row_alert"></div>
 
                 <div class="kre_row">
                     <label for="sendCertKey" class="row_column">Certification</label><button type="button" id="sendCertKey" name="sendCertKey" class="kre_inp kre_btn reverse_btn">Send</button>
@@ -42,6 +48,8 @@
                     <label for="accountNickname" class="row_column">Nickname</label><input type="text" id="accountNickname" name="accountNickname" class="kre_inp" placeholder="Nickname">
                 </div>
 
+                <div id="accountNicknameAlert" class="kre_row kre_row_alert"></div>
+
                 <div class="kre_row">
                     <button type="button" id="signupBtn" class="kre_btn reverse_btn signup_btn">Sign up</button>
                 </div>
@@ -50,55 +58,141 @@
     </div>
 
     <script>
+        let accountCheck = {
+            id: false,
+            password: false,
+            email: false,
+            nickname: false
+        };
+
+        let validTimeout = {
+            id: null,
+            password: null,
+            email: null,
+            nickname: null
+        };
+
         $("#accountId").on("keyup", function() {
+            if(validTimeout.id !== null) {
+                return false;
+            }
+
+            validTimeout.id = setTimeout(function() {
+                validId();
+                validTimeout.id = null;
+            }, 1000);
+        });
+
+        $("#accountPassword").on("keyup", function() {
+            if(validTimeout.password !== null) {
+                return false;
+            }
+
+            validTimeout.password = setTimeout(function() {
+                validPassword();
+                validTimeout.password = null;
+            }, 1000);
+        });
+
+        $("#accountEmail").on("keyup", function() {
+            if(validTimeout.email !== null) {
+                return false;
+            }
+
+            validTimeout.email = setTimeout(function() {
+                validEmail();
+                validTimeout.email = null;
+            }, 1000);
+        });
+
+        $("#accountNickname").on("keyup", function() {
+            if(validTimeout.nickname !== null) {
+                return false;
+            }
+
+            validTimeout.nickname = setTimeout(function() {
+                validNickname();
+                validTimeout.nickname = null;
+            }, 1000);
+        });
+
+        function validId() {
             var data = {
                 "accountId": $("#accountId").val()
             };
 
             ajax("post", contextPath + "/account/checkId", data).then(function() {
-
+                accountCheck.id = true;
+                $("#accountIdAlert").hide(0);
             }).catch(function(err) {
+                accountCheck.id = false;
+
                 if(err.message !== "") {
-                    alert(err.message);
+                    $("#accountIdAlert").show(0);
+                    $("#accountIdAlert").text(err.message);
                     return;
                 }
 
                 alert("알 수 없는 오류가 발생했습니다.");
             });
-        });
-        $("#accountEmail").on("keyup", function() {
+        }
+
+        function validPassword() {
+            accountCheck.password = false;
+
+            let password = $(this).val();
+
+            if(password.length < 8) {
+                $("#accountPasswordlert").show(0);
+                $("#accountPasswordlert").text("비밀번호는 8자 이상 입력하시기 바랍니다.");
+                return;
+            }
+
+            $("#accountPasswordlert").hide(0);
+            accountCheck.password = true;
+        }
+
+        function validEmail() {
             var data = {
                 "accountEmail": $("#accountEmail").val()
             };
 
             ajax("post", contextPath + "/account/checkEmail", data).then(function() {
-
+                accountCheck.email = true;
+                $("#accountEmailAlert").hide(0);
             }).catch(function(err) {
+                accountCheck.email = false;
+
                 if(err.message !== "") {
-                    alert(err.message);
+                    $("#accountEmailAlert").show(0);
+                    $("#accountEmailAlert").text(err.message);
                     return;
                 }
 
                 alert("알 수 없는 오류가 발생했습니다.");
             });
-        });
+        }
 
-        $("#accountNickname").on("keyup", function() {
+        function validNickname() {
             var data = {
                 "accountNickname": $("#accountNickname").val()
             };
 
             ajax("post", contextPath + "/account/checkNickname", data).then(function() {
-
+                accountCheck.nickname = true;
+                $("#accountNicknameAlert").hide(0);
             }).catch(function(err) {
+                accountCheck.nickname = false;
+
                 if(err.message !== "") {
-                    alert(err.message);
+                    $("#accountNicknameAlert").show(0);
+                    $("#accountNicknameAlert").text(err.message);
                     return;
                 }
 
                 alert("알 수 없는 오류가 발생했습니다.");
             });
-        });
+        }
 
         $("#viewPassword").on({
             mousedown: function() {
@@ -172,6 +266,7 @@
             }
 
             ajax("post", contextPath + "/account/signupCheck", data).then(function() {
+                alert("회원가입이 완료되었습니다.");
                 location.replace(contextPath + "/auth/signin");
             }).catch(function(err) {
                 if(err.message !== "") {

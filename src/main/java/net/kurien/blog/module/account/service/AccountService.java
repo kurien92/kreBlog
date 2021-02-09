@@ -16,7 +16,9 @@ public interface AccountService {
     void update(Account account);
     void delete(String accountId);
     void delete(Integer accountNo);
-    boolean isExistById(String accountId);
-    boolean isExistByEmail(String accountEmail);
-    boolean isExistByNickname(String accountNickname);
+
+    void checkId(String accountId) throws InvalidRequestException;
+    void checkPassword(String accountPassword) throws InvalidRequestException;
+    void checkEmail(String accountEmail) throws InvalidRequestException;
+    void checkNickname(String accountNickname) throws InvalidRequestException;
 }
