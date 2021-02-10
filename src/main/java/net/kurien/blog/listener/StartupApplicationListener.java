@@ -33,6 +33,7 @@ public class StartupApplicationListener implements ApplicationListener<ContextRe
 		envKeyList.add("KRE_ENC_KEY");
 		envKeyList.add("KRE_AES_KEY");
 		envKeyList.add("KRE_AES_IV");
+		envKeyList.add("KRE_SALT");
 
 		// 환경변수 확인
 		for(String envKey : envKeyList) {

@@ -17,12 +17,14 @@ public class EncryptionUtil {
     private static SecretKey aesSecretKey;
     private static IvParameterSpec aesIv;
     private static Cipher aesCipher;
+    private static String kreSalt;
 
     static {
         bcryptPasswordEncoder = new BCryptPasswordEncoder();
 
         String kreAesKey = System.getenv("KRE_AES_KEY");
         String kreAesIv = System.getenv("KRE_AES_IV");
+        String kreSalt = System.getenv("KRE_SALT");
 
         aesSecretKey = new SecretKeySpec(kreAesKey.getBytes(), "AES");
         aesIv = new IvParameterSpec(kreAesIv.getBytes(StandardCharsets.UTF_8));
@@ -37,13 +39,22 @@ public class EncryptionUtil {
     }
 
     public static String hashPassword(String password) {
-        String encodedPassword = bcryptPasswordEncoder.encode(password);
+        String encodedPassword = bcryptPasswordEncoder.encode(password + kreSalt);
 
         return encodedPassword;
     }
 
     public static boolean checkPassword(String password, String hashedPassword) {
-        return bcryptPasswordEncoder.matches(password, hashedPassword);
+        if(bcryptPasswordEncoder.matches(password + kreSalt, hashedPassword)) {
+            return true;
+        }
+
+        // Salt 사용 전 회원을 위한 기존 처리 유지
+        if(bcryptPasswordEncoder.matches(password, hashedPassword)) {
+            return true;
+        }
+
+        return false;
     }
 
     public static String AES256Encrypt(String str) throws InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
