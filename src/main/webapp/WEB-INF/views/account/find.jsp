@@ -84,6 +84,8 @@
         }
 
         $("#sendCertKey").on("click", function() {
+            $("#sendCertKey").prop("disabled", true);
+
             var data = {
                 "accountEmail": $("#accountEmail").val()
             };
@@ -93,7 +95,10 @@
                 $("#checkCert").show(0);
 
                 alert("입력하신 이메일로 인증번호를 발송하였습니다.")
+                $("#sendCertKey").prop("disabled", false);
             }).catch(function(err) {
+                $("#sendCertKey").prop("disabled", false);
+
                 if(err.message !== "") {
                     alert(err.message);
                     return;

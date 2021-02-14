@@ -13,6 +13,7 @@ import net.kurien.blog.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @Service
@@ -61,7 +62,7 @@ public class BasicAccountService implements AccountService {
     }
 
     @Override
-    public void sendCertKey(String accountEmail, String certKey) {
+    public void sendCertKey(String accountEmail, String certKey) throws MessagingException {
         mailService.send("kurien92@gmail.com", accountEmail, "Kurien's Blog 회원가입 인증메일입니다.", "인증번호는 '" + certKey + "' 입니다.");
     }
 

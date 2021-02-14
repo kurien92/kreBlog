@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.NoSuchAlgorithmException;
@@ -103,17 +104,32 @@ public class AccountController {
          */
         JsonObject json = new JsonObject();
 
-        if(ValidationUtil.email(accountEmail) == false) {
+        try {
+            if (ValidationUtil.email(accountEmail) == false) {
+                throw new InvalidRequestException("메일주소 형식이 잘못되었습니다. 확인하신 후 다시 시도하시기 바랍니다.");
+            }
+        } catch(InvalidRequestException e) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
-            json.addProperty("message", "메일주소 형식이 잘못되었습니다. 확인하신 후 다시 시도하시기 바랍니다.");
+            json.addProperty("message", e.getMessage());
 
             return json;
         }
 
-        String certKey = CertificationUtil.createCertKey(request, certType, accountEmail, 5,  3 * 60 * 1000);
+        try {
+            String certKey = CertificationUtil.createCertKey(request, certType, accountEmail, 5, 3 * 60 * 1000);
 
-        accountService.sendCertKey(accountEmail, certKey);
+            accountService.sendCertKey(accountEmail, certKey);
+        } catch(MessagingException e) {
+            logger.error("메일 전송 오류 발생", e);
+
+            json.addProperty("result", "fail");
+            json.add("value", new JsonObject());
+            json.addProperty("message", "메일 전송 중 오류가 발생했습니다. 다시 시도하시거나 증상이 계속되는 경우 관리자에게 문의하시기 바랍니다.");
+
+            return json;
+        }
+
 
         json.addProperty("result", "success");
         json.add("value", new JsonObject());
@@ -271,9 +287,19 @@ public class AccountController {
             return json;
         }
 
-        String certKey = CertificationUtil.createCertKey(request, "find", accountEmail, 5,  3 * 60 * 1000);
+        try {
+            String certKey = CertificationUtil.createCertKey(request, "find", accountEmail, 5,  3 * 60 * 1000);
 
-        accountService.sendCertKey(accountEmail, certKey);
+            accountService.sendCertKey(accountEmail, certKey);
+        } catch (MessagingException e) {
+            logger.error("메일 전송 오류 발생", e);
+
+            json.addProperty("result", "fail");
+            json.add("value", new JsonObject());
+            json.addProperty("message", "메일 전송 중 오류가 발생했습니다. 다시 시도하시거나 증상이 계속되는 경우 관리자에게 문의하시기 바랍니다.");
+
+            return json;
+        }
 
         json.addProperty("result", "success");
         json.add("value", new JsonObject());
