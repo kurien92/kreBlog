@@ -37,6 +37,10 @@ public class BasicAccountService implements AccountService {
         return accountDao.select(accountNo);
     }
 
+    public Account getByEmail(String accountEmail) {
+        return accountDao.selectByEmail(accountEmail);
+    }
+
     @Override
     public List<Account> getList(SearchCriteria criteria) {
         return accountDao.selectList(criteria);
@@ -81,6 +85,18 @@ public class BasicAccountService implements AccountService {
         accountDao.delete(accountNo);
     }
 
+    public void passwordChange(Account account) throws InvalidRequestException {
+        Account selectedAccount = accountDao.selectByEmail(account.getAccountEmail());
+
+        if(EncryptionUtil.checkPassword(account.getAccountPassword(), selectedAccount.getAccountPassword()) == true) {
+            throw new InvalidRequestException("이미 사용중인 비밀번호입니다. 다른 비밀번호를 입력해주세요.");
+        }
+
+        account.setAccountPassword(EncryptionUtil.hashPassword(account.getAccountPassword()));
+
+        accountDao.updatePassword(account);
+    }
+
     public void checkId(String accountId) throws InvalidRequestException {
         if (ValidationUtil.length(accountId, 4, 30) == false) {
             throw new InvalidRequestException("아이디의 길이를 확인하여주시기 바랍니다.");
@@ -118,7 +134,7 @@ public class BasicAccountService implements AccountService {
         }
     }
 
-    private boolean isExistById(String accountId) {
+    public boolean isExistById(String accountId) {
         if(accountDao.isExistById(accountId) == 0) {
             return false;
         }
@@ -126,7 +142,7 @@ public class BasicAccountService implements AccountService {
         return true;
     }
 
-    private boolean isExistByEmail(String accountEmail) {
+    public boolean isExistByEmail(String accountEmail) {
         if(accountDao.isExistByEmail(accountEmail) == 0) {
             return false;
         }
@@ -134,7 +150,7 @@ public class BasicAccountService implements AccountService {
         return true;
     }
 
-    private boolean isExistByNickname(String accountNickname) {
+    public boolean isExistByNickname(String accountNickname) {
         if(accountDao.isExistByNickname(accountNickname) == 0) {
             return false;
         }

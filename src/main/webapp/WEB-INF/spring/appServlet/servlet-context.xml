@@ -49,6 +49,9 @@
 			<exclude-mapping path="/account/checkId" />
 			<exclude-mapping path="/account/checkEmail" />
 			<exclude-mapping path="/account/checkNickname" />
+			<exclude-mapping path="/account/sendFindCertKey" />
+			<exclude-mapping path="/account/checkFindCertKey" />
+			<exclude-mapping path="/account/findCheck" />
 
 			<exclude-mapping path="/rss" />
 			<exclude-mapping path="/sitemap" />

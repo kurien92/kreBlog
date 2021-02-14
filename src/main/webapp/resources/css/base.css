@@ -123,6 +123,13 @@ ul.kre_btn_list_right > li:first-child {
     color: #fff;
 }
 
+.kre_btn[disabled],
+.kre_btn[disabled]:hover {
+	border-color: #999 !important;
+	background-color: #999 !important;
+	color: #333 !important;
+}
+
 .kre_btn.btn_small {
 	vertical-align: middle;
 	font-size: 16px;

@@ -83,4 +83,14 @@ public class BasicAccountDao implements AccountDao {
     public int isExistByNickname(String accountNickname) {
         return sqlSession.selectOne(mapper + ".isExistByNickname", accountNickname);
     }
+
+    @Override
+    public Account selectByEmail(String accountEmail) {
+        return sqlSession.selectOne(mapper + ".selectByEmail", accountEmail);
+    }
+
+    @Override
+    public void updatePassword(Account account) {
+        sqlSession.update(mapper + ".updatePassword", account);
+    }
 }

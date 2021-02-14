@@ -61,10 +61,10 @@
         FROM <include refid="table" />
     </select>
 
-    <select id="selectOne" resultMap="resultMap">
-        SELECT *
-        FROM <include refid="table" />
-        <where>
+	<select id="selectOne" resultMap="resultMap">
+		SELECT *
+		FROM <include refid="table" />
+		<where>
 			<choose>
 				<when test="accountNo != null">
 					AND accountNo = #{accountNo}
@@ -73,8 +73,16 @@
 					AND accountId = #{accountId}
 				</otherwise>
 			</choose>
-        </where>
-    </select>
+		</where>
+	</select>
+
+	<select id="selectByEmail" resultMap="resultMap">
+		SELECT *
+		FROM <include refid="table" />
+		<where>
+			accountEmail = #{accountEmail}
+		</where>
+	</select>
 		
     <insert id="insert" useGeneratedKeys="true" keyProperty="accountNo">
         INSERT INTO
@@ -105,25 +113,25 @@
 			#{accountCertKey}
 		)
     </insert>
-    
-    <update id="update">
-        UPDATE <include refid="table" />
-        <set>
-        	<if test="accountPassword != null">
+
+	<update id="update">
+		UPDATE <include refid="table" />
+		<set>
+			<if test="accountPassword != null">
 				accountPassword = #{accountPassword},
-        	</if>
-        	<if test="accountEmail != null">
+			</if>
+			<if test="accountEmail != null">
 				accountEmail = #{accountEmail},
-        	</if>
-        	<if test="accountNickname != null">
+			</if>
+			<if test="accountNickname != null">
 				accountNickname = #{accountNickname},
-        	</if>
-        	<if test="accountBlock != null">
+			</if>
+			<if test="accountBlock != null">
 				accountBlock = #{accountBlock.value},
-        	</if>
-        	<if test="accountSignUpDate != null">
+			</if>
+			<if test="accountSignUpDate != null">
 				accountSignUpDate = #{accountSignUpDate},
-        	</if>
+			</if>
 			<if test="accountSignUpDate != null">
 				<choose>
 					<when test="accountSignUpDate.time == 0">
@@ -134,9 +142,9 @@
 					</otherwise>
 				</choose>
 			</if>
-        	<if test="accountSignUpIp != null">
+			<if test="accountSignUpIp != null">
 				accountSignUpIp = #{accountSignUpIp},
-        	</if>
+			</if>
 			<if test="accountCertYn != null">
 				accountCertYn = #{accountCertYn.value},
 			</if>
@@ -153,9 +161,9 @@
 			<if test="accountCertKey != null">
 				accountCertKey = #{accountCertKey},
 			</if>
-       	</set>
-       	
-       	<where>
+		</set>
+
+		<where>
 			<choose>
 				<when test="accountNo != null">
 					AND accountNo = #{accountNo}
@@ -164,8 +172,31 @@
 					AND accountId = #{accountId}
 				</otherwise>
 			</choose>
-       	</where>
-    </update>
+		</where>
+	</update>
+
+	<update id="updatePassword">
+		UPDATE <include refid="table" />
+		<set>
+			<if test="accountPassword != null">
+				accountPassword = #{accountPassword},
+			</if>
+		</set>
+
+		<where>
+			<choose>
+				<when test="accountEmail != null">
+					AND accountEmail = #{accountEmail}
+				</when>
+				<when test="accountNo != null">
+					AND accountNo = #{accountNo}
+				</when>
+				<otherwise>
+					AND accountId = #{accountId}
+				</otherwise>
+			</choose>
+		</where>
+	</update>
     
     <delete id="delete">
         DELETE FROM <include refid="table" />

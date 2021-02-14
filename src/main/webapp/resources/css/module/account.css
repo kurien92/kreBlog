@@ -4,63 +4,76 @@
 /* No media query since this is the default in Bootstrap */
 
 
-#account_signup #account_signup_form {
+.account #account_signup_form {
     padding: 20px;
     border: 1px solid #033e6a;
 }
 
-#account_signup .row_column {
+.account .row_column {
     display: inline-block;
     width: 100%;
     margin-top: 6px;
     font-weight: bold;
 }
 
-#account_signup .kre_row:first-child .row_column:first-child {
+.account .kre_row:first-child .row_column:first-child {
     margin-top: 0;
 }
 
-#account_signup .kre_inp {
+.account .kre_inp {
     width: 100%;
     margin-top: 4px;
     padding: 18px 10px;
 }
 
-#account_signup .signup_btn {
+.account .signup_btn,
+.account #changePasswordBtn {
     width: 100%;
     height: 40px;
     margin-top: 6px;
 }
 
-#account_signup #inputCertKey {
+.account #inputCertKey {
     display: none;
 }
 
-#account_signup #checkCert {
+.account #checkCert {
+    display: none;
+}
+
+.account #inputId {
+    display: none;
+}
+
+.account #inputPassword {
+    display: none;
+}
+
+.account #viewPasswordBtn {
     display: none;
 }
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
 
-    #account_signup #account_signup_form {
+    .account #account_signup_form {
         width: 420px;
         padding: 40px;
     }
 
-    #account_signup #account_signup_form:after {
+    .account #account_signup_form:after {
         content: " ";
         display: block;
         clear: both;
     }
 
-    #account_signup .kre_row:after {
+    .account .kre_row:after {
         content: " ";
         display: block;
         clear: both;
     }
 
-    #account_signup .row_column {
+    .account .row_column {
         float: left;
         width: 80px;
         margin-top: 0;
@@ -68,7 +81,7 @@
         vertical-align: middle;
     }
 
-    #account_signup .kre_inp {
+    .account .kre_inp {
         float: right;
         width: 260px;
         margin-top: 0;

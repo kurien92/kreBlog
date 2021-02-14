@@ -45,9 +45,55 @@ public class AccountController {
         return "account/signup";
     }
 
+    @RequestMapping(value="/account/find", method = RequestMethod.GET)
+    public String find(HttpServletRequest request, HttpServletResponse response, Model model) throws NoSuchAlgorithmException {
+        template.setSubTitle("Find");
+        template.getCss().add("<link rel=\"stylesheet\" href=\"/css/module/account.css\">");
+
+        model.addAttribute("token", TokenUtil.createToken(request, "find", 30 * 60 * 1000));
+
+        return "account/find";
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/account/findCheck", method = RequestMethod.POST)
+    public JsonObject findCheck(String token, Account account, Model model, HttpServletRequest request) {
+        /**
+         * 세션에 입력된 메일과 등록하려는 메일주소가 같은지 확인.
+         * 인증이 되었는지 확인
+         */
+        JsonObject json = new JsonObject();
+
+        try {
+            if(TokenUtil.checkToken(request, "find", token) == false) {
+                throw new InvalidRequestException("비밀번호변경 가능 시간이 만료되었습니다. 다시 시도해주세요.");
+            }
+
+            if(CertificationUtil.checkCerted(request, "find", account.getAccountEmail()) == false) {
+                throw new InvalidRequestException("인증된 메일 주소가 아닙니다. 다시 시도하시기 바랍니다.");
+            }
+
+            accountService.passwordChange(account);
+
+            CertificationUtil.clearCert(request, "find");
+        } catch(InvalidRequestException e) {
+            json.addProperty("result", "fail");
+            json.add("value", new JsonObject());
+            json.addProperty("message", e.getMessage());
+
+            return json;
+        }
+
+        json.addProperty("result", "success");
+        json.add("value", new JsonObject());
+        json.addProperty("message", "");
+
+        return json;
+    }
+
     @ResponseBody
     @RequestMapping(value="/account/sendCertKey", method = RequestMethod.POST)
-    public JsonObject sendCertKey(String accountEmail, HttpServletRequest request) {
+    public JsonObject sendCertKey(String accountEmail, String certType, HttpServletRequest request) {
         /**
          * 1. 사용자 메일 주소 형태 검증
          * 2. 이미 사용중인 주소인지 확인
@@ -65,7 +111,7 @@ public class AccountController {
             return json;
         }
 
-        String certKey = CertificationUtil.createCertKey(request, "signup", accountEmail, 5,  3 * 60 * 1000);
+        String certKey = CertificationUtil.createCertKey(request, certType, accountEmail, 5,  3 * 60 * 1000);
 
         accountService.sendCertKey(accountEmail, certKey);
 
@@ -78,14 +124,14 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping(value="/account/checkCertKey")
-    public JsonObject checkCertKey(String accountEmail, String certKey, HttpServletRequest request) {
+    public JsonObject checkCertKey(String accountEmail, String certKey, String certType, HttpServletRequest request) {
         /**
          * 1. 세션에 저장된 인증번호와 이메일과 동일한지 확인
          * 2. 동일하다면 success 리턴
          */
         JsonObject json = new JsonObject();
 
-        if(CertificationUtil.checkCertKey(request, "signup", accountEmail, certKey) == false) {
+        if(CertificationUtil.checkCertKey(request, certType, accountEmail, certKey) == false) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
             json.addProperty("message", "인증을 실패했습니다. 다시한번 시도하시기 바랍니다.");
@@ -121,6 +167,8 @@ public class AccountController {
             account.setAccountSignUpIp(RequestUtil.getRemoteAddr(request));
 
             accountService.signUp(account);
+
+            CertificationUtil.clearCert(request, "find");
         } catch(InvalidRequestException e) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
@@ -202,4 +250,66 @@ public class AccountController {
         return json;
     }
 
+    @ResponseBody
+    @RequestMapping(value="/account/sendFindCertKey", method = RequestMethod.POST)
+    public JsonObject sendFindCertKey(String accountEmail, HttpServletRequest request) {
+        JsonObject json = new JsonObject();
+
+        try {
+            if(ValidationUtil.email(accountEmail) == false) {
+                throw new InvalidRequestException("메일주소 형식이 잘못되었습니다. 확인하신 후 다시 시도하시기 바랍니다.");
+            }
+
+            if(accountService.isExistByEmail(accountEmail) == false) {
+                throw new InvalidRequestException("등록된 메일주소가 없습니다. 확인 후 다시 시도하시기 바랍니다.");
+            }
+        } catch(InvalidRequestException e) {
+            json.addProperty("result", "fail");
+            json.add("value", new JsonObject());
+            json.addProperty("message", e.getMessage());
+
+            return json;
+        }
+
+        String certKey = CertificationUtil.createCertKey(request, "find", accountEmail, 5,  3 * 60 * 1000);
+
+        accountService.sendCertKey(accountEmail, certKey);
+
+        json.addProperty("result", "success");
+        json.add("value", new JsonObject());
+        json.addProperty("message", "");
+
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/account/checkFindCertKey")
+    public JsonObject checkFindCertKey(String accountEmail, String certKey, HttpServletRequest request) {
+        /**
+         * 1. 세션에 저장된 인증번호와 이메일과 동일한지 확인
+         * 2. 동일하다면 success 리턴
+         */
+        JsonObject json = new JsonObject();
+
+        if(CertificationUtil.checkCertKey(request, "find", accountEmail, certKey) == false) {
+            json.addProperty("result", "fail");
+            json.add("value", new JsonObject());
+            json.addProperty("message", "인증을 실패했습니다. 다시한번 시도하시기 바랍니다.");
+
+            return json;
+        }
+
+        Account account = accountService.getByEmail(accountEmail);
+
+        String accountId = account.getAccountId();
+
+        JsonObject jsonValue = new JsonObject();
+        jsonValue.addProperty("id", accountId);
+
+        json.addProperty("result", "success");
+        json.add("value", jsonValue);
+        json.addProperty("message", "");
+
+        return json;
+    }
 }

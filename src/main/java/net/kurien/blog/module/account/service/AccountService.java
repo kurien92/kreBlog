@@ -9,6 +9,8 @@ import java.util.List;
 public interface AccountService {
     Account get(String accountId);
     Account get(Integer accountNo);
+    Account getByEmail(String accountEmail);
+
     List<Account> getList(SearchCriteria criteria);
     void signUp(Account account) throws InvalidRequestException;
     void sendCertKey(String accountEmail, String certKey);
@@ -16,9 +18,14 @@ public interface AccountService {
     void update(Account account);
     void delete(String accountId);
     void delete(Integer accountNo);
+    void passwordChange(Account account) throws InvalidRequestException;
 
     void checkId(String accountId) throws InvalidRequestException;
     void checkPassword(String accountPassword) throws InvalidRequestException;
     void checkEmail(String accountEmail) throws InvalidRequestException;
     void checkNickname(String accountNickname) throws InvalidRequestException;
+
+    boolean isExistById(String accountId);
+    boolean isExistByEmail(String accountEmail);
+    boolean isExistByNickname(String accountNickname);
 }

@@ -64,9 +64,19 @@ public class CertificationUtil {
             return false;
         }
 
-        session.removeAttribute(certType + "_certed");
-
         return true;
+    }
+
+    public static void clearCert(HttpServletRequest request, String certType) {
+        certType = "cert_" + certType;
+
+        HttpSession session = request.getSession();
+
+        if(session.getAttribute(certType + "_certed") == null) {
+            return;
+        }
+
+        session.removeAttribute(certType + "_certed");
     }
 
     public static String createCertKey(int certKeyLength) {

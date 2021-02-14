@@ -18,4 +18,6 @@ public interface AccountDao {
         int isExistByEmail(String accountEmail);
     int isExistByNickname(String accountNickname);
 
+    Account selectByEmail(String accountEmail);
+    void updatePassword(Account account);
 }

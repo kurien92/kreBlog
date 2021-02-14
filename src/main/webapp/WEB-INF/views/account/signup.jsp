@@ -51,7 +51,7 @@
                 <div id="accountNicknameAlert" class="kre_row kre_row_alert"></div>
 
                 <div class="kre_row">
-                    <button type="button" id="signupBtn" class="kre_btn reverse_btn signup_btn">Sign up</button>
+                    <button type="button" id="signupBtn" class="kre_btn reverse_btn signup_btn" disabled>Sign up</button>
                 </div>
             </div>
         </form>
@@ -140,15 +140,15 @@
         function validPassword() {
             accountCheck.password = false;
 
-            let password = $(this).val();
+            let password = $("#accountPassword").val();
 
             if(password.length < 8) {
-                $("#accountPasswordlert").show(0);
-                $("#accountPasswordlert").text("비밀번호는 8자 이상 입력하시기 바랍니다.");
+                $("#accountPasswordAlert").show(0);
+                $("#accountPasswordAlert").text("비밀번호는 8자 이상 입력하시기 바랍니다.");
                 return;
             }
 
-            $("#accountPasswordlert").hide(0);
+            $("#accountPasswordAlert").hide(0);
             accountCheck.password = true;
         }
 
@@ -215,7 +215,8 @@
 
         $("#sendCertKey").on("click", function() {
             var data = {
-                "accountEmail": $("#accountEmail").val()
+                "accountEmail": $("#accountEmail").val(),
+                "certType": "signup"
             };
 
             ajax("post", contextPath + "/account/sendCertKey", data).then(function() {
@@ -236,7 +237,8 @@
         $("#checkCertBtn").on("click", function() {
             var data = {
                 "accountEmail": $("#accountEmail").val(),
-                "certKey": $("#certKey").val()
+                "certKey": $("#certKey").val(),
+                "certType": "signup"
             };
 
             ajax("post", contextPath + "/account/checkCertKey", data).then(function() {
@@ -276,7 +278,7 @@
 
                 alert("알 수 없는 오류가 발생했습니다.");
             });
-        })
+        });
 
         function viewPassword() {
             $("#accountPassword").attr("type", "text");
