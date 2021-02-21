@@ -87,6 +87,10 @@ public class BasicAccountService implements AccountService {
     }
 
     public void passwordChange(Account account) throws InvalidRequestException {
+        if(ValidationUtil.password(account.getAccountPassword()) == false) {
+            throw new InvalidRequestException("비밀번호 형식에 맞지 않습니다. 확인 후 다시시도하여주시기 바랍니다.");
+        }
+
         Account selectedAccount = accountDao.selectByEmail(account.getAccountEmail());
 
         if(EncryptionUtil.checkPassword(account.getAccountPassword(), selectedAccount.getAccountPassword()) == true) {
@@ -110,7 +114,7 @@ public class BasicAccountService implements AccountService {
 
     public void checkPassword(String accountPassword) throws InvalidRequestException {
         if(ValidationUtil.password(accountPassword) == false) {
-            throw new InvalidRequestException("비밀번호 형식이 아닙니다. 확인 후 다시시도하여주시기 바랍니다.");
+            throw new InvalidRequestException("비밀번호 형식에 맞지 않습니다. 확인 후 다시시도하여주시기 바랍니다.");
         }
     }
 

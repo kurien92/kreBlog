@@ -23,7 +23,7 @@
                 <div id="accountPasswordAlert" class="kre_row kre_row_alert"></div>
 
                 <div class="kre_row">
-                    <label for="viewPassword" class="row_column">View PW</label><button type="button" id="viewPassword" class="kre_inp kre_btn reverse_btn">View</button>
+                    <label for="viewPassword" class="row_column">View PW</label><button type="button" id="viewPassword" class="kre_btn reverse_btn">View</button>
                 </div>
 
                 <div class="kre_row">
@@ -33,7 +33,7 @@
                 <div id="accountEmailAlert" class="kre_row kre_row_alert"></div>
 
                 <div class="kre_row">
-                    <label for="sendCertKey" class="row_column">Certification</label><button type="button" id="sendCertKey" name="sendCertKey" class="kre_inp kre_btn reverse_btn">Send</button>
+                    <label for="sendCertKey" class="row_column">Certification</label><button type="button" id="sendCertKey" name="sendCertKey" class="kre_btn reverse_btn">Send</button>
                 </div>
 
                 <div id="inputCertKey" class="kre_row">
@@ -41,7 +41,7 @@
                 </div>
 
                 <div id="checkCert" class="kre_row">
-                    <label for="checkCertBtn" class="row_column"></label><button type="button" id="checkCertBtn" name="checkCertBtn" class="kre_inp kre_btn reverse_btn">Check</button>
+                    <label for="checkCertBtn" class="row_column"></label><button type="button" id="checkCertBtn" name="checkCertBtn" class="kre_btn reverse_btn">Check</button>
                 </div>
 
                 <div class="kre_row">
@@ -62,6 +62,7 @@
             id: false,
             password: false,
             email: false,
+            certedEmail: false,
             nickname: false
         };
 
@@ -124,8 +125,10 @@
             ajax("post", contextPath + "/account/checkId", data).then(function() {
                 accountCheck.id = true;
                 $("#accountIdAlert").hide(0);
+                checkedAccount();
             }).catch(function(err) {
                 accountCheck.id = false;
+                checkedAccount();
 
                 if(err.message !== "") {
                     $("#accountIdAlert").show(0);
@@ -150,6 +153,7 @@
 
             $("#accountPasswordAlert").hide(0);
             accountCheck.password = true;
+            checkedAccount();
         }
 
         function validEmail() {
@@ -160,8 +164,10 @@
             ajax("post", contextPath + "/account/checkEmail", data).then(function() {
                 accountCheck.email = true;
                 $("#accountEmailAlert").hide(0);
+                checkedAccount();
             }).catch(function(err) {
                 accountCheck.email = false;
+                checkedAccount();
 
                 if(err.message !== "") {
                     $("#accountEmailAlert").show(0);
@@ -181,8 +187,10 @@
             ajax("post", contextPath + "/account/checkNickname", data).then(function() {
                 accountCheck.nickname = true;
                 $("#accountNicknameAlert").hide(0);
+                checkedAccount();
             }).catch(function(err) {
                 accountCheck.nickname = false;
+                checkedAccount();
 
                 if(err.message !== "") {
                     $("#accountNicknameAlert").show(0);
@@ -192,6 +200,18 @@
 
                 alert("알 수 없는 오류가 발생했습니다.");
             });
+        }
+
+        function checkedAccount() {
+            var accountCheckKeys = Object.keys(accountCheck);
+
+            for(var i = 0; i < accountCheckKeys.length; i++) {
+                if(accountCheck[accountCheckKeys[i]] === false) {
+                    return false;
+                }
+            }
+
+            $("#signupBtn").prop("disabled", false);
         }
 
         $("#viewPassword").on({
@@ -252,8 +272,14 @@
                 $("#inputCertKey").hide(0);
                 $("#checkCert").hide(0);
 
+                accountCheck.certedEmail = true;
+                checkedAccount();
+
                 alert("인증되었습니다.");
             }).catch(function(err) {
+                accountCheck.certedEmail = false;
+                checkedAccount();
+
                 if(err.message !== "") {
                     alert(err.message);
                     return;
@@ -264,6 +290,8 @@
         });
 
         $("#signupBtn").on("click", function() {
+            $(this).prop("disabled", true);
+
             var data = {
                 "token": $("#token").val(),
                 "accountId": $("#accountId").val(),
@@ -276,6 +304,7 @@
                 alert("회원가입이 완료되었습니다.");
                 location.replace(contextPath + "/auth/signin");
             }).catch(function(err) {
+                $(this).prop("disabled", false);
                 if(err.message !== "") {
                     alert(err.message);
                     return;

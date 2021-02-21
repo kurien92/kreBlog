@@ -150,7 +150,7 @@ public class AccountController {
         if(CertificationUtil.checkCertKey(request, certType, accountEmail, certKey) == false) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
-            json.addProperty("message", "인증을 실패했습니다. 다시한번 시도하시기 바랍니다.");
+            json.addProperty("message", "인증을 실패했습니다. 다시 시도하시기 바랍니다.");
 
             return json;
         }
@@ -184,7 +184,7 @@ public class AccountController {
 
             accountService.signUp(account);
 
-            CertificationUtil.clearCert(request, "find");
+            CertificationUtil.clearCert(request, "signup");
         } catch(InvalidRequestException e) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
@@ -320,7 +320,7 @@ public class AccountController {
         if(CertificationUtil.checkCertKey(request, "find", accountEmail, certKey) == false) {
             json.addProperty("result", "fail");
             json.add("value", new JsonObject());
-            json.addProperty("message", "인증을 실패했습니다. 다시한번 시도하시기 바랍니다.");
+            json.addProperty("message", "인증을 실패했습니다. 다시 시도하시기 바랍니다.");
 
             return json;
         }

@@ -26,6 +26,12 @@
     padding: 18px 10px;
 }
 
+.account .kre_btn {
+    width: 100%;
+    margin-top: 4px;
+    font-size: 14px;
+}
+
 .account .signup_btn,
 .account #changePasswordBtn {
     width: 100%;
@@ -81,7 +87,8 @@
         vertical-align: middle;
     }
 
-    .account .kre_inp {
+    .account .kre_inp,
+    .account .kre_btn {
         float: right;
         width: 260px;
         margin-top: 0;

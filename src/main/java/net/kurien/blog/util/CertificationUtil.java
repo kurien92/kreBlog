@@ -60,6 +60,10 @@ public class CertificationUtil {
 
         String certedId = (String) session.getAttribute(certType + "_certed");
 
+        if(certedId == null) {
+            return false;
+        }
+
         if(certedId.equals(checkCertId) == false) {
             return false;
         }
