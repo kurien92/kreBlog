@@ -17,7 +17,7 @@
                 <div id="accountEmailAlert" class="kre_row kre_row_alert"></div>
 
                 <div class="kre_row">
-                    <label for="sendCertKey" class="row_column">Certification</label><button type="button" id="sendCertKey" name="sendCertKey" class="kre_inp kre_btn reverse_btn">Send</button>
+                    <label for="sendCertKey" class="row_column">Certification</label><button type="button" id="sendCertKey" name="sendCertKey" class="kre_btn reverse_btn">Send</button>
                 </div>
 
                 <div id="inputCertKey" class="kre_row">

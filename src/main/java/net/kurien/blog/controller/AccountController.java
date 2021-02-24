@@ -96,7 +96,7 @@ public class AccountController {
     @RequestMapping(value="/account/sendCertKey", method = RequestMethod.POST)
     public JsonObject sendCertKey(String accountEmail, String certType, HttpServletRequest request) {
         /**
-         * 1. 사용자 메일 주소 형태 검증
+         * 1. 사용자 이메일 형태 검증
          * 2. 이미 사용중인 주소인지 확인
          * 3. 사용중이지 않다면 아이디와 인증번호 세션에 저장
          * 4. 저장한 인증번호 발송
@@ -106,7 +106,11 @@ public class AccountController {
 
         try {
             if (ValidationUtil.email(accountEmail) == false) {
-                throw new InvalidRequestException("메일주소 형식이 잘못되었습니다. 확인하신 후 다시 시도하시기 바랍니다.");
+                throw new InvalidRequestException("이메일 형식이 잘못되었습니다. 확인하신 후 다시 시도하시기 바랍니다.");
+            }
+
+            if(accountService.isExistByEmail(accountEmail) == true) {
+                throw new InvalidRequestException("이미 가입이 완료된 이메일입니다.");
             }
         } catch(InvalidRequestException e) {
             json.addProperty("result", "fail");
@@ -273,7 +277,7 @@ public class AccountController {
 
         try {
             if(ValidationUtil.email(accountEmail) == false) {
-                throw new InvalidRequestException("메일주소 형식이 잘못되었습니다. 확인하신 후 다시 시도하시기 바랍니다.");
+                throw new InvalidRequestException("이메일 형식이 잘못되었습니다. 확인하신 후 다시 시도하시기 바랍니다.");
             }
 
             if(accountService.isExistByEmail(accountEmail) == false) {

@@ -16,6 +16,10 @@
     font-weight: bold;
 }
 
+.account .hide_column {
+    display: none;
+}
+
 .account .kre_row:first-child .row_column:first-child {
     margin-top: 0;
 }

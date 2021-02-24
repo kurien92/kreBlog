@@ -63,7 +63,7 @@ public class BasicAccountService implements AccountService {
 
     @Override
     public void sendCertKey(String accountEmail, String certKey) throws MessagingException {
-        mailService.send("kurien92@gmail.com", accountEmail, "Kurien's Blog 회원가입 인증메일입니다.", "인증번호는 '" + certKey + "' 입니다.");
+        mailService.send("kurien92@gmail.com", accountEmail, "Kurien's Blog 인증메일입니다.", "인증번호는 '" + certKey + "' 입니다.");
     }
 
     @Override

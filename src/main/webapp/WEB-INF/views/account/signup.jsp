@@ -37,11 +37,11 @@
                 </div>
 
                 <div id="inputCertKey" class="kre_row">
-                    <label for="certKey" class="row_column"></label><input type="text" id="certKey" name="certKey" class="kre_inp" placeholder="Enter a certification key">
+                    <label for="certKey" class="row_column hide_column"></label><input type="text" id="certKey" name="certKey" class="kre_inp" placeholder="Enter a certification key">
                 </div>
 
                 <div id="checkCert" class="kre_row">
-                    <label for="checkCertBtn" class="row_column"></label><button type="button" id="checkCertBtn" name="checkCertBtn" class="kre_btn reverse_btn">Check</button>
+                    <label for="checkCertBtn" class="row_column hide_column"></label><button type="button" id="checkCertBtn" name="checkCertBtn" class="kre_btn reverse_btn">Check</button>
                 </div>
 
                 <div class="kre_row">
@@ -164,9 +164,11 @@
             ajax("post", contextPath + "/account/checkEmail", data).then(function() {
                 accountCheck.email = true;
                 $("#accountEmailAlert").hide(0);
+                $("#sendCertKey").prop("disabled", false);
                 checkedAccount();
             }).catch(function(err) {
                 accountCheck.email = false;
+                $("#sendCertKey").prop("disabled", true);
                 checkedAccount();
 
                 if(err.message !== "") {
@@ -215,6 +217,12 @@
         }
 
         $("#viewPassword").on({
+            touchstart: function() {
+                viewPassword();
+            },
+            touchend: function() {
+                hidePassword();
+            },
             mousedown: function() {
                 viewPassword();
             },
